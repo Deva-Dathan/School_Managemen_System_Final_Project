@@ -579,31 +579,31 @@ main .btn-send:hover {
 	<section id="sidebar">
 		<a href="#" class="brand"><i class='bx bxs-smile icon'></i> S N S M</a>
 		<ul class="side-menu">
-			<li><a href="#" class="active"><i class='bx bxs-dashboard icon' ></i> Dashboard</a></li>
+			<li><a href="#"><i class='bx bxs-dashboard icon' ></i> Dashboard</a></li>
 			<li class="divider" data-text="users">Users</li>
 			<li>
-				<a href=""><i class='bx bxs-user icon' ></i>PRINCIPAL<i class='bx bx-chevron-right icon-right' ></i></a>
+				<a href="#"><i class='bx bxs-user icon' ></i>PRINCIPAL<i class='bx bx-chevron-right icon-right' ></i></a>
 				<ul class="side-dropdown">
-					<li><a href="change_principal.php">Change Principal</a></li>
+					<li><a href="#" class="active">Change Principal</a></li>
 				</ul>
 			</li>
 			<li>
 				<a href="#"><i class='bx bx-user-circle icon'></i> VICE PRINCIPAL<i class='bx bx-chevron-right icon-right' ></i></a>
 				<ul class="side-dropdown">
-					<li><a href="change_vice_principal.php">Change Vice Principal</a></li>
+					<li><a href="#">Change Vice Principal</a></li>
 				</ul>
 			</li>
 			<li>
 			<a href="#"><i class='bx bx-user icon' ></i> TEACHERS<i class='bx bx-chevron-right icon-right' ></i></a>
 			<ul class="side-dropdown">
-				<li><a href="add_teachers.php">Add Teachers</a></li>
-				<li><a href="view_teachers.php">View Teachers</a></li>
+				<li><a href="#">Add Teachers</a></li>
+				<li><a href="#">View Teachers</a></li>
 			</ul>
 		</li>
 		<li>
 			<a href="#"><i class='bx bxs-user-check icon' ></i> STUDENTS<i class='bx bx-chevron-right icon-right' ></i></a>
 			<ul class="side-dropdown">
-				<li><a href="view_students.php">View Students</a></li>
+				<li><a href="#">View Teachers</a></li>
 			</ul>
 		</li>
 		<li>
@@ -616,8 +616,8 @@ main .btn-send:hover {
 		</li>
 		<li><a href="#"><i class='bx bxs-user-circle icon' ></i> OFFICE STAFF</a></li>
 			<li class="divider" data-text="subject & fees">subject & fees</li>
-			<li><a href="add_subjects.php"><i class='bx bxs-book icon' ></i> SUBJECT</a></li>
-			<li><a href="update_fees.php"><i class='bx bx-dollar icon' ></i> FEES</a></li>
+			<li><a href="#"><i class='bx bxs-book icon' ></i> SUBJECT</a></li>
+			<li><a href="#"><i class='bx bx-dollar icon' ></i> FEES</a></li>
 		</ul>
 	</section>
 	<!-- SIDEBAR -->
