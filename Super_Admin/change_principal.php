@@ -251,6 +251,11 @@ nav .nav-link .badge {
 	font-size: 10px;
 	font-weight: 700;
 }
+abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+  text-decoration: none !important;
+}
 
 .home-section .home-content{
   position: relative;
@@ -529,37 +534,66 @@ textarea {
       <span class="logo_name">S N S M</span>
     </div>
       <ul class="nav-links">
-        <li>
+      <abbr title="DASHBOARD"><li>
           <a href="super_admin_dash.php">
             <i class='bx bxs-dashboard' style="font-weight:bold;"></i>
             <span class="links_name" style="font-weight:bold;">DASHBOARD</span>
           </a>
-        </li>
-        <li>
+        </li></abbr>
+        <abbr title="PRINCIPAL"><li>
           <a href="change_principal.php" class="active">
           <i class='bx bx-user' style="color:#fff; font-weight:bold;"></i>
             <span class="links_name" style="color:#fff; font-weight:bold;">PRINCIPAL</span>
           </a>
-        </li>
-        <li>
+        </li></abbr>
+        <abbr title="VICE PRINCIPAL"><li>
           <a href="change_vice_principal.php">
-          <i class='bx bx-user-plus' style="font-weight:bold;"></i>
+          <i class='bx bxs-user-circle' style="font-weight:bold;"></i>
             <span class="links_name" style="font-weight:bold;">VICE PRINCIPAL</span>
           </a>
-        </li>
-        <li>
+        </li></abbr>
+        <abbr title="TEACHERS"><li>
           <a href="view_teachers.php">
           <i class='bx bxs-user'></i>
             <span class="links_name" style="font-weight:bold;">TEACHERS</span>
           </a>
-        </li>
-        <li>
+        </li></abbr>
+        <abbr title="STUDENTS"><li>
           <a href="view_students.php">
             <i class='bx bx-user-circle' ></i>
             <span class="links_name" style="font-weight:bold;">STUDENTS</span>
           </a>
-        </li>
-      </ul>
+        </li></abbr>
+        <abbr title="ALLOTMENT CELL"><li>
+          <a href="add_office.php">
+          <i class='bx bxs-user-plus'></i>
+            <span class="links_name" style="font-weight:bold;">ALLOTMENT CELL</span>
+          </a>
+        </li></abbr>
+        <abbr title="OFFICE STAFF"><li>
+          <a href="add_office.php">
+          <i class='bx bx-buildings'></i>
+            <span class="links_name" style="font-weight:bold;">OFFICE STAFF</span>
+          </a>
+        </li></abbr>
+        <abbr title="CLASSES"><li>
+          <a href="add_class.php">
+          <i class='bx bx-copyright'></i>
+            <span class="links_name" style="font-weight:bold;">CLASSES</span>
+          </a>
+        </li></abbr>
+        <abbr title="SUBJECTS"><li>
+          <a href="add_subjects.php">
+          <i class='bx bx-book-alt'></i>
+            <span class="links_name" style="font-weight:bold;">SUBJECTS</span>
+          </a>
+        </li></abbr>
+        <abbr title="FEES"><li>
+          <a href="update_fees.php">
+          <i class='bx bx-dollar'></i>
+            <span class="links_name" style="font-weight:bold;">FEES</span>
+          </a>
+        </li></abbr>
   </div>
   <section class="home-section">
     <nav>

@@ -251,6 +251,11 @@ nav .nav-link .badge {
 	font-size: 10px;
 	font-weight: 700;
 }
+abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+  text-decoration: none !important;
+}
 .home-section .home-content{
   position: relative;
   padding-top: 104px;
@@ -528,54 +533,66 @@ textarea {
       <span class="logo_name">S N S M</span>
     </div>
       <ul class="nav-links">
-        <li>
+      <abbr title="DASHBOARD"><li>
           <a href="super_admin_dash.php" class="active">
             <i class='bx bxs-dashboard' style="color:#fff; font-weight:bold;"></i>
             <span class="links_name" style="color:#fff; font-weight:bold;">DASHBOARD</span>
           </a>
-        </li>
-        <li>
+        </li></abbr>
+        <abbr title="PRINCIPAL"><li>
           <a href="change_principal.php">
           <i class='bx bx-user'></i>
             <span class="links_name" style="font-weight:bold;">PRINCIPAL</span>
           </a>
-        </li>
-        <li>
+        </li></abbr>
+        <abbr title="VICE PRINCIPAL"><li>
           <a href="change_vice_principal.php">
-          <i class='bx bx-user-plus' style="font-weight:bold;"></i>
+          <i class='bx bxs-user-circle' style="font-weight:bold;"></i>
             <span class="links_name" style="font-weight:bold;">VICE PRINCIPAL</span>
           </a>
-        </li>
-        <li>
+        </li></abbr>
+        <abbr title="TEACHERS"><li>
           <a href="view_teachers.php">
           <i class='bx bxs-user'></i>
             <span class="links_name" style="font-weight:bold;">TEACHERS</span>
           </a>
-        </li>
-        <li>
+        </li></abbr>
+        <abbr title="STUDENTS"><li>
           <a href="view_students.php">
             <i class='bx bx-user-circle' ></i>
             <span class="links_name" style="font-weight:bold;">STUDENTS</span>
           </a>
-        </li>
-        <li>
+        </li></abbr>
+        <abbr title="ALLOTMENT CELL"><li>
+          <a href="add_office.php">
+          <i class='bx bxs-user-plus'></i>
+            <span class="links_name" style="font-weight:bold;">ALLOTMENT CELL</span>
+          </a>
+        </li></abbr>
+        <abbr title="OFFICE STAFF"><li>
           <a href="add_office.php">
           <i class='bx bx-buildings'></i>
             <span class="links_name" style="font-weight:bold;">OFFICE STAFF</span>
           </a>
-        </li>
-        <li>
+        </li></abbr>
+        <abbr title="CLASSES"><li>
+          <a href="add_class.php">
+          <i class='bx bx-copyright'></i>
+            <span class="links_name" style="font-weight:bold;">CLASSES</span>
+          </a>
+        </li></abbr>
+        <abbr title="SUBJECTS"><li>
           <a href="add_subjects.php">
           <i class='bx bx-book-alt'></i>
             <span class="links_name" style="font-weight:bold;">SUBJECTS</span>
           </a>
-        </li>
-        <li>
+        </li></abbr>
+        <abbr title="FEES"><li>
           <a href="update_fees.php">
           <i class='bx bx-dollar'></i>
             <span class="links_name" style="font-weight:bold;">FEES</span>
           </a>
-        </li>
+        </li></abbr>
       </ul>
   </div>
   <section class="home-section">
@@ -599,7 +616,7 @@ textarea {
 			</a>
       <span class="divider"></span>
 			<div class="profile">
-				<img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="">
+      <abbr title="<?php echo $_SESSION['u_name'];?>"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt=""></abbr>
 				<ul class="profile-link">
 					<li><a href="#"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
 					<li><a href="#"><i class='bx bxs-cog' ></i> Settings</a></li>
