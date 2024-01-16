@@ -69,6 +69,7 @@ include("../footer.php");
 .sidebar .nav-links{
   margin-top: 10px;
 }
+
 .sidebar .nav-links li{
   position: relative;
   list-style: none;
@@ -528,31 +529,31 @@ textarea {
       <ul class="nav-links">
         <li>
           <a href="super_admin_dash.php" class="active">
-            <i class='bx bx-grid-alt' style="color:#fff; font-weight:bold;"></i>
+            <i class='bx bxs-dashboard' style="color:#fff; font-weight:bold;"></i>
             <span class="links_name" style="color:#fff; font-weight:bold;">DASHBOARD</span>
           </a>
         </li>
         <li>
           <a href="change_principal.php">
-          <i class='bx bx-font'></i>
+          <i class='bx bx-user'></i>
             <span class="links_name" style="font-weight:bold;">PRINCIPAL</span>
           </a>
         </li>
         <li>
           <a href="change_vice_principal.php">
-          <i class='bx bx-file-blank' style="font-weight:bold;"></i>
+          <i class='bx bx-user-plus' style="font-weight:bold;"></i>
             <span class="links_name" style="font-weight:bold;">VICE PRINCIPAL</span>
           </a>
         </li>
         <li>
           <a href="view_teachers.php">
-          <i class='bx bx-music'></i>
+          <i class='bx bxs-user'></i>
             <span class="links_name" style="font-weight:bold;">TEACHERS</span>
           </a>
         </li>
         <li>
           <a href="view_students.php">
-            <i class='bx bx-cog' ></i>
+            <i class='bx bx-user-circle' ></i>
             <span class="links_name" style="font-weight:bold;">STUDENTS</span>
           </a>
         </li>
