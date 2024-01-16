@@ -89,9 +89,9 @@ include("../footer.php");
   border-radius: 10px;
 }
 .sidebar .nav-links li a:hover{
-  background: var(--blue);
+  background: var(--light);
   border-radius: 10px;
-  color:var(--light);
+  color:var(--dark);
 }
 .sidebar .nav-links li i{
   min-width: 60px;
@@ -226,7 +226,7 @@ nav .profile .profile-link a {
 }
 nav .profile .profile-link a:hover {
 	background: var(--grey);
-  text-decoration: none;
+  	text-decoration: none;
 }
 nav .nav-link {
 	position: relative;
