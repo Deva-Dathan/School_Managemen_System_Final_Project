@@ -521,6 +521,7 @@ textarea {
      </style>
    </head>
 <body class="element" id="element">
+	<?php include("../loader.php");?>
   <div class="sidebar">
     <div class="logo-details">
       <i class='bx bxl-c-plus-plus'></i>
