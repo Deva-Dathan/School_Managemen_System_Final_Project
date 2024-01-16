@@ -1,5 +1,7 @@
 <?php
 session_start();
+include("../header.php");
+include("../footer.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -318,6 +320,7 @@ main .title {
 main .breadcrumbs {
 	display: flex;
 	grid-gap: 6px;
+    margin-left: -30px;;
 }
 main .breadcrumbs li,
 main .breadcrumbs li a {
@@ -579,31 +582,21 @@ main .btn-send:hover {
 	<section id="sidebar">
 		<a href="#" class="brand"><i class='bx bxs-smile icon'></i> S N S M</a>
 		<ul class="side-menu">
-			<li><a href="#"><i class='bx bxs-dashboard icon' ></i> Dashboard</a></li>
+			<li><a href="super_admin_dash.php"><i class='bx bxs-dashboard icon' ></i> Dashboard</a></li>
 			<li class="divider" data-text="users">Users</li>
-			<li>
-				<a href="#"><i class='bx bxs-user icon' ></i>PRINCIPAL<i class='bx bx-chevron-right icon-right' ></i></a>
-				<ul class="side-dropdown">
-					<li><a href="#" class="active">Change Principal</a></li>
-				</ul>
-			</li>
-			<li>
-				<a href="#"><i class='bx bx-user-circle icon'></i> VICE PRINCIPAL<i class='bx bx-chevron-right icon-right' ></i></a>
-				<ul class="side-dropdown">
-					<li><a href="#">Change Vice Principal</a></li>
-				</ul>
-			</li>
+			<li><a href="change_principal.php" class="active"><i class='bx bxs-user icon' ></i>PRINCIPAL</a></li>
+			<li><a href="change_vice_principal.php"><i class='bx bx-user-circle icon'></i> VICE PRINCIPAL</a></li>
 			<li>
 			<a href="#"><i class='bx bx-user icon' ></i> TEACHERS<i class='bx bx-chevron-right icon-right' ></i></a>
 			<ul class="side-dropdown">
-				<li><a href="#">Add Teachers</a></li>
-				<li><a href="#">View Teachers</a></li>
+				<li><a href="add_teachers.php">Add Teachers</a></li>
+				<li><a href="view_teachers.php">View Teachers</a></li>
 			</ul>
 		</li>
 		<li>
 			<a href="#"><i class='bx bxs-user-check icon' ></i> STUDENTS<i class='bx bx-chevron-right icon-right' ></i></a>
 			<ul class="side-dropdown">
-				<li><a href="#">View Teachers</a></li>
+				<li><a href="view_students.php">View Students</a></li>
 			</ul>
 		</li>
 		<li>
@@ -616,8 +609,8 @@ main .btn-send:hover {
 		</li>
 		<li><a href="#"><i class='bx bxs-user-circle icon' ></i> OFFICE STAFF</a></li>
 			<li class="divider" data-text="subject & fees">subject & fees</li>
-			<li><a href="#"><i class='bx bxs-book icon' ></i> SUBJECT</a></li>
-			<li><a href="#"><i class='bx bx-dollar icon' ></i> FEES</a></li>
+			<li><a href="add_subjects.php"><i class='bx bxs-book icon' ></i> SUBJECT</a></li>
+			<li><a href="update_fees.php"><i class='bx bx-dollar icon' ></i> FEES</a></li>
 		</ul>
 	</section>
 	<!-- SIDEBAR -->
@@ -643,7 +636,7 @@ main .btn-send:hover {
 			</a>
 			<span class="divider"></span>
 			<div class="profile">
-      <abbr title="<?php echo $_SESSION['u_name'];?>"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt=""></abbr>
+            <abbr title="<?php echo $_SESSION['u_name'];?>"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt=""></abbr>
 				<ul class="profile-link">
 					<li><a href="#"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
 					<li><a href="#"><i class='bx bxs-cog' ></i> Settings</a></li>
@@ -655,14 +648,79 @@ main .btn-send:hover {
 
 		<!-- MAIN -->
 		<main>
-			<h1 class="title">DASHBOARD</h1>
+			<h1 class="title">PRINCIPAL</h1>
 			<ul class="breadcrumbs">
 				<li><a href="#">Home</a></li>
 				<li class="divider">/</li>
-				<li><a href="#" class="active">DASHBOARD</a></li>
+				<li><a href="#" class="active">Change Principal</a></li>
 			</ul>
 			<div class="data">
 				<div class="content-data">
+
+                <form class="row g-3 needs-validation" novalidate>
+  <div class="col-md-4">
+    <label for="validationCustom01" class="form-label">First name</label>
+    <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
+    <div class="valid-feedback">
+      Looks good!
+    </div>
+  </div>
+  <div class="col-md-4">
+    <label for="validationCustom02" class="form-label">Last name</label>
+    <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
+    <div class="valid-feedback">
+      Looks good!
+    </div>
+  </div>
+  <div class="col-md-4">
+    <label for="validationCustomUsername" class="form-label">Username</label>
+    <div class="input-group has-validation">
+      <span class="input-group-text" id="inputGroupPrepend">@</span>
+      <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+      <div class="invalid-feedback">
+        Please choose a username.
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <label for="validationCustom03" class="form-label">City</label>
+    <input type="text" class="form-control" id="validationCustom03" required>
+    <div class="invalid-feedback">
+      Please provide a valid city.
+    </div>
+  </div>
+  <div class="col-md-3">
+    <label for="validationCustom04" class="form-label">State</label>
+    <select class="form-select" id="validationCustom04" required>
+      <option selected disabled value="">Choose...</option>
+      <option>...</option>
+    </select>
+    <div class="invalid-feedback">
+      Please select a valid state.
+    </div>
+  </div>
+  <div class="col-md-3">
+    <label for="validationCustom05" class="form-label">Zip</label>
+    <input type="text" class="form-control" id="validationCustom05" required>
+    <div class="invalid-feedback">
+      Please provide a valid zip.
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+      <label class="form-check-label" for="invalidCheck">
+        Agree to terms and conditions
+      </label>
+      <div class="invalid-feedback">
+        You must agree before submitting.
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary" type="submit">Submit form</button>
+  </div>
+</form>
 
 				</div>
 
@@ -671,6 +729,29 @@ main .btn-send:hover {
 		<!-- MAIN -->
 	</section>
 	<!-- NAVBAR -->
+
+    <script>
+        //script for validation of input fields
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+    </script>
 
 	<script>
 		// SIDEBAR DROPDOWN
@@ -821,55 +902,6 @@ window.addEventListener('click', function (e) {
 		}
 	})
 })
-
-
-
-
-
-// PROGRESSBAR
-const allProgress = document.querySelectorAll('main .card .progress');
-
-allProgress.forEach(item=> {
-	item.style.setProperty('--value', item.dataset.value)
-})
-
-
-
-
-
-
-// APEXCHART
-var options = {
-  series: [{
-  name: 'series1',
-  data: [31, 40, 28, 51, 42, 109, 100]
-}, {
-  name: 'series2',
-  data: [11, 32, 45, 32, 34, 52, 41]
-}],
-  chart: {
-  height: 350,
-  type: 'area'
-},
-dataLabels: {
-  enabled: false
-},
-stroke: {
-  curve: 'smooth'
-},
-xaxis: {
-  type: 'datetime',
-  categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-},
-tooltip: {
-  x: {
-    format: 'dd/MM/yy HH:mm'
-  },
-},
-};
-
-var chart = new ApexCharts(document.querySelector("#chart"), options);
-chart.render();
-	</script>
+</script>
 </body>
 </html>
