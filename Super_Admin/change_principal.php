@@ -553,7 +553,7 @@ textarea {
           </a>
         </li></abbr>
         <abbr title="TEACHERS"><li>
-          <a href="view_teachers.php">
+          <a href="add_teachers.php">
           <i class='bx bxs-user'></i>
             <span class="links_name" style="font-weight:bold;">TEACHERS</span>
           </a>
