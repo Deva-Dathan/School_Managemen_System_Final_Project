@@ -558,6 +558,24 @@ textarea {
             <span class="links_name" style="font-weight:bold;">STUDENTS</span>
           </a>
         </li>
+        <li>
+          <a href="add_office.php">
+          <i class='bx bx-buildings'></i>
+            <span class="links_name" style="font-weight:bold;">OFFICE STAFF</span>
+          </a>
+        </li>
+        <li>
+          <a href="add_subjects.php">
+          <i class='bx bx-book-alt'></i>
+            <span class="links_name" style="font-weight:bold;">SUBJECTS</span>
+          </a>
+        </li>
+        <li>
+          <a href="update_fees.php">
+          <i class='bx bx-dollar'></i>
+            <span class="links_name" style="font-weight:bold;">FEES</span>
+          </a>
+        </li>
       </ul>
   </div>
   <section class="home-section">
