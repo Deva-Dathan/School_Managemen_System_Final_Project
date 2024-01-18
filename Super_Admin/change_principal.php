@@ -627,10 +627,24 @@ textarea {
     <div class="home-content">
       <div class="sales-boxes">
         <div class="col-md-11 recent-sales box">
-        <div class="title font-weight-bold">CHANGE PRINCIPAL</div><br>
+        <div class="form-row">
+        <div class="col-12 col-md-6 title font-weight-bold">CHANGE PRINCIPAL</div>
+        <div class="col-12 col-md-6 new-btn"><a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-left:260px;"><i class='bx bx-plus'>&nbsp</i>NEW PRINCIPAL</a></div>
+        </div><br>
 
-
-		<form class="needs-validation" novalidate>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ADD NEW PRINCIPAL</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+      <form class="needs-validation" novalidate>
   <div class="form-row">
     <div class="col-md-6 mb-3">
       <label for="validationCustom01">Full Name</label>
@@ -659,7 +673,35 @@ textarea {
       <label for="validationCustom04">State</label>
       <select class="custom-select" id="validationCustom04" required>
         <option selected disabled value="">Choose...</option>
-        <option>...</option>
+        <option value="Andhra Pradesh">Andhra Pradesh</option>
+        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+        <option value="Assam">Assam</option>
+        <option value="Bihar">Bihar</option>
+        <option value="Chhattisgarh">Chhattisgarh</option>
+        <option value="Goa">Goa</option>
+        <option value="Gujarat">Gujarat</option>
+        <option value="Haryana">Haryana</option>
+        <option value="Himachal Pradesh">Himachal Pradesh</option>
+        <option value="Jharkhand">Jharkhand</option>
+        <option value="Karnataka">Karnataka</option>
+        <option value="Kerala">Kerala</option>
+        <option value="Madhya Pradesh">Madhya Pradesh</option>
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Manipur">Manipur</option>
+        <option value="Meghalaya">Meghalaya</option>
+        <option value="Mizoram">Mizoram</option>
+        <option value="Nagaland">Nagaland</option>
+        <option value="Odisha">Odisha</option>
+        <option value="Punjab">Punjab</option>
+        <option value="Rajasthan">Rajasthan</option>
+        <option value="Sikkim">Sikkim</option>
+        <option value="Tamil Nadu">Tamil Nadu</option>
+        <option value="Telangana">Telangana</option>
+        <option value="Tripura">Tripura</option>
+        <option value="Uttar Pradesh">Uttar Pradesh</option>
+        <option value="Uttarakhand">Uttarakhand</option>
+        <option value="West Bengal">West Bengal</option>
+        <option value="Outside India">Outside India</option>
       </select>
       <div class="invalid-feedback">
         Please select a valid state.
@@ -684,15 +726,19 @@ textarea {
       </div>
     </div>
   </div>
-  <button class="btn btn-primary" type="submit">Submit form</button>
-</form>
-
-
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" type="submit">ADD PRINCIPAL</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
         </div>
         </div>
     </div>
   </section>
-
 
 
   <script>
