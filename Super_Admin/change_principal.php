@@ -8,6 +8,36 @@ include("../footer.php");
 // echo $_SESSION['u_role'];
 ?>
 
+<?php
+include("../include/db_connection.php");
+if($_SERVER["REQUEST_METHOD"] == "POST")
+{
+  $first_name = $_POST['first_name'];
+  $last_name = $_POST['last_name'];
+  $full_name = $first_name." ".$last_name;
+  $gender = $_POST['gender'];
+  $qualification = $_POST['qualification'];
+  $mobile_number = $_POST['phone'];
+  $dob = $_POST['dob'];
+  $email = $_POST['email'];
+  $address = $_POST['address'];
+  $city = $_POST['city'];
+  $district = $_POST['district'];
+  $state = $_POST['state'];
+  $zip = $_POST['zipcode'];
+
+  $message = "New record created successfully";
+
+  $sql = "INSERT INTO user_details (u_name, u_address, u_email, u_dob, u_qualification, u_mobile, u_city, u_district, u_state, u_zip, u_role) VALUES ('$full_name', '$address', '$email', '$dob', '$qualification', '$mobile_number', '$city', '$district', '$state', '$zip', 'PRINCIPAL')";
+  if ($conn->query($sql) === TRUE) {
+    echo '<script>alert("' . $message . '");</script>';
+  } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -343,7 +373,11 @@ abbr {
   justify-content: space-between;
   /* padding: 0 20px; */
 }
-
+.required::after{
+  content: " *";
+  color: red;
+  font-size: 18px;
+}
 /* left box */
 .home-content .sales-boxes .recent-sales{
   width: 100%;
@@ -523,7 +557,10 @@ textarea {
     width: calc(100% - 60px);
   }
 }
-
+div.dataTables_wrapper {
+        width: 800px;
+        margin: 0 auto;
+    }
      </style>
    </head>
 <body class="element" id="element">
@@ -632,6 +669,79 @@ textarea {
         <div class="col-12 col-md-6 new-btn"><a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-left:260px;"><i class='bx bx-plus'>&nbsp</i>NEW PRINCIPAL</a></div>
         </div><br>
 
+        <!-- Display Teachers datas -->
+        <table id="example" class="display nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>SL No</th>
+                <th>Full name</th>
+                <th>E-mail</th>
+                <th>Mobile Number</th>
+                <th>Education Qualification</th>
+                <th>Date of Birth</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>District</th>
+                <th>State</th>
+                <th>Zip Code</th>
+                <th>Current Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Tiger</td>
+                <td>Nixon</td>
+                <td>System Architect</td>
+                <td>Edinburgh</td>
+                <td>61</td>
+                <td>2011-04-25</td>
+                <td>$320,800</td>
+                <td>5421</td>
+                <td>t.nixon@datatables.net</td>
+                <td>Tiger</td>
+                <td>Nixon</td>
+                <td>System Architect</td>
+            </tr>
+            <tr>
+                <td>Garrett</td>
+                <td>Winters</td>
+                <td>Accountant</td>
+                <td>Tokyo</td>
+                <td>63</td>
+                <td>2011-07-25</td>
+                <td>$170,750</td>
+                <td>8422</td>
+                <td>g.winters@datatables.net</td>
+                <td>Tiger</td>
+                <td>Nixon</td>
+                <td>System Architect</td>
+            </tr>
+            <tr>
+                <td>Ashton</td>
+                <td>Cox</td>
+                <td>Junior Technical Author</td>
+                <td>San Francisco</td>
+                <td>66</td>
+                <td>2009-01-12</td>
+                <td>$86,000</td>
+                <td>1562</td>
+                <td>a.cox@datatables.net</td>
+                <td>Tiger</td>
+                <td>Nixon</td>
+                <td>System Architect</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -644,34 +754,107 @@ textarea {
       </div>
       <div class="modal-body">
         
-      <form class="needs-validation" novalidate>
+      <form method="POST" class="needs-validation" novalidate>
   <div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label for="validationCustom01">Full Name</label>
-      <input type="text" class="form-control" id="validationCustom01" required>
+    <div class="col-md-4 mb-3">
+      <label class="required" for="validationCustom01">First Name</label>
+      <input type="text" name="first_name" class="form-control" id="validationCustom01" required>
       <div class="valid-feedback">
         Looks good!
       </div>
     </div>
-    <div class="col-md-6 mb-3">
-      <label for="validationCustom02">Address</label>
-      <input type="text" class="form-control" id="validationCustom02" required>
+    <div class="col-md-4 mb-3">
+      <label class="required" for="validationCustom02">Last Name</label>
+      <input type="text" name="last_name" class="form-control" id="validationCustom02" required>
       <div class="valid-feedback">
         Looks good!
       </div>
     </div>
-  </div>
-  <div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label for="validationCustom03">City</label>
-      <input type="text" class="form-control" id="validationCustom03" required>
+    <div class="col-md-4 mb-3">
+      <label class="required" for="validationCustom03">Gender</label>
+      <select class="custom-select" name="gender" id="validationCustom03" required>
+        <option selected disabled value="">Choose...</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+      <div class="invalid-feedback">
+        Please select a valid state.
+      </div>
+    </div>
+</div>
+<div class="form-row">
+  <div class="col-md-3 mb-3">
+      <label class="required" for="validationCustom04">Education Qualification</label>
+      <input type="text" name="qualification" class="form-control" id="validationCustom04" required>
+      <div class="invalid-feedback">
+        Please provide a Education Qualification.
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label class="required" for="validationCustom05">Mobile Number</label>
+      <input type="number" name="phone" class="form-control" id="validationCustom05" required>
       <div class="invalid-feedback">
         Please provide a valid city.
       </div>
     </div>
+    
     <div class="col-md-3 mb-3">
-      <label for="validationCustom04">State</label>
-      <select class="custom-select" id="validationCustom04" required>
+      <label class="required" for="validationCustom06">Date-of-Birth</label>
+      <input type="date" name="dob" class="form-control" id="validationCustom06" required>
+      <div class="invalid-feedback">
+        Please provide a valid Date-of-Birth.
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label class="required" for="validationCustom07">E-mail</label>
+      <input type="email" name="email" class="form-control" id="validationCustom07" required>
+      <div class="invalid-feedback">
+        Please provide a E-Mail.
+      </div>
+    </div>
+  </div>
+<div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label class="required" for="validationCustom08">Address</label>
+      <input type="text" name="address" class="form-control" id="validationCustom08" required>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label class="required" for="validationCustom09">City</label>
+      <input type="text" name="city" class="form-control" id="validationCustom09" required>
+      <div class="invalid-feedback">
+        Please provide a valid city.
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="required" for="validationCustom10">District</label>
+      <select class="custom-select" name="district" id="validationCustom10" required>
+        <option selected disabled value="">Choose...</option>
+        <option value="Alappuzha">Alappuzha</option>
+        <option value="Ernakulam">Ernakulam</option>
+        <option value="Idukki">Idukki</option>
+        <option value="Kannur ">Kannur </option>
+        <option value="Kasaragod">Kasaragod</option>
+        <option value="Kollam">Kollam</option>
+        <option value="Kottayam">Kottayam</option>
+        <option value="Kozhikode">Kozhikode</option>
+        <option value="Malappuram">Malappuram</option>
+        <option value="Palakkad">Palakkad</option>
+        <option value="Pathanamthitta">Pathanamthitta</option>
+        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+        <option value="Thrissur">Thrissur</option>
+        <option value="Wayanad">Wayanad</option>
+      </select>
+      <div class="invalid-feedback">
+        Please select a valid state.
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="required" for="validationCustom10">State</label>
+      <select class="custom-select" name="state" id="validationCustom10" required>
         <option selected disabled value="">Choose...</option>
         <option value="Andhra Pradesh">Andhra Pradesh</option>
         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -701,20 +884,20 @@ textarea {
         <option value="Uttar Pradesh">Uttar Pradesh</option>
         <option value="Uttarakhand">Uttarakhand</option>
         <option value="West Bengal">West Bengal</option>
-        <option value="Outside India">Outside India</option>
       </select>
       <div class="invalid-feedback">
         Please select a valid state.
       </div>
     </div>
-    <div class="col-md-3 mb-3">
-      <label for="validationCustom05">Zip</label>
-      <input type="text" class="form-control" id="validationCustom05" required>
+    <div class="col-md-4 mb-3">
+      <label class="required" for="validationCustom11">Zip</label>
+      <input type="number" name="zipcode" class="form-control" id="validationCustom11" required>
       <div class="invalid-feedback">
         Please provide a valid zip.
       </div>
     </div>
   </div>
+
   <div class="form-group">
     <div class="form-check">
       <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
@@ -740,6 +923,11 @@ textarea {
     </div>
   </section>
 
+<script>
+  new DataTable('#example', {
+    scrollX: true
+});
+</script>
 
   <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields

@@ -51,7 +51,7 @@ if(isset($_POST['u_login']))
     $username = $_POST['u_username'];
     $password = md5($_POST['u_password']);
 
-    $sql = "SELECT u_name, u_role FROM users WHERE u_email='$username' AND u_pass='$password'";
+    $sql = "SELECT u_name, u_role FROM users_login WHERE u_email='$username' AND u_pass='$password'";
     $result = $conn->query($sql);
     
     if ($result->num_rows > 0) 
