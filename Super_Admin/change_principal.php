@@ -28,8 +28,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
   $message = "New record created successfully";
 
-  $sql = "INSERT INTO user_details (u_name, u_address, u_email, u_dob, u_qualification, u_mobile, u_city, u_district, u_state, u_zip, u_role) VALUES ('$full_name', '$address', '$email', '$dob', '$qualification', '$mobile_number', '$city', '$district', '$state', '$zip', 'PRINCIPAL')";
+  $sql = "INSERT INTO user (u_id, u_name, u_address, u_email, u_mobile, u_city, u_district, u_state, u_zip, u_role) VALUES (time(), '$full_name', '$address', '$email', '$mobile_number', '$city', '$district', '$state', '$zip', 'PRINCIPAL')";
   if ($conn->query($sql) === TRUE) {
+    $sql1 = "INSERT INTO principal_data (u_name, u_email, u_dob, u_qualification ) VALUES ('$full_name', '$email', '$u_dob', '$u_qualification')";
+    $conn->query($sql1);
     echo '<script>alert("' . $message . '");</script>';
   } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
@@ -670,72 +672,74 @@ div.dataTables_wrapper {
         </div><br>
 
         <!-- Display Teachers datas -->
-        <table id="example" class="display nowrap" style="width:100%">
-        <thead>
+        <div id="toolbar">
+        <select class="form-control">
+            <option value="all">Export All</option>
+            <option value="selected">Export Selected</option>
+        </select>
+    </div>
+
+    <table id="table" data-show-export="true" data-toolbar="#toolbar" data-search="true" data-sortable="true"
+        data-show-columns="true" data-toggle="table" data-pagination="true" class="table" data-visible-search="true"
+        data-detail-formatter="detailFormatter" data-detail-view="true">
+        <thead class="table-primary">
             <tr>
-                <th>SL No</th>
-                <th>Full name</th>
-                <th>E-mail</th>
-                <th>Mobile Number</th>
-                <th>Education Qualification</th>
-                <th>Date of Birth</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>District</th>
-                <th>State</th>
-                <th>Zip Code</th>
-                <th>Current Role</th>
+                <th data-field="state" data-checkbox="true"></th>
+                <th data-field="Name" data-sortable="true">Name</th>
+                <th data-field="phone" data-sortable="true" data-visible="true">Mobile Number</th>
+                <th data-field="email" data-sortable="true">E-mail</th>
+                <th data-field="qualification" data-sortable="true" data-visible="false">Education Qualification</th>
+                <th data-field="dob" data-sortable="true" data-visible="false">Date Of Birth</th>
+                <th data-field="gender" data-sortable="true" data-visible="false">Gender</th>
+                <th data-field="address" data-sortable="true" data-visible="false">Address</th>
+                <th data-field="city" data-sortable="true" data-visible="false">City</th>
+                <th data-field="district" data-sortable="true" data-visible="false">District</th>
+                <th data-field="u_state" data-sortable="true" data-visible="false">State</th>
+                <th data-field="zip" data-sortable="true" data-visible="false">Zip Code</th>
+                <th data-field="image" data-visible="false">Image</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Tiger</td>
-                <td>Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>61</td>
-                <td>2011-04-25</td>
-                <td>$320,800</td>
-                <td>5421</td>
-                <td>t.nixon@datatables.net</td>
-                <td>Tiger</td>
-                <td>Nixon</td>
-                <td>System Architect</td>
-            </tr>
-            <tr>
-                <td>Garrett</td>
-                <td>Winters</td>
-                <td>Accountant</td>
-                <td>Tokyo</td>
-                <td>63</td>
-                <td>2011-07-25</td>
-                <td>$170,750</td>
-                <td>8422</td>
-                <td>g.winters@datatables.net</td>
-                <td>Tiger</td>
-                <td>Nixon</td>
-                <td>System Architect</td>
-            </tr>
-            <tr>
-                <td>Ashton</td>
-                <td>Cox</td>
-                <td>Junior Technical Author</td>
-                <td>San Francisco</td>
-                <td>66</td>
-                <td>2009-01-12</td>
-                <td>$86,000</td>
-                <td>1562</td>
-                <td>a.cox@datatables.net</td>
-                <td>Tiger</td>
-                <td>Nixon</td>
-                <td>System Architect</td>
-            </tr>
 
+        <?php
+        include("../include/db_connection.php");
+
+        
+        $result = mysqli_query($conn, "SELECT * FROM users" );
+
+         while($row = mysqli_fetch_array($result)) 
+         {
+          echo "ID:" .$row{'ID'}." Name:".$row{'Name'}." City: ". $row{'City'}."<br>";
+          ?>
+
+            <form name="incharge_change_form" method="post">
+                <tr>
+                    <td class="bs-checkbox"><input data-index="" name="btSelectItem"
+                            type="checkbox"></td>
+                    <td><?php echo $row['u_id'];?></td>
+                    <td><?php echo $row['u_name'];?></td>
+                    <td><?php echo $row['u_phone'];?></td>
+                    <td><?php echo $row['u_email'];?></td>
+                    <!-- <td><?php echo $row['u_qualification'];?></td> -->
+                    <!-- <td><?php echo $row['u_dob'];?></td> -->
+                    <td><?php echo $row['u_gender'];?></td>
+                    <td><?php echo $row['u_address'];?></td>
+                    <td><?php echo $row['u_city'];?></td>
+                    <td><?php echo $row['u_district'];?></td>
+                    <td><?php echo $row['u_state'];?></td>
+                    <td><?php echo $row['u_zip'];?></td>
+                    <td>
+                        <amp-img alt="image" src=""
+                            class="img-fluid img-thumbnail" layout="responsive" height="200px" width="200px"></amp-img>
+                    </td>
+                </tr>
+            </form>
         </tbody>
     </table>
 
-
-
+    <?php
+  }
+        ?>
 
 
 
@@ -923,11 +927,39 @@ div.dataTables_wrapper {
     </div>
   </section>
 
-<script>
-  new DataTable('#example', {
-    scrollX: true
-});
+
+  <script>
+function detailFormatter(index, row) {
+    return '<div class="container"><div class="row mt-4 ml-md-2 ml-n5"><div class="col-9"> <div class="col-12 "><b class="b">Name  </b> <b class="colan"> : </b>' +
+        row.name + '</div><div class="col-12"><b class="b">E-mail </b> <b class="colan"> : </b>' + row.email +
+        '</div><div class="col-12"><b class="b">Phone Number </b> <b class="colan"> : </b>' + row.phone +
+        '</div><div class="col-12"><b class="b">Address </b> <b class="colan"> : </b>' + row.address +
+        '</div><div class="col-12"> <b class="b">Department </b> <b class="colan"> : </b>' + row.dept +
+        ' </div><div class="col-12"><b class="b">Date of Birth </b> <b class="colan"> : </b>' + row.dob +
+        '</div><div class="col-12"> <b class="b">Gender </b> <b class="colan"> : </b>' + row.gender +
+        '</div><div class="col-12"> <b class="b">Score In 10th </b> <b class="colan"> : </b>' + row.u_sslc +
+        '</div><div class="col-12"> <b class="b">Score In +2 </b> <b class="colan"> : </b>' + row.u_plustwo +
+        '</div></div><div class="col-3 col-md-3">' + row.image + ' </div>  </div></div>';
+}
 </script>
+<script>
+var $table = $('#table')
+
+$(function() {
+    $('#toolbar').find('select').change(function() {
+        $table.bootstrapTable('destroy').bootstrapTable({
+            exportDataType: $(this).val(),
+            exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
+            columns: [{
+                field: 'state',
+                checkbox: true,
+                visible: $(this).val() === 'selected'
+            }]
+        })
+    }).trigger('change')
+})
+</script>
+
 
   <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields
