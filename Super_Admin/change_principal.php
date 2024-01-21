@@ -705,20 +705,19 @@ div.dataTables_wrapper {
         include("../include/db_connection.php");
 
         
-        $result = mysqli_query($conn, "SELECT * FROM users" );
+        $result = mysqli_query($conn, "SELECT * FROM users JOIN principal_data ON users.u_email = principal_data.u_email" );
 
          while($row = mysqli_fetch_array($result)) 
          {
-          echo "ID:" .$row{'ID'}." Name:".$row{'Name'}." City: ". $row{'City'}."<br>";
           ?>
 
             <form name="incharge_change_form" method="post">
                 <tr>
-                    <td class="bs-checkbox"><input data-index="" name="btSelectItem"
+                    <td class="bs-ch = principal_data.u_emaileckbox"><input data-index="" name="btSelectItem"
                             type="checkbox"></td>
                     <td><?php echo $row['u_id'];?></td>
                     <td><?php echo $row['u_name'];?></td>
-                    <td><?php echo $row['u_phone'];?></td>
+                    <td><?php echo $row['u_mobile'];?></td>
                     <td><?php echo $row['u_email'];?></td>
                     <!-- <td><?php echo $row['u_qualification'];?></td> -->
                     <!-- <td><?php echo $row['u_dob'];?></td> -->
