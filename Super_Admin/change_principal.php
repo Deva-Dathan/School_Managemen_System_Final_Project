@@ -1,55 +1,20 @@
 <?php
 session_start();
-include("../header.php");
-include("../footer.php");
 
 // echo $_SESSION['u_username'];
 // echo "<br>";
 // echo $_SESSION['u_role'];
 ?>
 
-<?php
-include("../include/db_connection.php");
-if($_SERVER["REQUEST_METHOD"] == "POST")
-{
-  $first_name = $_POST['first_name'];
-  $last_name = $_POST['last_name'];
-  $full_name = $first_name." ".$last_name;
-  $gender = $_POST['gender'];
-  $qualification = $_POST['qualification'];
-  $mobile_number = $_POST['phone'];
-  $dob = $_POST['dob'];
-  $email = $_POST['email'];
-  $address = $_POST['address'];
-  $city = $_POST['city'];
-  $district = $_POST['district'];
-  $state = $_POST['state'];
-  $zip = $_POST['zipcode'];
-
-  $message = "New record created successfully";
-
-  $sql = "INSERT INTO user (u_id, u_name, u_address, u_email, u_mobile, u_city, u_district, u_state, u_zip, u_role) VALUES (time(), '$full_name', '$address', '$email', '$mobile_number', '$city', '$district', '$state', '$zip', 'PRINCIPAL')";
-  if ($conn->query($sql) === TRUE) {
-    $sql1 = "INSERT INTO principal_data (u_name, u_email, u_dob, u_qualification ) VALUES ('$full_name', '$email', '$u_dob', '$u_qualification')";
-    $conn->query($sql1);
-    echo '<script>alert("' . $message . '");</script>';
-  } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-
-}
-?>
-
 <!DOCTYPE html>
+<!-- Coding by CodingNepal | www.codingnepalweb.com -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
-    <title> Dashboard | S N S M</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Boxicons CDN Link -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <style>
-        /* Googlefont Poppins CDN Link */
+    <title> G H S S </title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/school_logo.png">
+    <style>
+      /* Googlefont Poppins CDN Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 *{
   margin: 0;
@@ -66,7 +31,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	--light-green: #E3FFCB;
 	--blue: #1775F1;
 	--light-blue: #D0E4FF;
-	--dark-blue: #0C5FCD;
+	--dark-blue: #081D45;
 	--red: #FC3B56;
   --dark-red: #FC1605
 }
@@ -86,22 +51,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
   align-items: center;
 }
 .sidebar .logo-details i{
-  font-size: 38px;
+  font-size: 28px;
   font-weight: 500;
-  color: #000;
+  color: var(--dark);
   min-width: 60px;
   text-align: center
 }
 .sidebar .logo-details .logo_name{
-  color: #000;
-  font-size: 30px;
+  color: var(--dark);
+  font-size: 24px;
   font-weight: 500;
-  font-weight: bold;
 }
 .sidebar .nav-links{
   margin-top: 10px;
 }
-
 .sidebar .nav-links li{
   position: relative;
   list-style: none;
@@ -109,35 +72,40 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 }
 .sidebar .nav-links li a{
   height: 100%;
-  width: 92%;
+  width: 100%;
   display: flex;
   align-items: center;
   text-decoration: none;
   transition: all 0.4s ease;
-  margin-left: 5px;
 }
 .sidebar .nav-links li a.active{
-  background: var(--blue);
-  border-radius: 10px;
+  background: var(--dark-blue);
+  border-radius : 0px 30px 30px 0px;
+  color : var(--light);
 }
-.sidebar .nav-links li a:hover{
-  background: var(--light);
-  border-radius: 10px;
-  color:var(--dark);
+#sidebar #nav-links li a:hover{
+  background: var(--dark-blue);
+  border-radius : 0px 30px 30px 0px;
+  color:var(--light) !important;
 }
 .sidebar .nav-links li i{
   min-width: 60px;
   text-align: center;
   font-size: 18px;
-  color: #000;
-  font-weight: bold;
+  color: var(--dark);
+  font-weight:bold;
 }
 .sidebar .nav-links li a .links_name{
-  color: #000;
-  font-weight: bold;
+  color: var(--dark);
   font-size: 15px;
   font-weight: 400;
   white-space: nowrap;
+  font-weight:bold;
+}
+.sidebar .nav-links .log_out{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 .home-section{
   position: relative;
@@ -163,6 +131,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
   left: 240px;
   z-index: 100;
   padding: 0 20px;
+  /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
   transition: all 0.5s ease;
 }
 .sidebar.active ~ .home-section nav{
@@ -211,6 +180,38 @@ nav .search-box .bx-search{
   font-size: 22px;
   transition: all 0.4 ease;
 }
+nav .profile .profile-link a:hover {
+	background: var(--grey);
+  	text-decoration: none;
+}
+nav .nav-link {
+	position: relative;
+}
+nav .nav-link .icon {
+	font-size: 18px;
+	color: var(--dark);
+}
+nav .nav-link .badge {
+	position: absolute;
+	top: -15px;
+	right: -13px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid var(--light);
+	background: var(--red);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: var(--light);
+	font-size: 10px;
+	font-weight: 700;
+}
+abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+  text-decoration: none !important;
+}
 nav .divider {
 	width: 1px;
 	background: var(--grey);
@@ -254,41 +255,14 @@ nav .profile .profile-link a {
 	font-size: 14px;
 	color: var(--dark);
 	align-items: center;
+  text-decoration:none;
+  list-style:none;
 	transition: all .3s ease;
 }
 nav .profile .profile-link a:hover {
 	background: var(--grey);
   	text-decoration: none;
 }
-nav .nav-link {
-	position: relative;
-}
-nav .nav-link .icon {
-	font-size: 18px;
-	color: var(--dark);
-}
-nav .nav-link .badge {
-	position: absolute;
-	top: -8px;
-	right: 0px;
-	width: 20px;
-	height: 20px;
-	border-radius: 50%;
-	border: 2px solid var(--light);
-	background: var(--red);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: var(--light);
-	font-size: 10px;
-	font-weight: 700;
-}
-abbr {
-  border-bottom: none !important;
-  cursor: inherit !important;
-  text-decoration: none !important;
-}
-
 .home-section .home-content{
   position: relative;
   padding-top: 104px;
@@ -375,30 +349,15 @@ abbr {
   justify-content: space-between;
   /* padding: 0 20px; */
 }
-.required::after{
-  content: " *";
-  color: red;
-  font-size: 18px;
-}
+
 /* left box */
 .home-content .sales-boxes .recent-sales{
-  width: 100%;
-  max-width: 1200px;
-  /* margin: 0 auto; */
+  width: 65%;
   background: #fff;
   padding: 20px 30px;
   margin: 0 20px;
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
-textarea {
-  width: 100%;
-  box-sizing: border-box;
-}
-@media screen and (max-width: 600px) {
-  .recent-sales {
-    max-width: 100%;
-  }
 }
 .home-content .sales-boxes .sales-details{
   display: flex;
@@ -408,6 +367,7 @@ textarea {
 .sales-boxes .box .title{
   font-size: 24px;
   font-weight: 500;
+  /* margin-bottom: 10px; */
 }
 .sales-boxes .sales-details li.topic{
   font-size: 20px;
@@ -515,6 +475,12 @@ textarea {
     margin: 0;
   }
 }
+@media (max-width: 1000px) {
+  .overview-boxes .box{
+    width: calc(100% / 2 - 15px);
+    margin-bottom: 15px;
+  }
+}
 @media (max-width: 700px) {
   nav .sidebar-button .dashboard,
   nav .profile-details .admin_name,
@@ -533,6 +499,9 @@ textarea {
   .overview-boxes .box{
     width: 100%;
     margin-bottom: 15px;
+  }
+  .sidebar.active ~ .home-section nav .profile-details{
+    display: none;
   }
 }
   @media (max-width: 400px) {
@@ -559,92 +528,91 @@ textarea {
     width: calc(100% - 60px);
   }
 }
-div.dataTables_wrapper {
-        width: 800px;
-        margin: 0 auto;
-    }
-     </style>
+    </style>
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
-<body class="element" id="element">
-	<?php include("../loader.php");?>
-  <div class="sidebar">
+<body id="element">
+  <div class="sidebar" id="sidebar">
     <div class="logo-details">
-      <i class='bx bxl-c-plus-plus'></i>
-      <span class="logo_name">S N S M</span>
+      <img src="../assets/images/school_logo.png" alt="School_Logo" width=60 height=60>
+      <span class="logo_name">G H S S</span>
     </div>
-      <ul class="nav-links">
-      <abbr title="DASHBOARD"><li>
-          <a href="super_admin_dash.php">
-            <i class='bx bxs-dashboard' style="font-weight:bold;"></i>
-            <span class="links_name" style="font-weight:bold;">DASHBOARD</span>
+      <ul class="nav-links" id="nav-links">
+        <li>
+          <a href="admin_dash.php" class="active">
+            <i class='bx bx-grid-alt' style="color:var(--light);"></i>
+            <span class="links_name" style="color:var(--light);">Dashboard</span>
           </a>
-        </li></abbr>
-        <abbr title="PRINCIPAL"><li>
-          <a href="change_principal.php" class="active">
-          <i class='bx bx-user' style="color:#fff; font-weight:bold;"></i>
-            <span class="links_name" style="color:#fff; font-weight:bold;">PRINCIPAL</span>
+        </li>
+        <li>
+          <a href="change_principal.php">
+            <i class='bx bxs-user' ></i>
+            <span class="links_name">Principal</span>
           </a>
-        </li></abbr>
-        <abbr title="VICE PRINCIPAL"><li>
+        </li>
+        <li>
           <a href="change_vice_principal.php">
-          <i class='bx bxs-user-circle' style="font-weight:bold;"></i>
-            <span class="links_name" style="font-weight:bold;">VICE PRINCIPAL</span>
-          </a>
-        </li></abbr>
-        <abbr title="TEACHERS"><li>
-          <a href="add_teachers.php">
-          <i class='bx bxs-user'></i>
-            <span class="links_name" style="font-weight:bold;">TEACHERS</span>
-          </a>
-        </li></abbr>
-        <abbr title="STUDENTS"><li>
-          <a href="view_students.php">
             <i class='bx bx-user-circle' ></i>
-            <span class="links_name" style="font-weight:bold;">STUDENTS</span>
+            <span class="links_name">Vice Principal</span>
           </a>
-        </li></abbr>
-        <abbr title="ALLOTMENT CELL"><li>
+        </li>
+        <li>
+          <a href="add_teacher.php">
+            <i class='bx bxs-user-plus' ></i>
+            <span class="links_name">Teachers</span>
+          </a>
+        </li>
+        <li>
+          <a href="view_students.php">
+            <i class='bx bx-user' ></i>
+            <span class="links_name">Students</span>
+          </a>
+        </li>
+        <li>
+          <a href="add_allotement.php">
+            <i class='bx bxs-user-circle' ></i>
+            <span class="links_name">Allotment Cell</span>
+          </a>
+        </li>
+        <li>
           <a href="add_office.php">
-          <i class='bx bxs-user-plus'></i>
-            <span class="links_name" style="font-weight:bold;">ALLOTMENT CELL</span>
+            <i class='bx bx-user-plus' ></i>
+            <span class="links_name">Office Staff</span>
           </a>
-        </li></abbr>
-        <abbr title="OFFICE STAFF"><li>
-          <a href="add_office.php">
-          <i class='bx bx-buildings'></i>
-            <span class="links_name" style="font-weight:bold;">OFFICE STAFF</span>
+        </li>
+        <li>
+          <a href="add_classes.php">
+            <i class='bx bx-building' ></i>
+            <span class="links_name">Classes</span>
           </a>
-        </li></abbr>
-        <abbr title="CLASSES"><li>
-          <a href="add_class.php">
-          <i class='bx bx-copyright'></i>
-            <span class="links_name" style="font-weight:bold;">CLASSES</span>
-          </a>
-        </li></abbr>
-        <abbr title="SUBJECTS"><li>
+        </li>
+        <li>
           <a href="add_subjects.php">
-          <i class='bx bx-book-alt'></i>
-            <span class="links_name" style="font-weight:bold;">SUBJECTS</span>
+            <i class='bx bx-book' ></i>
+            <span class="links_name">Subjects</span>
           </a>
-        </li></abbr>
-        <abbr title="FEES"><li>
+        </li>
+        <li>
           <a href="update_fees.php">
-          <i class='bx bx-dollar'></i>
-            <span class="links_name" style="font-weight:bold;">FEES</span>
+            <i class='bx bx-dollar' ></i>
+            <span class="links_name">Fees</span>
           </a>
-        </li></abbr>
+        </li>
+      </ul>
   </div>
   <section class="home-section">
     <nav>
       <div class="sidebar-button">
         <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard">PRINCIPAL</span>
+        <span class="dashboard">Dashboard</span>
       </div>
       <div class="search-box">
         <input type="text" placeholder="Search...">
         <i class='bx bx-search' ></i>
       </div>
-      <button onclick="toggleFullScreen();" style="background:none; border:none;"><i class='bx bx-fullscreen'></i><i class='bx bx-exit-fullscreen' style="display:none;"></i></button>
+      <button onclick="toggleFullScreen();" style="background:none; border:none;"><i class='bx bx-fullscreen' style="font-size:18px;"></i><i class='bx bx-exit-fullscreen' style="display:none;"></i></button>
 			<a href="#" class="nav-link">
 				<i class='bx bxs-bell icon' ></i>
 				<span class="badge">5</span>
@@ -657,329 +625,179 @@ div.dataTables_wrapper {
 			<div class="profile">
 			<abbr title="<?php echo $_SESSION['u_name'];?>"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt=""></abbr>
 				<ul class="profile-link">
-					<li><a href="#"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
-					<li><a href="#"><i class='bx bxs-cog' ></i> Settings</a></li>
-					<li><a href="#"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
+					<li><a href="admin_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
+					<li><a href="admin_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
+					<li><a href="logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
 				</ul>
 			</div>
     </nav>
+
     <div class="home-content">
+      <div class="overview-boxes">
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic">Total Order</div>
+            <div class="number">40,876</div>
+            <div class="indicator">
+              <i class='bx bx-up-arrow-alt'></i>
+              <span class="text">Up from yesterday</span>
+            </div>
+          </div>
+          <i class='bx bx-cart-alt cart'></i>
+        </div>
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic">Total Sales</div>
+            <div class="number">38,876</div>
+            <div class="indicator">
+              <i class='bx bx-up-arrow-alt'></i>
+              <span class="text">Up from yesterday</span>
+            </div>
+          </div>
+          <i class='bx bxs-cart-add cart two' ></i>
+        </div>
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic">Total Profit</div>
+            <div class="number">$12,876</div>
+            <div class="indicator">
+              <i class='bx bx-up-arrow-alt'></i>
+              <span class="text">Up from yesterday</span>
+            </div>
+          </div>
+          <i class='bx bx-cart cart three' ></i>
+        </div>
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic">Total Return</div>
+            <div class="number">11,086</div>
+            <div class="indicator">
+              <i class='bx bx-down-arrow-alt down'></i>
+              <span class="text">Down From Today</span>
+            </div>
+          </div>
+          <i class='bx bxs-cart-download cart four' ></i>
+        </div>
+      </div>
+
       <div class="sales-boxes">
-        <div class="col-md-11 recent-sales box">
-        <div class="form-row">
-        <div class="col-12 col-md-6 title font-weight-bold">CHANGE PRINCIPAL</div>
-        <div class="col-12 col-md-6 new-btn"><a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-left:260px;"><i class='bx bx-plus'>&nbsp</i>NEW PRINCIPAL</a></div>
-        </div><br>
-
-        <!-- Display Teachers datas -->
-        <div id="toolbar">
-        <select class="form-control">
-            <option value="all">Export All</option>
-            <option value="selected">Export Selected</option>
-        </select>
-    </div>
-
-    <table id="table" data-show-export="true" data-toolbar="#toolbar" data-search="true" data-sortable="true"
-        data-show-columns="true" data-toggle="table" data-pagination="true" class="table" data-visible-search="true"
-        data-detail-formatter="detailFormatter" data-detail-view="true">
-        <thead class="table-primary">
-            <tr>
-                <th data-field="state" data-checkbox="true"></th>
-                <th data-field="Name" data-sortable="true">Name</th>
-                <th data-field="phone" data-sortable="true" data-visible="true">Mobile Number</th>
-                <th data-field="email" data-sortable="true">E-mail</th>
-                <th data-field="qualification" data-sortable="true" data-visible="false">Education Qualification</th>
-                <th data-field="dob" data-sortable="true" data-visible="false">Date Of Birth</th>
-                <th data-field="gender" data-sortable="true" data-visible="false">Gender</th>
-                <th data-field="address" data-sortable="true" data-visible="false">Address</th>
-                <th data-field="city" data-sortable="true" data-visible="false">City</th>
-                <th data-field="district" data-sortable="true" data-visible="false">District</th>
-                <th data-field="u_state" data-sortable="true" data-visible="false">State</th>
-                <th data-field="zip" data-sortable="true" data-visible="false">Zip Code</th>
-                <th data-field="image" data-visible="false">Image</th>
-            </tr>
-        </thead>
-        <tbody>
-
-        <?php
-        include("../include/db_connection.php");
-
-        
-        $result = mysqli_query($conn, "SELECT * FROM users JOIN principal_data ON users.u_email = principal_data.u_email" );
-
-         while($row = mysqli_fetch_array($result)) 
-         {
-          ?>
-
-            <form name="incharge_change_form" method="post">
-                <tr>
-                    <td class="bs-ch = principal_data.u_emaileckbox"><input data-index="" name="btSelectItem"
-                            type="checkbox"></td>
-                    <td><?php echo $row['u_id'];?></td>
-                    <td><?php echo $row['u_name'];?></td>
-                    <td><?php echo $row['u_mobile'];?></td>
-                    <td><?php echo $row['u_email'];?></td>
-                    <!-- <td><?php echo $row['u_qualification'];?></td> -->
-                    <!-- <td><?php echo $row['u_dob'];?></td> -->
-                    <td><?php echo $row['u_gender'];?></td>
-                    <td><?php echo $row['u_address'];?></td>
-                    <td><?php echo $row['u_city'];?></td>
-                    <td><?php echo $row['u_district'];?></td>
-                    <td><?php echo $row['u_state'];?></td>
-                    <td><?php echo $row['u_zip'];?></td>
-                    <td>
-                        <amp-img alt="image" src=""
-                            class="img-fluid img-thumbnail" layout="responsive" height="200px" width="200px"></amp-img>
-                    </td>
-                </tr>
-            </form>
-        </tbody>
-    </table>
-
-    <?php
-  }
-        ?>
-
-
-
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">ADD NEW PRINCIPAL</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        
-      <form method="POST" class="needs-validation" novalidate>
-  <div class="form-row">
-    <div class="col-md-4 mb-3">
-      <label class="required" for="validationCustom01">First Name</label>
-      <input type="text" name="first_name" class="form-control" id="validationCustom01" required>
-      <div class="valid-feedback">
-        Looks good!
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label class="required" for="validationCustom02">Last Name</label>
-      <input type="text" name="last_name" class="form-control" id="validationCustom02" required>
-      <div class="valid-feedback">
-        Looks good!
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label class="required" for="validationCustom03">Gender</label>
-      <select class="custom-select" name="gender" id="validationCustom03" required>
-        <option selected disabled value="">Choose...</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-      </select>
-      <div class="invalid-feedback">
-        Please select a valid state.
-      </div>
-    </div>
-</div>
-<div class="form-row">
-  <div class="col-md-3 mb-3">
-      <label class="required" for="validationCustom04">Education Qualification</label>
-      <input type="text" name="qualification" class="form-control" id="validationCustom04" required>
-      <div class="invalid-feedback">
-        Please provide a Education Qualification.
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <label class="required" for="validationCustom05">Mobile Number</label>
-      <input type="number" name="phone" class="form-control" id="validationCustom05" required>
-      <div class="invalid-feedback">
-        Please provide a valid city.
-      </div>
-    </div>
-    
-    <div class="col-md-3 mb-3">
-      <label class="required" for="validationCustom06">Date-of-Birth</label>
-      <input type="date" name="dob" class="form-control" id="validationCustom06" required>
-      <div class="invalid-feedback">
-        Please provide a valid Date-of-Birth.
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <label class="required" for="validationCustom07">E-mail</label>
-      <input type="email" name="email" class="form-control" id="validationCustom07" required>
-      <div class="invalid-feedback">
-        Please provide a E-Mail.
-      </div>
-    </div>
-  </div>
-<div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label class="required" for="validationCustom08">Address</label>
-      <input type="text" name="address" class="form-control" id="validationCustom08" required>
-      <div class="valid-feedback">
-        Looks good!
-      </div>
-    </div>
-    <div class="col-md-6 mb-3">
-      <label class="required" for="validationCustom09">City</label>
-      <input type="text" name="city" class="form-control" id="validationCustom09" required>
-      <div class="invalid-feedback">
-        Please provide a valid city.
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label class="required" for="validationCustom10">District</label>
-      <select class="custom-select" name="district" id="validationCustom10" required>
-        <option selected disabled value="">Choose...</option>
-        <option value="Alappuzha">Alappuzha</option>
-        <option value="Ernakulam">Ernakulam</option>
-        <option value="Idukki">Idukki</option>
-        <option value="Kannur ">Kannur </option>
-        <option value="Kasaragod">Kasaragod</option>
-        <option value="Kollam">Kollam</option>
-        <option value="Kottayam">Kottayam</option>
-        <option value="Kozhikode">Kozhikode</option>
-        <option value="Malappuram">Malappuram</option>
-        <option value="Palakkad">Palakkad</option>
-        <option value="Pathanamthitta">Pathanamthitta</option>
-        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
-        <option value="Thrissur">Thrissur</option>
-        <option value="Wayanad">Wayanad</option>
-      </select>
-      <div class="invalid-feedback">
-        Please select a valid state.
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label class="required" for="validationCustom10">State</label>
-      <select class="custom-select" name="state" id="validationCustom10" required>
-        <option selected disabled value="">Choose...</option>
-        <option value="Andhra Pradesh">Andhra Pradesh</option>
-        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-        <option value="Assam">Assam</option>
-        <option value="Bihar">Bihar</option>
-        <option value="Chhattisgarh">Chhattisgarh</option>
-        <option value="Goa">Goa</option>
-        <option value="Gujarat">Gujarat</option>
-        <option value="Haryana">Haryana</option>
-        <option value="Himachal Pradesh">Himachal Pradesh</option>
-        <option value="Jharkhand">Jharkhand</option>
-        <option value="Karnataka">Karnataka</option>
-        <option value="Kerala">Kerala</option>
-        <option value="Madhya Pradesh">Madhya Pradesh</option>
-        <option value="Maharashtra">Maharashtra</option>
-        <option value="Manipur">Manipur</option>
-        <option value="Meghalaya">Meghalaya</option>
-        <option value="Mizoram">Mizoram</option>
-        <option value="Nagaland">Nagaland</option>
-        <option value="Odisha">Odisha</option>
-        <option value="Punjab">Punjab</option>
-        <option value="Rajasthan">Rajasthan</option>
-        <option value="Sikkim">Sikkim</option>
-        <option value="Tamil Nadu">Tamil Nadu</option>
-        <option value="Telangana">Telangana</option>
-        <option value="Tripura">Tripura</option>
-        <option value="Uttar Pradesh">Uttar Pradesh</option>
-        <option value="Uttarakhand">Uttarakhand</option>
-        <option value="West Bengal">West Bengal</option>
-      </select>
-      <div class="invalid-feedback">
-        Please select a valid state.
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label class="required" for="validationCustom11">Zip</label>
-      <input type="number" name="zipcode" class="form-control" id="validationCustom11" required>
-      <div class="invalid-feedback">
-        Please provide a valid zip.
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-      <label class="form-check-label" for="invalidCheck">
-        Agree to terms and conditions
-      </label>
-      <div class="invalid-feedback">
-        You must agree before submitting.
-      </div>
-    </div>
-  </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button class="btn btn-primary" type="submit">ADD PRINCIPAL</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
+        <div class="recent-sales box">
+          <div class="title">Recent Sales</div>
+          <div class="sales-details">
+            <ul class="details">
+              <li class="topic">Date</li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+            </ul>
+            <ul class="details">
+            <li class="topic">Customer</li>
+            <li><a href="#">Alex Doe</a></li>
+            <li><a href="#">David Mart</a></li>
+            <li><a href="#">Roe Parter</a></li>
+            <li><a href="#">Diana Penty</a></li>
+            <li><a href="#">Martin Paw</a></li>
+            <li><a href="#">Doe Alex</a></li>
+            <li><a href="#">Aiana Lexa</a></li>
+            <li><a href="#">Rexel Mags</a></li>
+             <li><a href="#">Tiana Loths</a></li>
+          </ul>
+          <ul class="details">
+            <li class="topic">Sales</li>
+            <li><a href="#">Delivered</a></li>
+            <li><a href="#">Pending</a></li>
+            <li><a href="#">Returned</a></li>
+            <li><a href="#">Delivered</a></li>
+            <li><a href="#">Pending</a></li>
+            <li><a href="#">Returned</a></li>
+            <li><a href="#">Delivered</a></li>
+             <li><a href="#">Pending</a></li>
+            <li><a href="#">Delivered</a></li>
+          </ul>
+          <ul class="details">
+            <li class="topic">Total</li>
+            <li><a href="#">$204.98</a></li>
+            <li><a href="#">$24.55</a></li>
+            <li><a href="#">$25.88</a></li>
+            <li><a href="#">$170.66</a></li>
+            <li><a href="#">$56.56</a></li>
+            <li><a href="#">$44.95</a></li>
+            <li><a href="#">$67.33</a></li>
+             <li><a href="#">$23.53</a></li>
+             <li><a href="#">$46.52</a></li>
+          </ul>
+          </div>
+          <div class="button">
+            <a href="#">See All</a>
+          </div>
         </div>
+        <div class="top-sales box">
+          <div class="title">Top Seling Product</div>
+          <ul class="top-sales-details">
+            <li>
+            <a href="#">
+              <img src="images/sunglasses.jpg" alt="">
+              <span class="product">Vuitton Sunglasses</span>
+            </a>
+            <span class="price">$1107</span>
+          </li>
+          <li>
+            <a href="#">
+               <img src="images/jeans.jpg" alt="">
+              <span class="product">Hourglass Jeans </span>
+            </a>
+            <span class="price">$1567</span>
+          </li>
+          <li>
+            <a href="#">
+             <img src="images/nike.jpg" alt="">
+              <span class="product">Nike Sport Shoe</span>
+            </a>
+            <span class="price">$1234</span>
+          </li>
+          <li>
+            <a href="#">
+              <img src="images/scarves.jpg" alt="">
+              <span class="product">Hermes Silk Scarves.</span>
+            </a>
+            <span class="price">$2312</span>
+          </li>
+          <li>
+            <a href="#">
+              <img src="images/blueBag.jpg" alt="">
+              <span class="product">Succi Ladies Bag</span>
+            </a>
+            <span class="price">$1456</span>
+          </li>
+          <li>
+            <a href="#">
+              <img src="images/bag.jpg" alt="">
+              <span class="product">Gucci Womens's Bags</span>
+            </a>
+            <span class="price">$2345</span>
+          <li>
+            <a href="#">
+              <img src="images/addidas.jpg" alt="">
+              <span class="product">Addidas Running Shoe</span>
+            </a>
+            <span class="price">$2345</span>
+          </li>
+<li>
+            <a href="#">
+             <img src="images/shirt.jpg" alt="">
+              <span class="product">Bilack Wear's Shirt</span>
+            </a>
+            <span class="price">$1245</span>
+          </li>
+          </ul>
         </div>
+      </div>
     </div>
   </section>
-
-
-  <script>
-function detailFormatter(index, row) {
-    return '<div class="container"><div class="row mt-4 ml-md-2 ml-n5"><div class="col-9"> <div class="col-12 "><b class="b">Name  </b> <b class="colan"> : </b>' +
-        row.name + '</div><div class="col-12"><b class="b">E-mail </b> <b class="colan"> : </b>' + row.email +
-        '</div><div class="col-12"><b class="b">Phone Number </b> <b class="colan"> : </b>' + row.phone +
-        '</div><div class="col-12"><b class="b">Address </b> <b class="colan"> : </b>' + row.address +
-        '</div><div class="col-12"> <b class="b">Department </b> <b class="colan"> : </b>' + row.dept +
-        ' </div><div class="col-12"><b class="b">Date of Birth </b> <b class="colan"> : </b>' + row.dob +
-        '</div><div class="col-12"> <b class="b">Gender </b> <b class="colan"> : </b>' + row.gender +
-        '</div><div class="col-12"> <b class="b">Score In 10th </b> <b class="colan"> : </b>' + row.u_sslc +
-        '</div><div class="col-12"> <b class="b">Score In +2 </b> <b class="colan"> : </b>' + row.u_plustwo +
-        '</div></div><div class="col-3 col-md-3">' + row.image + ' </div>  </div></div>';
-}
-</script>
-<script>
-var $table = $('#table')
-
-$(function() {
-    $('#toolbar').find('select').change(function() {
-        $table.bootstrapTable('destroy').bootstrapTable({
-            exportDataType: $(this).val(),
-            exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
-            columns: [{
-                field: 'state',
-                checkbox: true,
-                visible: $(this).val() === 'selected'
-            }]
-        })
-    }).trigger('change')
-})
-</script>
-
-
-  <script>
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
-</script>
 
   <script>
   function toggleFullScreen() {
@@ -1020,18 +838,7 @@ $(function() {
 </script>
 
   <script>
-   let sidebar = document.querySelector(".sidebar");
-let sidebarBtn = document.querySelector(".sidebarBtn");
-sidebarBtn.onclick = function() {
-  sidebar.classList.toggle("active");
-  if(sidebar.classList.contains("active")){
-  sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
-}else
-  sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-}
-
-
-// PROFILE DROPDOWN
+    // PROFILE DROPDOWN
 const profile = document.querySelector('nav .profile');
 const imgProfile = profile.querySelector('img');
 const dropdownProfile = profile.querySelector('.profile-link');
@@ -1047,10 +854,19 @@ window.addEventListener('click', function (e) {
 			}
 		}
 	}})
+  </script>
+
+  <script>
+   let sidebar = document.querySelector(".sidebar");
+let sidebarBtn = document.querySelector(".sidebarBtn");
+sidebarBtn.onclick = function() {
+  sidebar.classList.toggle("active");
+  if(sidebar.classList.contains("active")){
+  sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
+}else
+  sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+}
  </script>
-
-
-
 
 </body>
 </html>

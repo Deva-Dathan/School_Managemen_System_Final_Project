@@ -1,7 +1,5 @@
 <?php
 session_start();
-include("../header.php");
-include("../footer.php");
 
 // echo $_SESSION['u_username'];
 // echo "<br>";
@@ -9,15 +7,14 @@ include("../footer.php");
 ?>
 
 <!DOCTYPE html>
+<!-- Coding by CodingNepal | www.codingnepalweb.com -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
-    <title> Dashboard | S N S M</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Boxicons CDN Link -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <style>
-        /* Googlefont Poppins CDN Link */
+    <title> G H S S </title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/school_logo.png">
+    <style>
+      /* Googlefont Poppins CDN Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 *{
   margin: 0;
@@ -34,7 +31,7 @@ include("../footer.php");
 	--light-green: #E3FFCB;
 	--blue: #1775F1;
 	--light-blue: #D0E4FF;
-	--dark-blue: #0C5FCD;
+	--dark-blue: #081D45;
 	--red: #FC3B56;
   --dark-red: #FC1605
 }
@@ -54,22 +51,20 @@ include("../footer.php");
   align-items: center;
 }
 .sidebar .logo-details i{
-  font-size: 38px;
+  font-size: 28px;
   font-weight: 500;
-  color: #000;
+  color: var(--dark);
   min-width: 60px;
   text-align: center
 }
 .sidebar .logo-details .logo_name{
-  color: #000;
-  font-size: 30px;
+  color: var(--dark);
+  font-size: 24px;
   font-weight: 500;
-  font-weight: bold;
 }
 .sidebar .nav-links{
   margin-top: 10px;
 }
-
 .sidebar .nav-links li{
   position: relative;
   list-style: none;
@@ -77,35 +72,40 @@ include("../footer.php");
 }
 .sidebar .nav-links li a{
   height: 100%;
-  width: 92%;
+  width: 100%;
   display: flex;
   align-items: center;
   text-decoration: none;
   transition: all 0.4s ease;
-  margin-left: 5px;
 }
 .sidebar .nav-links li a.active{
-  background: var(--blue);
-  border-radius: 10px;
+  background: var(--dark-blue);
+  border-radius : 0px 30px 30px 0px;
+  color : var(--light);
 }
-.sidebar .nav-links li a:hover{
-  background: var(--light);
-  border-radius: 10px;
-  color:var(--dark);
+#sidebar #nav-links li a:hover{
+  background: var(--dark-blue);
+  border-radius : 0px 30px 30px 0px;
+  color:var(--light) !important;
 }
 .sidebar .nav-links li i{
   min-width: 60px;
   text-align: center;
   font-size: 18px;
-  color: #000;
-  font-weight: bold;
+  color: var(--dark);
+  font-weight:bold;
 }
 .sidebar .nav-links li a .links_name{
-  color: #000;
-  font-weight: bold;
+  color: var(--dark);
   font-size: 15px;
   font-weight: 400;
   white-space: nowrap;
+  font-weight:bold;
+}
+.sidebar .nav-links .log_out{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 .home-section{
   position: relative;
@@ -131,6 +131,7 @@ include("../footer.php");
   left: 240px;
   z-index: 100;
   padding: 0 20px;
+  /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
   transition: all 0.5s ease;
 }
 .sidebar.active ~ .home-section nav{
@@ -179,6 +180,38 @@ nav .search-box .bx-search{
   font-size: 22px;
   transition: all 0.4 ease;
 }
+nav .profile .profile-link a:hover {
+	background: var(--grey);
+  	text-decoration: none;
+}
+nav .nav-link {
+	position: relative;
+}
+nav .nav-link .icon {
+	font-size: 18px;
+	color: var(--dark);
+}
+nav .nav-link .badge {
+	position: absolute;
+	top: -15px;
+	right: -13px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid var(--light);
+	background: var(--red);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: var(--light);
+	font-size: 10px;
+	font-weight: 700;
+}
+abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+  text-decoration: none !important;
+}
 nav .divider {
 	width: 1px;
 	background: var(--grey);
@@ -222,39 +255,13 @@ nav .profile .profile-link a {
 	font-size: 14px;
 	color: var(--dark);
 	align-items: center;
+  text-decoration:none;
+  list-style:none;
 	transition: all .3s ease;
 }
 nav .profile .profile-link a:hover {
 	background: var(--grey);
-  text-decoration: none;
-}
-nav .nav-link {
-	position: relative;
-}
-nav .nav-link .icon {
-	font-size: 18px;
-	color: var(--dark);
-}
-nav .nav-link .badge {
-	position: absolute;
-	top: -8px;
-	right: 0px;
-	width: 20px;
-	height: 20px;
-	border-radius: 50%;
-	border: 2px solid var(--light);
-	background: var(--red);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: var(--light);
-	font-size: 10px;
-	font-weight: 700;
-}
-abbr {
-  border-bottom: none !important;
-  cursor: inherit !important;
-  text-decoration: none !important;
+  	text-decoration: none;
 }
 .home-section .home-content{
   position: relative;
@@ -345,23 +352,12 @@ abbr {
 
 /* left box */
 .home-content .sales-boxes .recent-sales{
-  width: 100%;
-  max-width: 1200px;
-  /* margin: 0 auto; */
+  width: 65%;
   background: #fff;
   padding: 20px 30px;
   margin: 0 20px;
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
-textarea {
-  width: 100%;
-  box-sizing: border-box;
-}
-@media screen and (max-width: 600px) {
-  .recent-sales {
-    max-width: 100%;
-  }
 }
 .home-content .sales-boxes .sales-details{
   display: flex;
@@ -371,6 +367,7 @@ textarea {
 .sales-boxes .box .title{
   font-size: 24px;
   font-weight: 500;
+  /* margin-bottom: 10px; */
 }
 .sales-boxes .sales-details li.topic{
   font-size: 20px;
@@ -478,6 +475,12 @@ textarea {
     margin: 0;
   }
 }
+@media (max-width: 1000px) {
+  .overview-boxes .box{
+    width: calc(100% / 2 - 15px);
+    margin-bottom: 15px;
+  }
+}
 @media (max-width: 700px) {
   nav .sidebar-button .dashboard,
   nav .profile-details .admin_name,
@@ -496,6 +499,9 @@ textarea {
   .overview-boxes .box{
     width: 100%;
     margin-bottom: 15px;
+  }
+  .sidebar.active ~ .home-section nav .profile-details{
+    display: none;
   }
 }
   @media (max-width: 400px) {
@@ -522,77 +528,78 @@ textarea {
     width: calc(100% - 60px);
   }
 }
-
-     </style>
+    </style>
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
-<body class="element" id="element">
-	<?php include("../loader.php");?>
-  <div class="sidebar">
+<body id="element">
+  <div class="sidebar" id="sidebar">
     <div class="logo-details">
-      <i class='bx bxl-c-plus-plus'></i>
-      <span class="logo_name">S N S M</span>
+      <img src="../assets/images/school_logo.png" alt="School_Logo" width=60 height=60>
+      <span class="logo_name">G H S S</span>
     </div>
-      <ul class="nav-links">
-      <abbr title="DASHBOARD"><li>
-          <a href="super_admin_dash.php" class="active">
-            <i class='bx bxs-dashboard' style="color:#fff; font-weight:bold;"></i>
-            <span class="links_name" style="color:#fff; font-weight:bold;">DASHBOARD</span>
+      <ul class="nav-links" id="nav-links">
+        <li>
+          <a href="admin_dash.php" class="active">
+            <i class='bx bx-grid-alt' style="color:var(--light);"></i>
+            <span class="links_name" style="color:var(--light);">Dashboard</span>
           </a>
-        </li></abbr>
-        <abbr title="PRINCIPAL"><li>
+        </li>
+        <li>
           <a href="change_principal.php">
-          <i class='bx bx-user'></i>
-            <span class="links_name" style="font-weight:bold;">PRINCIPAL</span>
+            <i class='bx bxs-user' ></i>
+            <span class="links_name">Principal</span>
           </a>
-        </li></abbr>
-        <abbr title="VICE PRINCIPAL"><li>
+        </li>
+        <li>
           <a href="change_vice_principal.php">
-          <i class='bx bxs-user-circle' style="font-weight:bold;"></i>
-            <span class="links_name" style="font-weight:bold;">VICE PRINCIPAL</span>
-          </a>
-        </li></abbr>
-        <abbr title="TEACHERS"><li>
-          <a href="add_teachers.php">
-          <i class='bx bxs-user'></i>
-            <span class="links_name" style="font-weight:bold;">TEACHERS</span>
-          </a>
-        </li></abbr>
-        <abbr title="STUDENTS"><li>
-          <a href="view_students.php">
             <i class='bx bx-user-circle' ></i>
-            <span class="links_name" style="font-weight:bold;">STUDENTS</span>
+            <span class="links_name">Vice Principal</span>
           </a>
-        </li></abbr>
-        <abbr title="ALLOTMENT CELL"><li>
+        </li>
+        <li>
+          <a href="add_teacher.php">
+            <i class='bx bxs-user-plus' ></i>
+            <span class="links_name">Teachers</span>
+          </a>
+        </li>
+        <li>
+          <a href="view_students.php">
+            <i class='bx bx-user' ></i>
+            <span class="links_name">Students</span>
+          </a>
+        </li>
+        <li>
+          <a href="add_allotement.php">
+            <i class='bx bxs-user-circle' ></i>
+            <span class="links_name">Allotment Cell</span>
+          </a>
+        </li>
+        <li>
           <a href="add_office.php">
-          <i class='bx bxs-user-plus'></i>
-            <span class="links_name" style="font-weight:bold;">ALLOTMENT CELL</span>
+            <i class='bx bx-user-plus' ></i>
+            <span class="links_name">Office Staff</span>
           </a>
-        </li></abbr>
-        <abbr title="OFFICE STAFF"><li>
-          <a href="add_office.php">
-          <i class='bx bx-buildings'></i>
-            <span class="links_name" style="font-weight:bold;">OFFICE STAFF</span>
+        </li>
+        <li>
+          <a href="add_classes.php">
+            <i class='bx bx-building' ></i>
+            <span class="links_name">Classes</span>
           </a>
-        </li></abbr>
-        <abbr title="CLASSES"><li>
-          <a href="add_class.php">
-          <i class='bx bx-copyright'></i>
-            <span class="links_name" style="font-weight:bold;">CLASSES</span>
-          </a>
-        </li></abbr>
-        <abbr title="SUBJECTS"><li>
+        </li>
+        <li>
           <a href="add_subjects.php">
-          <i class='bx bx-book-alt'></i>
-            <span class="links_name" style="font-weight:bold;">SUBJECTS</span>
+            <i class='bx bx-book' ></i>
+            <span class="links_name">Subjects</span>
           </a>
-        </li></abbr>
-        <abbr title="FEES"><li>
+        </li>
+        <li>
           <a href="update_fees.php">
-          <i class='bx bx-dollar'></i>
-            <span class="links_name" style="font-weight:bold;">FEES</span>
+            <i class='bx bx-dollar' ></i>
+            <span class="links_name">Fees</span>
           </a>
-        </li></abbr>
+        </li>
       </ul>
   </div>
   <section class="home-section">
@@ -605,7 +612,7 @@ textarea {
         <input type="text" placeholder="Search...">
         <i class='bx bx-search' ></i>
       </div>
-      <button onclick="toggleFullScreen();" style="background:none; border:none;"><i class='bx bx-fullscreen'></i><i class='bx bx-exit-fullscreen' style="display:none;"></i></button>
+      <button onclick="toggleFullScreen();" style="background:none; border:none;"><i class='bx bx-fullscreen' style="font-size:18px;"></i><i class='bx bx-exit-fullscreen' style="display:none;"></i></button>
 			<a href="#" class="nav-link">
 				<i class='bx bxs-bell icon' ></i>
 				<span class="badge">5</span>
@@ -616,24 +623,179 @@ textarea {
 			</a>
       <span class="divider"></span>
 			<div class="profile">
-      <abbr title="<?php echo $_SESSION['u_name'];?>"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt=""></abbr>
+			<abbr title="<?php echo $_SESSION['u_name'];?>"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt=""></abbr>
 				<ul class="profile-link">
-					<li><a href="#"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
-					<li><a href="#"><i class='bx bxs-cog' ></i> Settings</a></li>
-					<li><a href="#"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
+					<li><a href="admin_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
+					<li><a href="admin_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
+					<li><a href="logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
 				</ul>
 			</div>
     </nav>
 
     <div class="home-content">
+      <div class="overview-boxes">
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic">Total Order</div>
+            <div class="number">40,876</div>
+            <div class="indicator">
+              <i class='bx bx-up-arrow-alt'></i>
+              <span class="text">Up from yesterday</span>
+            </div>
+          </div>
+          <i class='bx bx-cart-alt cart'></i>
+        </div>
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic">Total Sales</div>
+            <div class="number">38,876</div>
+            <div class="indicator">
+              <i class='bx bx-up-arrow-alt'></i>
+              <span class="text">Up from yesterday</span>
+            </div>
+          </div>
+          <i class='bx bxs-cart-add cart two' ></i>
+        </div>
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic">Total Profit</div>
+            <div class="number">$12,876</div>
+            <div class="indicator">
+              <i class='bx bx-up-arrow-alt'></i>
+              <span class="text">Up from yesterday</span>
+            </div>
+          </div>
+          <i class='bx bx-cart cart three' ></i>
+        </div>
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic">Total Return</div>
+            <div class="number">11,086</div>
+            <div class="indicator">
+              <i class='bx bx-down-arrow-alt down'></i>
+              <span class="text">Down From Today</span>
+            </div>
+          </div>
+          <i class='bx bxs-cart-download cart four' ></i>
+        </div>
+      </div>
 
       <div class="sales-boxes">
-        <div class="col-md-11 recent-sales box">
-        <div class="title font-weight-bold">FILE ANALYSIS</div><br>
-
-
+        <div class="recent-sales box">
+          <div class="title">Recent Sales</div>
+          <div class="sales-details">
+            <ul class="details">
+              <li class="topic">Date</li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+            </ul>
+            <ul class="details">
+            <li class="topic">Customer</li>
+            <li><a href="#">Alex Doe</a></li>
+            <li><a href="#">David Mart</a></li>
+            <li><a href="#">Roe Parter</a></li>
+            <li><a href="#">Diana Penty</a></li>
+            <li><a href="#">Martin Paw</a></li>
+            <li><a href="#">Doe Alex</a></li>
+            <li><a href="#">Aiana Lexa</a></li>
+            <li><a href="#">Rexel Mags</a></li>
+             <li><a href="#">Tiana Loths</a></li>
+          </ul>
+          <ul class="details">
+            <li class="topic">Sales</li>
+            <li><a href="#">Delivered</a></li>
+            <li><a href="#">Pending</a></li>
+            <li><a href="#">Returned</a></li>
+            <li><a href="#">Delivered</a></li>
+            <li><a href="#">Pending</a></li>
+            <li><a href="#">Returned</a></li>
+            <li><a href="#">Delivered</a></li>
+             <li><a href="#">Pending</a></li>
+            <li><a href="#">Delivered</a></li>
+          </ul>
+          <ul class="details">
+            <li class="topic">Total</li>
+            <li><a href="#">$204.98</a></li>
+            <li><a href="#">$24.55</a></li>
+            <li><a href="#">$25.88</a></li>
+            <li><a href="#">$170.66</a></li>
+            <li><a href="#">$56.56</a></li>
+            <li><a href="#">$44.95</a></li>
+            <li><a href="#">$67.33</a></li>
+             <li><a href="#">$23.53</a></li>
+             <li><a href="#">$46.52</a></li>
+          </ul>
+          </div>
+          <div class="button">
+            <a href="#">See All</a>
+          </div>
         </div>
+        <div class="top-sales box">
+          <div class="title">Top Seling Product</div>
+          <ul class="top-sales-details">
+            <li>
+            <a href="#">
+              <img src="images/sunglasses.jpg" alt="">
+              <span class="product">Vuitton Sunglasses</span>
+            </a>
+            <span class="price">$1107</span>
+          </li>
+          <li>
+            <a href="#">
+               <img src="images/jeans.jpg" alt="">
+              <span class="product">Hourglass Jeans </span>
+            </a>
+            <span class="price">$1567</span>
+          </li>
+          <li>
+            <a href="#">
+             <img src="images/nike.jpg" alt="">
+              <span class="product">Nike Sport Shoe</span>
+            </a>
+            <span class="price">$1234</span>
+          </li>
+          <li>
+            <a href="#">
+              <img src="images/scarves.jpg" alt="">
+              <span class="product">Hermes Silk Scarves.</span>
+            </a>
+            <span class="price">$2312</span>
+          </li>
+          <li>
+            <a href="#">
+              <img src="images/blueBag.jpg" alt="">
+              <span class="product">Succi Ladies Bag</span>
+            </a>
+            <span class="price">$1456</span>
+          </li>
+          <li>
+            <a href="#">
+              <img src="images/bag.jpg" alt="">
+              <span class="product">Gucci Womens's Bags</span>
+            </a>
+            <span class="price">$2345</span>
+          <li>
+            <a href="#">
+              <img src="images/addidas.jpg" alt="">
+              <span class="product">Addidas Running Shoe</span>
+            </a>
+            <span class="price">$2345</span>
+          </li>
+<li>
+            <a href="#">
+             <img src="images/shirt.jpg" alt="">
+              <span class="product">Bilack Wear's Shirt</span>
+            </a>
+            <span class="price">$1245</span>
+          </li>
+          </ul>
         </div>
+      </div>
     </div>
   </section>
 
@@ -676,18 +838,7 @@ textarea {
 </script>
 
   <script>
-   let sidebar = document.querySelector(".sidebar");
-let sidebarBtn = document.querySelector(".sidebarBtn");
-sidebarBtn.onclick = function() {
-  sidebar.classList.toggle("active");
-  if(sidebar.classList.contains("active")){
-  sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
-}else
-  sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-}
-
-
-// PROFILE DROPDOWN
+    // PROFILE DROPDOWN
 const profile = document.querySelector('nav .profile');
 const imgProfile = profile.querySelector('img');
 const dropdownProfile = profile.querySelector('.profile-link');
@@ -703,10 +854,19 @@ window.addEventListener('click', function (e) {
 			}
 		}
 	}})
+  </script>
+
+  <script>
+   let sidebar = document.querySelector(".sidebar");
+let sidebarBtn = document.querySelector(".sidebarBtn");
+sidebarBtn.onclick = function() {
+  sidebar.classList.toggle("active");
+  if(sidebar.classList.contains("active")){
+  sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
+}else
+  sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+}
  </script>
-
-
-
 
 </body>
 </html>
