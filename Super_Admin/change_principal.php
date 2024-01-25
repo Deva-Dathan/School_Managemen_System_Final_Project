@@ -4,6 +4,11 @@ include("../include/db_connection.php");
 include("../header.php");
 include("../footer.php");
 
+// if(!isset($_SESSION['u_email']))
+// {
+//   header("Location: ../login_page.php");
+// }
+
 // echo $_SESSION['u_username'];
 // echo "<br>";
 // echo $_SESSION['u_role'];
@@ -565,6 +570,7 @@ nav .profile .profile-link a:hover {
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
 <body id="element">
+  <?php include("../loader.php");?>
   <div class="sidebar" id="sidebar">
     <div class="logo-details">
       <img src="../assets/images/school_logo.png" alt="School_Logo" width=60 height=60>
@@ -658,7 +664,7 @@ nav .profile .profile-link a:hover {
 				<ul class="profile-link">
 					<li><a href="admin_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
 					<li><a href="admin_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
-					<li><a href="logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
+					<li><a href="../logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
 				</ul>
 			</div>
     </nav>
@@ -687,12 +693,13 @@ nav .profile .profile-link a:hover {
       <?php
       if($_SERVER["REQUEST_METHOD"] == "POST")
       {
+        $uid = time();
         $fullname = $_POST['fname']." ".$_POST['lname'];
         $gender = $_POST['gender'];
         $qualification = $_POST['qualification'];
         $mobile = $_POST['mobile'];
         $dob = $_POST['dob'];
-        $email = $_POST['email'];
+        $email = $_POST['e-mail'];
         $password = $_POST['password'];
         $address = $_POST['address'];
         $city = $_POST['city'];
@@ -700,13 +707,18 @@ nav .profile .profile-link a:hover {
         $state = $_POST['state'];
         $zip = $_POST['zip'];
 
+        $image = rand(1000, 10000)."-".$_FILES["image"]["name"];
+        $tname = $_FILES["image"]["tmp_name"];
         $target_dir = "../uploads/";
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-        $image = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+        move_uploaded_file($tname, $target_dir.'/'.$image);
 
-        $sql = "INSERT INTO users (u_id, u_name, u_email, u_pass, u_role, u_address, u_mobile, u_city, u_district, u_state, u_zip, u_image) VALUES (time(), '$fullname', '$email', '$password', 'PRINCIPAL', '$address', '$mobile', '$city', '$district', '$state', '$zip', '$image')";
+
+        $sql = "INSERT INTO users (u_id, u_name, u_email, u_pass, u_role, u_address, u_mobile, u_city, u_district, u_state, u_zip, u_image) VALUES ('$uid', '$fullname', '$email', '$password', 'PRINCIPAL', '$address', '$mobile', '$city', '$district', '$state', '$zip', '$image')";
+        if ($conn->query($sql) === TRUE) {
+          echo '<script>alert("New record created successfully");</script>';
+        } else {
+          echo '<script>alert("Error: ' . $sql . '\\n' . $conn->error . '");</script>';
+        }
       }
       ?>
 
@@ -768,7 +780,7 @@ nav .profile .profile-link a:hover {
 
           <div class="form-group">
             <label for="validationCustom01" class="required">Password</label>
-            <input type="password" class="form-control" name="password" id="validationCustom01" value="<?php echo md5('password');?>" disabled required>
+            <input type="password" class="form-control" name="password" id="validationCustom01" value="<?php echo md5('password');?>" required>
             <div class="valid-feedback">Looks good!</div>
           </div> <!-- form-group close -->
 
@@ -779,7 +791,7 @@ nav .profile .profile-link a:hover {
         <div class="form-group">
 
           <div class="container">
-		        <input type="file" id="file" name="image" accept="image/*" hidden>
+		        <input type="file" id="file" name="image" accept="image/*" hidden required>
 		        <div class="img-area" data-img="">
 			        <i class='bx bxs-cloud-upload icon'></i>
 			        <h3>Upload Image</h3>
@@ -872,6 +884,17 @@ nav .profile .profile-link a:hover {
         <div class="invalid-feedback">Please provide a valid zip code.</div>
       </div>
       </div>
+      <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+      <label class="form-check-label" for="invalidCheck">
+        Agree to terms and conditions
+      </label>
+      <div class="invalid-feedback">
+        You must agree before submitting.
+      </div>
+    </div>
+  </div>
 
       </div>
       <div class="modal-footer">
@@ -882,6 +905,91 @@ nav .profile .profile-link a:hover {
     </div>
   </div>
 </div>
+
+
+<!-- display the facult deatils -->
+<div id="toolbar">
+        <select class="form-control">
+            <option value="all">Export All</option>
+            <option value="selected">Export Selected</option>
+        </select>
+    </div>
+
+
+    <table id="table" data-show-export="true" data-toolbar="#toolbar" data-search="true" data-sortable="true"
+        data-show-columns="true" data-toggle="table" data-pagination="true" class="table" data-visible-search="true"
+        data-detail-formatter="detailFormatter" data-detail-view="true">
+        <thead class="table-primary">
+            <tr>
+                <th data-field="state" data-checkbox="true"></th>
+                <th data-field="Name" data-sortable="true">Name</th>
+                <th data-field="address" data-sortable="true" data-visible="false">Address</th>
+                <th data-field="email" data-sortable="true">E-mail</th>
+                <th data-field="dept" data-sortable="true" data-visible="false">Department</th>
+                <th data-field="dob" data-sortable="true" data-visible="false">DOB</th>
+                <th data-field="gender" data-sortable="true" data-visible="false">Gender</th>
+                <th data-field="phone">Mobile Number</th>
+                <th data-field="u_sslc" data-sortable="true" data-visible="false">Score in 10th</th>
+                <th data-field="u_plustwo" data-sortable="true" data-visible="false">Score in +2</th>
+                <th data-field="image" data-visible="false">Image</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <form name="incharge_change_form" method="post">
+                <tr>
+                    <td class="bs-checkbox"><input data-index="" name="btSelectItem"
+                            type="checkbox"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <amp-img alt="image" src=""
+                            class="img-fluid img-thumbnail" layout="responsive" height="200px" width="200px"></amp-img>
+                    </td>
+                </tr>
+            </form>
+        </tbody>
+    </table>
+
+<script>
+function detailFormatter(index, row) {
+    return '<div class="container"><div class="row mt-4 ml-md-2 ml-n5"><div class="col-9"> <div class="col-12 "><b class="b">Name  </b> <b class="colan"> : </b>' +
+        row.name + '</div><div class="col-12"><b class="b">E-mail </b> <b class="colan"> : </b>' + row.email +
+        '</div><div class="col-12"><b class="b">Phone Number </b> <b class="colan"> : </b>' + row.phone +
+        '</div><div class="col-12"><b class="b">Address </b> <b class="colan"> : </b>' + row.address +
+        '</div><div class="col-12"> <b class="b">Department </b> <b class="colan"> : </b>' + row.dept +
+        ' </div><div class="col-12"><b class="b">Date of Birth </b> <b class="colan"> : </b>' + row.dob +
+        '</div><div class="col-12"> <b class="b">Gender </b> <b class="colan"> : </b>' + row.gender +
+        '</div><div class="col-12"> <b class="b">Score In 10th </b> <b class="colan"> : </b>' + row.u_sslc +
+        '</div><div class="col-12"> <b class="b">Score In +2 </b> <b class="colan"> : </b>' + row.u_plustwo +
+        '</div></div><div class="col-3 col-md-3">' + row.image + ' </div>  </div></div>';
+}
+</script>
+<script>
+var $table = $('#table')
+
+$(function() {
+    $('#toolbar').find('select').change(function() {
+        $table.bootstrapTable('destroy').bootstrapTable({
+            exportDataType: $(this).val(),
+            exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
+            columns: [{
+                field: 'state',
+                checkbox: true,
+                visible: $(this).val() === 'selected'
+            }]
+        })
+    }).trigger('change')
+})
+</script>
           
 
         </div>

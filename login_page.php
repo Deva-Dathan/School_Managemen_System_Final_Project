@@ -18,7 +18,7 @@ if(isset($_POST['u_login']))
             $_SESSION['u_email'] = $username;
             $_SESSION['u_name'] = $row['u_name'];
             $_SESSION['u_role'] = $row['u_role'];
-            header("Location: Super_Admin/super_admin_dash.php");
+            header("Location: Super_Admin/admin_dash.php");
         }
         elseif($row['u_role'] == 'Principal')
         {
