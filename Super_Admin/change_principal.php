@@ -67,9 +67,11 @@ include("../footer.php");
   text-align: center
 }
 .sidebar .logo-details .logo_name{
-  color: var(--dark);
-  font-size: 24px;
+  color: var(--grey);
+  font-size: 40px;
   font-weight: 500;
+  margin-left:10px;
+  -webkit-text-stroke: 1px #000;
 }
 .sidebar .nav-links{
   margin-top: 10px;
@@ -560,7 +562,7 @@ nav .profile .profile-link a:hover {
   font-size:15px;
   font-weight:bold;
 }
-.error-message {
+.error-message, .email_error-message {
       color: red;
     }
 
@@ -596,7 +598,7 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="add_teacher.php">
+          <a href="add_teachers.php">
             <i class='bx bxs-user-plus' ></i>
             <span class="links_name">Teachers</span>
           </a>
@@ -617,12 +619,6 @@ nav .profile .profile-link a:hover {
           <a href="add_office.php">
             <i class='bx bx-user-plus' ></i>
             <span class="links_name">Office Staff</span>
-          </a>
-        </li>
-        <li>
-          <a href="add_classes.php">
-            <i class='bx bx-building' ></i>
-            <span class="links_name">Classes</span>
           </a>
         </li>
         <li>
@@ -712,17 +708,29 @@ nav .profile .profile-link a:hover {
         $target_dir = "../uploads/";
         move_uploaded_file($tname, $target_dir.'/'.$image);
 
-
-        $sql = "INSERT INTO users (u_id, u_name, u_email, u_pass, u_role, u_address, u_mobile, u_city, u_district, u_state, u_zip, u_image) VALUES ('$uid', '$fullname', '$email', '$password', 'PRINCIPAL', '$address', '$mobile', '$city', '$district', '$state', '$zip', '$image')";
-        if ($conn->query($sql) === TRUE) {
-          echo '<script>alert("New record created successfully");</script>';
+        $sel_sql = "SELECT u_email FROM users WHERE u_email = '$email'";
+        $result = $conn->query($sel_sql);
+        
+        if ($result->num_rows > 0) {
+            // Email already exists, show an error message or handle it accordingly
+            echo '<script>Swal.fire({icon: "error",title: "Oops...",text: "E-mail Already Exist!"});</script>';
         } else {
-          echo '<script>alert("Error: ' . $sql . '\\n' . $conn->error . '");</script>';
+            // Email does not exist, proceed with the insertion
+            $sql = "INSERT INTO users (id, u_name, u_gender, u_email, u_pass, u_role, u_address, u_mobile, u_city, u_district, u_state, u_zip, u_image) VALUES ('$uid', '$fullname', '$gender', '$email', '$password', 'PRINCIPAL', '$address', '$mobile', '$city', '$district', '$state', '$zip', '$image')";
+        
+            if ($conn->query($sql) === TRUE) {
+                $sql1 = "INSERT INTO principal_data(u_name, u_email, u_dob, u_qualification) VALUES ('$fullname', '$email', '$dob', '$qualification')";
+                $conn->query($sql1);
+                echo '<script>Swal.fire({title: "NEW PRINCIPAL APPOINTED",text: "Inserted Successfully",icon: "success"});</script>';
+            } else {
+                echo '<script>alert("Error: ' . $sql . '\\n' . $conn->error . '");</script>';
+            }
         }
+        
       }
       ?>
 
-      <form method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+      <form method="POST" class="needs-validation" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data" novalidate>
 
       <div class="row">
         <div class="col-md-4 mb-3">
@@ -739,6 +747,7 @@ nav .profile .profile-link a:hover {
                 <option selected disabled>Choose...</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
+                <option value="Other">Other</option>
               </select>
               <div class="invalid-feedback">Please select a valid gender.</div>
           </div> <!-- form-group close -->
@@ -754,7 +763,9 @@ nav .profile .profile-link a:hover {
             <label for="validationCustom07" class="required">E-mail</label>
             <input type="email" class="form-control" name="e-mail" id="validationCustom07" required>
             <div class="invalid-feedback">Please provide a valid E-Mail.</div>
+            <span id="email_error-message" class="email_error-message"></span>
           </div> <!-- form-group close -->
+          
 
         </div><!-- col-md-4 mb-3 close -->
 
@@ -844,37 +855,7 @@ nav .profile .profile-link a:hover {
 
       <div class="col-md-4 mb-3">
       <label for="validationCustom11" class="required">State</label>
-          <select class="custom-select" name="state" id="validationCustom11" required>
-            <option selected disabled>Choose...</option>
-            <option value="Andhra Pradesh">Andhra Pradesh</option>
-            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-            <option value="Assam">Assam</option>
-            <option value="Bihar">Bihar</option>
-            <option value="Chhattisgarh">Chhattisgarh</option>
-            <option value="Goa">Goa</option>
-            <option value="Gujarat">Gujarat</option>
-            <option value="Haryana">Haryana</option>
-            <option value="Himachal Pradesh">Himachal Pradesh</option>
-            <option value="Jharkhand">Jharkhand</option>
-            <option value="Karnataka">Karnataka</option>
-            <option value="Kerala">Kerala</option>
-            <option value="Madhya Pradesh">Madhya Pradesh</option>
-            <option value="Maharashtra">Maharashtra</option>
-            <option value="Manipur">Manipur</option>
-            <option value="Meghalaya">Meghalaya</option>
-            <option value="Mizoram">Mizoram</option>
-            <option value="Nagaland">Nagaland</option>
-            <option value="Odisha">Odisha</option>
-            <option value="Punjab">Punjab</option>
-            <option value="Rajasthan">Rajasthan</option>
-            <option value="Sikkim">Sikkim</option>
-            <option value="Tamil Nadu">Tamil Nadu</option>
-            <option value="Telangana">Telangana</option>
-            <option value="Tripura">Tripura</option>
-            <option value="Uttar Pradesh">Uttar Pradesh</option>
-            <option value="Uttarakhand">Uttarakhand</option>
-            <option value="West Bengal">West Bengal</option>
-          </select>
+      <input type="text" class="form-control" name="state" id="validationCustom11" value="Kerala" required>
         <div class="invalid-feedback">Please select a valid State.</div>
       </div>
 
@@ -908,94 +889,94 @@ nav .profile .profile-link a:hover {
 
 
 <!-- display the facult deatils -->
-<div id="toolbar">
-        <select class="form-control">
-            <option value="all">Export All</option>
-            <option value="selected">Export Selected</option>
-        </select>
-    </div>
+<br><br>
 
-
-    <table id="table" data-show-export="true" data-toolbar="#toolbar" data-search="true" data-sortable="true"
-        data-show-columns="true" data-toggle="table" data-pagination="true" class="table" data-visible-search="true"
-        data-detail-formatter="detailFormatter" data-detail-view="true">
-        <thead class="table-primary">
+<table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
+        <thead align=center>
             <tr>
-                <th data-field="state" data-checkbox="true"></th>
-                <th data-field="Name" data-sortable="true">Name</th>
-                <th data-field="address" data-sortable="true" data-visible="false">Address</th>
-                <th data-field="email" data-sortable="true">E-mail</th>
-                <th data-field="dept" data-sortable="true" data-visible="false">Department</th>
-                <th data-field="dob" data-sortable="true" data-visible="false">DOB</th>
-                <th data-field="gender" data-sortable="true" data-visible="false">Gender</th>
-                <th data-field="phone">Mobile Number</th>
-                <th data-field="u_sslc" data-sortable="true" data-visible="false">Score in 10th</th>
-                <th data-field="u_plustwo" data-sortable="true" data-visible="false">Score in +2</th>
-                <th data-field="image" data-visible="false">Image</th>
+              <th>SL.No</th>
+              <th>Full Name</th>
+              <th>Mobile Number</th>
+              <th>E-Mail</th>
+              <th>Education Qualification</th>
+              <th colspan=3>Actions</th>
             </tr>
         </thead>
         <tbody>
 
-            <form name="incharge_change_form" method="post">
-                <tr>
-                    <td class="bs-checkbox"><input data-index="" name="btSelectItem"
-                            type="checkbox"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+        <?php
+        $i=1;
+$sql = "SELECT * FROM users INNER JOIN principal_data ON users.u_email = principal_data.u_email";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) 
+{
+  while($row = mysqli_fetch_assoc($result)) 
+  {
+?>
 
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <amp-img alt="image" src=""
-                            class="img-fluid img-thumbnail" layout="responsive" height="200px" width="200px"></amp-img>
-                    </td>
-                </tr>
-            </form>
-        </tbody>
-    </table>
-
-<script>
-function detailFormatter(index, row) {
-    return '<div class="container"><div class="row mt-4 ml-md-2 ml-n5"><div class="col-9"> <div class="col-12 "><b class="b">Name  </b> <b class="colan"> : </b>' +
-        row.name + '</div><div class="col-12"><b class="b">E-mail </b> <b class="colan"> : </b>' + row.email +
-        '</div><div class="col-12"><b class="b">Phone Number </b> <b class="colan"> : </b>' + row.phone +
-        '</div><div class="col-12"><b class="b">Address </b> <b class="colan"> : </b>' + row.address +
-        '</div><div class="col-12"> <b class="b">Department </b> <b class="colan"> : </b>' + row.dept +
-        ' </div><div class="col-12"><b class="b">Date of Birth </b> <b class="colan"> : </b>' + row.dob +
-        '</div><div class="col-12"> <b class="b">Gender </b> <b class="colan"> : </b>' + row.gender +
-        '</div><div class="col-12"> <b class="b">Score In 10th </b> <b class="colan"> : </b>' + row.u_sslc +
-        '</div><div class="col-12"> <b class="b">Score In +2 </b> <b class="colan"> : </b>' + row.u_plustwo +
-        '</div></div><div class="col-3 col-md-3">' + row.image + ' </div>  </div></div>';
+            <tr align=center>
+              <td><?php echo $i++;?></td>
+              <td><?php echo $row['u_name'];?></td>
+              <td><?php echo $row['u_mobile'];?></td>
+              <td><?php echo $row['u_email'];?></td>
+              <td><?php echo $row['u_qualification'];?></td>
+              <td>
+              <button data-id='<?php echo $row['id']; ?>' class="view-details btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class='bx bx-expand'></i></button>
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+<?php
+  }
+} 
+else 
+{
+  echo "0 results";
 }
-</script>
-<script>
-var $table = $('#table')
+?>
+        </tbody>
+    </table> 
 
-$(function() {
-    $('#toolbar').find('select').change(function() {
-        $table.bootstrapTable('destroy').bootstrapTable({
-            exportDataType: $(this).val(),
-            exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
-            columns: [{
-                field: 'state',
-                checkbox: true,
-                visible: $(this).val() === 'selected'
-            }]
-        })
-    }).trigger('change')
-})
-</script>
-          
+<script type='text/javascript'>
+            $(document).ready(function(){
+                $('.view-details').click(function(){
+                    var id = $(this).data('id');
+                    $.ajax({
+                        url: 'ajax_folder/ajaxfile.php',
+                        type: 'post',
+                        data: {id: id},
+                        success: function(response){ 
+                            $('.modal-body').html(response); 
+                            $('#exampleModalCenter').modal('show'); 
+                        }
+                    });
+                });
+            });
+            </script>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"><span id="modal-name">User Info</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+    </div>
+  </div>
+</div> 
 
         </div>
       </div>
     </div>
   </section>
+
 
 
   <script>

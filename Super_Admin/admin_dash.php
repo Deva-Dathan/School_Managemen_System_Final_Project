@@ -584,12 +584,6 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="add_classes.php">
-            <i class='bx bx-building' ></i>
-            <span class="links_name">Classes</span>
-          </a>
-        </li>
-        <li>
           <a href="add_subjects.php">
             <i class='bx bx-book' ></i>
             <span class="links_name">Subjects</span>
