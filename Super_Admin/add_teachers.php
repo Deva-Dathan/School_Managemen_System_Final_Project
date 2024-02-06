@@ -672,18 +672,16 @@ nav .profile .profile-link a:hover {
           <div class="col-md-6 col-12 title">ADD TEACHERS</div>
           <div class="col-md-6 col-12" style="display:flex; justify-content:right; align-items:right;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class='bx bx-plus'></i>&nbspNew Teacher</button></div>
           </div> <!--class row close div-->
-
-          <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">ADD NEW TEACHER</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+          
+          <?php
+          if(isset($_SESSION['success_msg']))
+          {
+            ?>
+          <div class="alert alert-success mt-3" role="alert"><?php echo $_SESSION['success_msg'];?></div>
+          <?php
+            unset($_SESSION['success_msg']);
+          }
+          ?>
 
       <!-- inserting data into the table -->
       <?php
@@ -721,13 +719,24 @@ nav .profile .profile-link a:hover {
             if ($conn->query($sql) === TRUE) {
                 $sql1 = "INSERT INTO teachers_data(u_name, u_email, u_dob, u_qualification) VALUES ('$fullname', '$email', '$dob', '$qualification')";
                 $conn->query($sql1);
-                echo '<script>Swal.fire({title: "NEW TEACHER APPOINTED",text: "Inserted Successfully",icon: "success"});</script>';
+                echo '<div class="alert alert-success mt-3" role="alert">TEACHER RECORD ADDED SUCCESSFULLY</div>';
             } else {
                 echo '<script>alert("Error: ' . $sql . '\\n' . $conn->error . '");</script>';
             }
         }
       }
       ?>
+          <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ADD NEW TEACHER</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
 
       <form method="POST" class="needs-validation" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data" novalidate>
 
@@ -888,9 +897,9 @@ nav .profile .profile-link a:hover {
 
 
 <!-- display the facult deatils -->
-<br><br>
 
-<table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
+
+<table id="example" class="table table-striped table-bordered nowrap mt-5" style="width:100%">
         <thead align=center>
             <tr>
               <th>SL.No</th>
@@ -922,8 +931,8 @@ if (mysqli_num_rows($result) > 0)
               <td>
               <button data-id='<?php echo $row['id'] ?>' class="view-details btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">View</button>
               </td>
-              <td></td>
-              <td></td>
+              <td><a href="#"><button class="btn btn-primary"><i class="bx bxs-edit"></i></button></a></td>
+              <td><a href="teacher_action/teacher_delete.php?u_email=<?php echo $row['u_email'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
             </tr>
 <?php
   }
