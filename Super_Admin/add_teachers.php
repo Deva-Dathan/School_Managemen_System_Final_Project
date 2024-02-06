@@ -920,7 +920,7 @@ if (mysqli_num_rows($result) > 0)
               <td><?php echo $row['u_qualification'];?></td>
               <td><?php echo $row['u_role'];?></td>
               <td>
-              <button data-id='<?php echo $row['id']; ?>' class="view-details btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class='bx bx-expand'></i></button>
+              <button data-id='<?php echo $row['id'] ?>' class="view-details btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">View</button>
               </td>
               <td></td>
               <td></td>
