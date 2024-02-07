@@ -492,7 +492,7 @@ nav .profile .profile-link a:hover {
   justify-content:center;
   align-items:center;
 }
-.img-area {
+.img-area, .img-area-update {
 	position: relative;
 	width: 60%;
 	height: 250px;
@@ -507,24 +507,24 @@ nav .profile .profile-link a:hover {
 	flex-direction: column;
     cursor: pointer;
 }
-.img-area .icon {
+.img-area .icon, .img-area-update .icon {
 	font-size: 100px;
     color:var(--primary-blue);
 }
-.img-area h3 {
+.img-area h3, .img-area-update h3 {
 	font-size: 20px;
 	font-weight: 500;
 	margin-bottom: 6px;
 }
-.img-area p {
+.img-area p, .img-area-update p {
 	color: #999;
     text-align:center;
     padding : 10px;
 }
-.img-area p span {
+.img-area p span, .img-area-update p span {
 	font-weight: 600;
 }
-.img-area img {
+.img-area img, .img-area-update img {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -534,7 +534,7 @@ nav .profile .profile-link a:hover {
 	object-position: center;
 	z-index: 100;
 }
-.img-area::before {
+.img-area::before, .img-area-update::before {
 	content: attr(data-img);
 	position: absolute;
 	top: 0;
@@ -553,7 +553,7 @@ nav .profile .profile-link a:hover {
 	transition: all .3s ease;
 	z-index: 200;
 }
-.img-area.active:hover::before {
+.img-area.active:hover::before, .img-area-update.active:hover::before {
 	opacity: 1;
 }
 .required::after{
@@ -920,20 +920,192 @@ if (mysqli_num_rows($result) > 0)
 {
   while($row = mysqli_fetch_assoc($result)) 
   {
+    $Name = explode(" ",$row['u_name']);
 ?>
 
             <tr align=center>
               <td><?php echo $i++;?></td>
               <td><?php echo $row['u_name'];?></td>
-              <td><?php echo $row['u_mobile'];?></td>
+              <td ><?php echo $row['u_mobile'];?></td>
               <td><?php echo $row['u_qualification'];?></td>
               <td><?php echo $row['u_role'];?></td>
               <td>
               <button data-id='<?php echo $row['id'] ?>' class="view-details btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">View</button>
               </td>
-              <td><a href="#"><button class="btn btn-primary"><i class="bx bxs-edit"></i></button></a></td>
+              <td><button class="btn btn-primary" data-toggle="modal" type="button" data-target="#update_modal<?php echo $row['id']?>"><i class="bx bxs-edit"></i></button></td>
               <td><a href="teacher_action/teacher_delete.php?u_email=<?php echo $row['u_email'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
             </tr>
+
+
+
+          <!-- Modal For Editing the Teacher Data -->
+          <div class="modal fade" id="update_modal<?php echo $row['id']?>" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">UPDATE TEACHER DATA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      <form method="POST" class="needs-validation" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data" novalidate>
+
+      <div class="row">
+        <div class="col-md-4 mb-3">
+
+          <div class="form-group">
+            <label for="validationCustom01" class="required">First name</label>
+            <input type="text" value="<?php echo $Name[0];?>" class="form-control" name="fname" id="validationCustom01" required>
+            <div class="valid-feedback">Looks good!</div>
+          </div> <!-- form-group close -->
+
+          <div class="form-group">
+            <label for="validationCustom03" class="required">Gender</label>
+              <select class="custom-select" value="<?php echo $row['u_gender'];?>" name="gender" id="validationCustom03" required>
+                <option disabled>Choose...</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              <div class="invalid-feedback">Please select a valid gender.</div>
+          </div> <!-- form-group close -->
+
+          <div class="form-group">
+            <label for="validationCustom05" class="required">Mobile Number</label>
+            <input type="number" value="<?php echo $row['u_mobile'];?>" class="form-control" name="mobile" id="validationCustom05" required>
+            <p class="error-message" id="error-message"></p>
+            <div class="invalid-feedback">Please provide a valid mobile number.</div>
+          </div> <!-- form-group close -->
+
+          <div class="form-group">
+            <label for="validationCustom07" class="required">E-mail</label>
+            <input type="email" value="<?php echo $row['u_email'];?>" class="form-control" name="e-mail" id="validationCustom07" required>
+            <div class="invalid-feedback">Please provide a valid E-Mail.</div>
+            <span id="email_error-message" class="email_error-message"></span>
+          </div> <!-- form-group close -->
+          
+
+        </div><!-- col-md-4 mb-3 close -->
+
+        <div class="col-md-4 mb-3">
+
+          <div class="form-group">
+            <label for="validationCustom01" class="required">Last name</label>
+            <input type="text" value="<?php echo $Name[1];?>" class="form-control" name="lname" id="validationCustom01" required>
+            <div class="valid-feedback">Looks good!</div>
+          </div> <!-- form-group close -->
+
+          <div class="form-group">
+            <label for="validationCustom04" class="required">Education Qualification</label>
+            <input type="text" value="<?php echo $row['u_qualification'];?>" class="form-control" name="qualification" id="validationCustom04" required>
+            <div class="invalid-feedback">Please provide a valid qualification.</div>
+          </div> <!-- form-group close -->
+
+          <div class="form-group">
+            <label for="validationCustom06" class="required">Date-of-Birth</label>
+            <input type="date" value="<?php echo $row['u_dob'];?>" class="form-control" name="dob" id="validationCustom06" required>
+            <div class="invalid-feedback">Please provide a valid DOB.</div>
+          </div> <!-- form-group close -->
+
+          <div class="form-group">
+            <label for="validationCustom01" class="required">Password</label>
+            <input type="password" class="form-control" name="password" id="validationCustom01" value="<?php echo md5('password');?>" required>
+            <div class="valid-feedback">Looks good!</div>
+          </div> <!-- form-group close -->
+
+        </div><!-- col-md-4 mb-3 close -->
+
+
+        <div class="col-md-4 mb-3">
+    <div class="form-group">
+        <div class="container">
+            <!-- Hidden input field to upload image -->
+            <input type="file" id="file-update" name="image" accept="image/*" hidden required>
+            
+            <!-- Display area for uploaded image -->
+            <div class="img-area-update" data-img="">
+                <!-- If image exists in database, display it -->
+                <?php if (!empty($row['u_image'])) : ?>
+                    <img src="<?php echo '../uploads/'.$row['u_image']; ?>" alt="Uploaded Image" class="uploaded-image">
+                <?php else : ?>
+                    <!-- If no image exists, show upload image icon -->
+                    <i class='bx bxs-cloud-upload icon'></i>
+                <?php endif; ?>
+                <h3>Upload Image</h3>
+                <p>Image size must be less than <span>2MB</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+      </div><!-- row close -->
+
+      <div class="row">
+      <div class="col-md-6 mb-3">
+          <label for="validationCustom08" class="required">Address</label>
+            <input type="text" value="<?php echo $row['u_address'];?>" class="form-control" name="address" id="validationCustom08" required>
+            <div class="invalid-feedback">Please provide a valid address.</div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+          <label for="validationCustom09" class="required">City</label>
+          <input type="text" value="<?php echo $row['u_city'];?>" class="form-control" name="city" id="validationCustom09" required>
+          <div class="invalid-feedback">Please provide a valid city.</div>
+      </div>
+      </div>
+
+      <div class="row">
+      <div class="col-md-4 mb-3">
+      <label for="validationCustom10" class="required">District</label>
+          <select class="custom-select" value="<?php echo $row['u_district'];?>" name="district" id="validationCustom10" required>
+            <option selected disabled>Choose...</option>
+            <option value="Alappuzha">Alappuzha</option>
+            <option value="Ernakulam">Ernakulam</option>
+            <option value="Idukki">Idukki</option>
+            <option value="Kannur">Kannur</option>
+            <option value="Kasaragod">Kasaragod</option>
+            <option value="Kollam">Kollam</option>
+            <option value="Kottayam">Kottayam</option>
+            <option value="Kozhikode">Kozhikode</option>
+            <option value="Malappuram">Malappuram</option>
+            <option value="Palakkad">Palakkad</option>
+            <option value="Pathanamthitta">Pathanamthitta</option>
+            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+            <option value="Thrissur">Thrissur</option>
+            <option value="Wayanad">Wayanad</option>
+          </select>
+          <div class="invalid-feedback">Please select a valid district.</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+      <label for="validationCustom11" class="required">State</label>
+      <input type="text" value="<?php echo $row['u_state'];?>" class="form-control" name="state" id="validationCustom11" value="Kerala" required>
+        <div class="invalid-feedback">Please select a valid State.</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="validationCustom12" class="required">Zip code</label>
+        <input type="text" value="<?php echo $row['u_zip'];?>" class="form-control" name="zip" id="validationCustom12" required>
+        <div class="invalid-feedback">Please provide a valid zip code.</div>
+      </div>
+      </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" name="u_update_teacher" class="btn btn-primary">Add Teacher</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 <?php
   }
 } 
@@ -986,7 +1158,7 @@ else
   </section>
 
 
-
+<!-- Image inserting JavaScript for displaying the selected image -->
   <script>
         const imgArea = document.querySelector('.img-area');
         const inputFile = document.querySelector('#file');
@@ -1016,6 +1188,51 @@ else
             }
         });
     </script>
+
+
+<!-- JavaScript for display image form the database and display the new image choose for updating -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const imgArea = document.querySelector('.img-area-update');
+        const inputFile = document.querySelector('#file-update');
+
+        // Trigger file input when the image area is clicked
+        imgArea.addEventListener('click', function () {
+            inputFile.click();
+        });
+
+        // Handle file input change
+        inputFile.addEventListener('change', function () {
+            const image = this.files[0];
+            
+            if (image.size < 2000000) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    // Remove any existing image before adding the new one
+                    const existingImg = imgArea.querySelector('u_image');
+                    if (existingImg) {
+                        existingImg.remove();
+                    }
+
+                    // Create a new image element with the uploaded image
+                    const img = document.createElement('u_image');
+                    img.src = reader.result;
+                    img.alt = "Uploaded Image";
+                    img.classList.add('uploaded-image');
+
+                    // Replace the existing image with the new one
+                    imgArea.appendChild(img);
+                    imgArea.classList.add('active');
+                    imgArea.dataset.img = image.name;
+                };
+                reader.readAsDataURL(image);
+            } else {
+                alert("Image size more than 2MB");
+            }
+        });
+    });
+</script>
+
 
   <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields

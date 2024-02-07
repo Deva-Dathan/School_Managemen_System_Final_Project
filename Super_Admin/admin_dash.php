@@ -560,7 +560,7 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="add_teacher.php">
+          <a href="add_teachers.php">
             <i class='bx bxs-user-plus' ></i>
             <span class="links_name">Teachers</span>
           </a>
