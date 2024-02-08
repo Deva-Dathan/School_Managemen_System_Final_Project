@@ -593,6 +593,7 @@ nav .profile .profile-link a:hover {
     </style>
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
 <body id="element">
@@ -717,13 +718,8 @@ nav .profile .profile-link a:hover {
     $state = $_POST['state'];
     $zip = $_POST['zip'];
 
-    $update_image = rand(1000, 10000)."-".$_FILES["update-image"]["name"];
-    $update_tname = $_FILES["update-image"]["tmp_name"];
-    $update_target_dir = "../uploads/";
-    move_uploaded_file($update_tname, $update_target_dir.'/'.$update_image);
-
         // Proceed with the updating
-        $sql = "UPDATE users SET u_name = '$name', u_gender = '$gender', u_address = '$address', u_mobile = '$mobile', u_city = '$city', u_district = '$district', u_state = '$state', u_zip = '$zip', u_image = '$update_image' WHERE u_email = '$get_email'";
+        $sql = "UPDATE users SET u_name = '$name', u_gender = '$gender', u_address = '$address', u_mobile = '$mobile', u_city = '$city', u_district = '$district', u_state = '$state', u_zip = '$zip' WHERE u_email = '$get_email'";
         if ($conn->query($sql) === TRUE) 
         {
           $sql1 = "UPDATE teachers_data SET u_name = '$name', u_dob = '$dob', u_qualification = '$qualification' WHERE u_email = '$get_email'";
@@ -738,6 +734,36 @@ nav .profile .profile-link a:hover {
         }
     }
 
+  ?>
+
+  <?php
+  if(isset($_POST['update_teacher_profile']))
+  {
+    $get_email = $_GET['u_email'];
+
+    $update_image = rand(1000, 10000)."-".$_FILES["update-image"]["name"];
+    $update_tname = $_FILES["update-image"]["tmp_name"];
+    $update_target_dir = "../uploads/";
+    move_uploaded_file($update_tname, $update_target_dir.'/'.$update_image);
+
+    $sql = "UPDATE users SET u_image = '$update_image' WHERE u_email = '$get_email'";
+    if ($conn->query($sql) === TRUE)
+    {
+      echo '<script>Swal.fire({
+        title: "PROFILE PIC UPDATED.",
+        text: "Process Successful",
+        icon: "success"
+      });</script>';
+    }
+    else{
+      header("Location:add_teachers.php");
+      echo '<script>Swal.fire({
+        icon: "error",
+        title: "Oops...PROFILE PIC UPDATING FAILED.",
+        text: "Something went wrong!",
+      });</script>';
+    }
+  }
   ?>
 
 
@@ -893,7 +919,10 @@ if (mysqli_num_rows($result) > 0)
   <div class="invalid-feedback">Please provide a valid zip code.</div>
 </div>
 </div>
-  <input type="submit" name="u_update_teacher" class="btn btn-primary float-right" value="Update Data">
+<div class="row  float-right">
+  <div class="col-md-6"><input type="submit" name="u_update_teacher" class="btn btn-outline-primary" value="Update Data"></div>
+  <div class="col-md-6"><input type="submit" name="update_teacher_profile" class="btn btn-dark float-right" value="Update Profile Pic"><div>
+</div>
 </div>
 
   </form>
