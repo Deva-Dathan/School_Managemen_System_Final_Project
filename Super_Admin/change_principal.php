@@ -639,7 +639,7 @@ nav .profile .profile-link a:hover {
     <nav>
       <div class="sidebar-button">
         <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard">Dashboard</span>
+        <span class="dashboard"><?php echo $_SESSION['u_name'];?></span>
       </div>
       <div class="search-box">
         <input type="text" placeholder="Search...">
