@@ -691,7 +691,7 @@ nav .profile .profile-link a:hover {
 
         <?php
         $i=1;
-$sql = "SELECT * FROM users INNER JOIN teachers_data ON users.u_email = teachers_data.u_email";
+$sql = "SELECT * FROM users INNER JOIN teachers_data ON users.u_email = teachers_data.u_email ORDER BY u_role DESC";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) 
 {
