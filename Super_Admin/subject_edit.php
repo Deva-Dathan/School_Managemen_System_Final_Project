@@ -1,8 +1,18 @@
 <?php
+ob_start();
 session_start();
-include("../include/db_connection.php");
-include("../header.php");
-include("../footer.php");
+$servername = "localhost";
+$username = "root";
+$password = "";
+$db_name = "school_management_system";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $db_name);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
 
 // if(!isset($_SESSION['u_email']))
 // {
@@ -15,12 +25,13 @@ include("../footer.php");
 ?>
 
 <!DOCTYPE html>
-<!-- Coding by CodingNepal | www.codingnepalweb.com -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
     <title> G H S S </title>
     <link rel="icon" type="image/x-icon" href="../assets/images/school_logo.png">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
       /* Googlefont Poppins CDN Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
@@ -43,6 +54,19 @@ include("../footer.php");
 	--red: #FC3B56;
   --dark-red: #FC1605;
   --primary-blue: #007bff;
+}
+    /*** Spinner ***/
+    #spinner {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s ease-out, visibility 0s linear .5s;
+    z-index: 99999;
+}
+
+#spinner.show {
+    transition: opacity .5s ease-out, visibility 0s linear 0s;
+    visibility: visible;
+    opacity: 1;
 }
 .sidebar{
   position: fixed;
@@ -492,39 +516,40 @@ nav .profile .profile-link a:hover {
   justify-content:center;
   align-items:center;
 }
-.img-area {
+.img-area-update {
 	position: relative;
 	width: 60%;
 	height: 250px;
 	background: var(--grey);
 	margin-bottom: 30px;
-    border : 1px solid #f5f5f5;
-    border-radius:15px;
+  border : 1px solid #f5f5f5;
+  border-radius:15px;
 	overflow: hidden;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-    cursor: pointer;
+  cursor: pointer;
+  z-index:1;
 }
-.img-area .icon {
+.img-area-update .icon {
 	font-size: 100px;
     color:var(--primary-blue);
 }
-.img-area h3 {
+.img-area-update h3 {
 	font-size: 20px;
 	font-weight: 500;
 	margin-bottom: 6px;
 }
-.img-area p {
+.img-area-update p {
 	color: #999;
     text-align:center;
     padding : 10px;
 }
-.img-area p span {
+.img-area-update p span {
 	font-weight: 600;
 }
-.img-area img {
+.img-area-update img {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -534,7 +559,7 @@ nav .profile .profile-link a:hover {
 	object-position: center;
 	z-index: 100;
 }
-.img-area::before {
+.img-area-update::before {
 	content: attr(data-img);
 	position: absolute;
 	top: 0;
@@ -553,7 +578,7 @@ nav .profile .profile-link a:hover {
 	transition: all .3s ease;
 	z-index: 200;
 }
-.img-area.active:hover::before {
+.img-area-update.active:hover::before {
 	opacity: 1;
 }
 .required::after{
@@ -569,10 +594,12 @@ nav .profile .profile-link a:hover {
     </style>
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
 <body id="element">
-  <?php include("../loader.php");?>
+
+
   <div class="sidebar" id="sidebar">
     <div class="logo-details">
       <img src="../assets/images/school_logo.png" alt="School_Logo" width=60 height=60>
@@ -599,7 +626,7 @@ nav .profile .profile-link a:hover {
         </li>
         <li>
           <a href="add_teachers.php">
-            <i class='bx bxs-user-plus' ></i>
+            <i class='bx bxs-user-plus'></i>
             <span class="links_name">Teachers</span>
           </a>
         </li>
@@ -617,7 +644,7 @@ nav .profile .profile-link a:hover {
         </li>
         <li>
           <a href="add_office.php">
-            <i class='bx bx-user-plus' ></i>
+            <i class='bx bx-user-plus'></i>
             <span class="links_name">Office Staff</span>
           </a>
         </li>
@@ -639,7 +666,7 @@ nav .profile .profile-link a:hover {
     <nav>
       <div class="sidebar-button">
         <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard"><?php echo $_SESSION['u_name'];?></span>
+        <span class="dashboard">Management</span>
       </div>
       <div class="search-box">
         <input type="text" placeholder="Search...">
@@ -665,130 +692,137 @@ nav .profile .profile-link a:hover {
 			</div>
     </nav>
 
+
+
     <div class="home-content">
       <div class="sales-boxes">
         <div class="top-sales box">
           <div class="row">
-          <div class="col-md-6 col-12 title">ADD SUBJECT</div>
-          <div class="col-md-6 col-12" style="display:flex; justify-content:right; align-items:right;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class='bx bx-plus'></i>&nbspNew Subject</button></div>
+          <div class="col-md-6 col-12 title mb-5">UPDATE SUBJECT DATA</div>
           </div> <!--class row close div-->
 
-          <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">ADD NEW SUBJECT</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
 
-      <!-- inserting data into the table -->
-      <?php
-      error_reporting(0);
-      if($_SERVER["REQUEST_METHOD"] == "POST")
-      {
-        $subject_code = $_POST['subject_code'];
-        $subject_name = $_POST['subject_name'];
-        
-        $subject_sql = "SELECT subject_code FROM subject_data WHERE subject_code = '$subject_code'";
-        $result = $conn->query($subject_sql);
-        
-        if ($result->num_rows > 0) {
-            // Subject already exists, show an error message or handle it accordingly
-            echo '<script>Swal.fire({icon: "error",title: "Oops...",text: "Subject Code Already Exist!"});</script>';
-        } else {
-            // Email does not exist, proceed with the insertion
-            $sql = "INSERT INTO subject_data (subject_code, subject_name) VALUES ('$subject_code', '$subject_name')";
-        
-            if ($conn->query($sql) === TRUE) {
-                echo '<script>Swal.fire({title: "NEW SUBJECT ADDED",text: "Inserted Successfully",icon: "success"});</script>';
-                header("Location:add_subjects.php");
-            } else {
-                echo '<script>alert("Error: ' . $sql . '\\n' . $conn->error . '");</script>';
-            }
+  <?php
+  if(isset($_POST['u_update_subject']))
+  {
+    $get_code = $_GET['subject_code'];
+
+    $subject_code = $_POST['subject_code'];
+    $subject_name = $_POST['subject_name'];
+
+        // Proceed with the updating
+        $sql = "UPDATE subject_data SET subject_code = '$subject_code', subject_name = '$subject_name' WHERE subject_code = '$get_code'";
+        if ($conn->query($sql) === TRUE) 
+        {
+            ob_end_clean();
+            header("Location:add_subjects.php");
+            $_SESSION['update_subject_msg'] = "SUBJECT RECORD UPDATED SUCCESSFULLY";
         }
-        
-      }
-      ?>
+        else 
+        {
+          echo '<div class="alert alert-danger mt-3" role="alert">Error: '. $sql .'\\n' .$conn->error .' </div>';
+        }
+    }
 
-      <form method="POST" class="needs-validation" novalidate>
-
-      <div class="row">
-        <div class="col-md-6 mb-3">
-            <label for="validationCustom01" class="required">Subject Code</label>
-            <input type="text" class="form-control" name="subject_code" id="validationCustom01" required>
-            <div class="invalid-feedback">Please provide a Subject Code</div>
-        </div> <!-- col-md-6 mb-3 close -->
-
-        <div class="col-md-6 mb-3">
-            <label for="validationCustom05" class="required">Subject Name</label>
-            <input type="text" class="form-control" name="subject_name" id="validationCustom05" required>
-            <div class="invalid-feedback">Please provide a Subject Name</div>
-        </div> <!-- col-md-6 mb-3 close -->
-        </div><!-- col-md-4 mb-3 close -->
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" name="u_add_subject" class="btn btn-primary">Add Subject</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+  ?>
 
 
-<!-- display the facult deatils -->
-<br><br>
 
-<table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
-        <thead align=center>
-            <tr>
-              <th>SL.No</th>
-              <th>Subject Name</th>
-              <th>Subject Code</th>
-              <th colspan=2>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-
-        <?php
+          <?php
         $i=1;
-$sql = "SELECT * FROM subject_data";
+        $get_code = $_GET['subject_code'];
+$sql = "SELECT * FROM subject_data WHERE subject_code='$get_code'";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) 
 {
   while($row = mysqli_fetch_assoc($result)) 
   {
 ?>
+          <form method="POST" class="needs-validation-update" enctype="multipart/form-data" novalidate>
 
-            <tr align=center>
-              <td><?php echo $i++;?></td>
-              <td><?php echo $row['subject_name'];?></td>
-              <td><?php echo $row['subject_code'];?></td>
-              <td><a href="subject_edit.php?subject_code=<?php echo $row['subject_code'];?>" class="btn btn-primary"><i class="bx bxs-edit"></i></a></td>
-              <td><a href="subject_delete.php?subject_code=<?php echo $row['subject_code'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
-            </tr>
+          <div class="row">
+        <div class="col-md-6 mb-3">
+
+          <div class="form-group">
+            <label for="validationCustom01" class="required">Subject Code</label>
+            <input type="text" class="form-control" value="<?php echo $row['subject_code'];?>" name="subject_code" id="validationCustom01" required>
+            <div class="valid-feedback">Looks good!</div>
+          </div> <!-- form-group close -->
+
+        </div><!-- col-md-4 mb-3 close -->
+
+        <div class="col-md-6 mb-3">
+
+        <div class="form-group">
+            <label for="validationCustom01" class="required">Subject Name</label>
+            <input type="text" class="form-control" value="<?php echo $row['subject_name'];?>" name="subject_name" id="validationCustom01" required>
+            <div class="valid-feedback">Looks good!</div>
+          </div> <!-- form-group close -->
+
+</div><!-- col-md-4 mb-3 close -->
+
+      </div><!-- row close -->
+
+
+<div class="row  float-right">
+  <div class="col-md-6"><input type="submit" name="u_update_subject" class="btn btn-primary" value="Update Data"></div>
+</div>
+</div>
+
+  </form>
+
 <?php
   }
-} 
-else 
-{
-  echo "0 results";
 }
 ?>
-        </tbody>
-    </table> 
- 
-
         </div>
       </div>
     </div>
   </section>
 
+
+<!-- JavaScript for display image form the database and display the new image choose for updating -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const imgArea = document.querySelector('.img-area-update');
+        const inputFile = document.querySelector('#file-update');
+
+        // Trigger file input when the image area is clicked
+        imgArea.addEventListener('click', function () {
+            inputFile.click();
+        });
+
+        // Handle file input change
+        inputFile.addEventListener('change', function () {
+            const image = this.files[0];
+            
+            if (image.size < 2000000) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    // Remove any existing image before adding the new one
+                    const existingImg = imgArea.querySelector('u_image');
+                    if (existingImg) {
+                        existingImg.remove();
+                    }
+
+                    // Create a new image element with the uploaded image
+                    const img = document.createElement('u_image');
+                    img.src = reader.result;
+                    img.alt = "Uploaded Image";
+                    img.classList.add('uploaded-image');
+
+                    // Replace the existing image with the new one
+                    imgArea.appendChild(img);
+                    imgArea.classList.add('active');
+                    imgArea.dataset.img = image.name;
+                };
+                reader.readAsDataURL(image);
+            } else {
+                alert("Image size more than 2MB");
+            }
+        });
+    });
+</script>
 
   <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -811,6 +845,28 @@ else
 })();
 </script>
 
+<script>
+    // Get the input element
+    var mobileNumberInput = document.getElementById('validationCustom05');
+    
+    // Attach an input event listener to the input field
+    mobileNumberInput.addEventListener('input', function () {
+      // Get the value entered by the user
+      var enteredValue = mobileNumberInput.value;
+
+      // Remove any non-numeric characters
+      var numericValue = enteredValue.replace(/\D/g, '');
+
+      // Check if the numeric value is between 10 and 10 characters
+      if (numericValue.length === 10) {
+        // Clear any previous error message
+        document.getElementById('error-message').textContent = '';
+      } else {
+        // Display an error message
+        document.getElementById('error-message').textContent = 'Mobile number must be 10 digits.';
+      }
+    });
+  </script>
 
   <script>
   function toggleFullScreen() {
@@ -880,6 +936,15 @@ sidebarBtn.onclick = function() {
   sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
 }
  </script>
+
+<script async src="https://cdn.ampproject.org/v0.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script async src="https://cdn.ampproject.org/v0.js"></script> 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 </body>
 </html>
