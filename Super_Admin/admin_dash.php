@@ -618,7 +618,9 @@ nav .profile .profile-link a:hover {
 			</a>
       <span class="divider"></span>
 			<div class="profile">
-			<abbr title="<?php echo $_SESSION['u_name'];?>"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt=""></abbr>
+			<abbr title="<?php echo $_SESSION['u_name'];?>">
+      
+    </abbr>
 				<ul class="profile-link">
 					<li><a href="admin_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
 					<li><a href="admin_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
