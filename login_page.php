@@ -20,16 +20,67 @@ if(isset($_POST['u_login']))
             $_SESSION['u_role'] = $row['u_role'];
             header("Location: Super_Admin/admin_dash.php");
         }
-        elseif($row['u_role'] == 'Principal')
+        elseif($row['u_role'] == 'PRINCIPAL')
         {
             $_SESSION['u_email'] = $username;
             $_SESSION['u_name'] = $row['u_name'];
             $_SESSION['u_role'] = $row['u_role'];
             header("Location: Principal/principal_dash.php");  
         }
+        elseif($row['u_role'] == 'VICE PRINCIPAL')
+        {
+            $_SESSION['u_email'] = $username;
+            $_SESSION['u_name'] = $row['u_name'];
+            $_SESSION['u_role'] = $row['u_role'];
+            header("Location: Vice_Principal/vice_principal_dash.php");  
+        }
+        elseif($row['u_role'] == 'TEACHER')
+        {
+            $_SESSION['u_email'] = $username;
+            $_SESSION['u_name'] = $row['u_name'];
+            $_SESSION['u_role'] = $row['u_role'];
+            header("Location: teacher/teacher_dash.php");  
+        }
+        elseif($row['u_role'] == 'CLASS TEACHER')
+        {
+            $_SESSION['u_email'] = $username;
+            $_SESSION['u_name'] = $row['u_name'];
+            $_SESSION['u_role'] = $row['u_role'];
+            header("Location: Class_Teacher/class_teacher_dash.php");  
+        }
+        elseif($row['u_role'] == 'OFFICE STAFF')
+        {
+            $_SESSION['u_email'] = $username;
+            $_SESSION['u_name'] = $row['u_name'];
+            $_SESSION['u_role'] = $row['u_role'];
+            header("Location: Office_Staff/office_dash.php");  
+        }
+        elseif($row['u_role'] == 'STUDENT')
+        {
+            $_SESSION['u_email'] = $username;
+            $_SESSION['u_name'] = $row['u_name'];
+            $_SESSION['u_role'] = $row['u_role'];
+            header("Location: Student/student_dash.php");  
+        }
+        elseif($row['u_role'] == 'PARENT')
+        {
+            $_SESSION['u_email'] = $username;
+            $_SESSION['u_name'] = $row['u_name'];
+            $_SESSION['u_role'] = $row['u_role'];
+            header("Location: Parent/parent_dash.php");  
+        }
+        elseif($row['u_role'] == 'ALLOTMENT CELL')
+        {
+            $_SESSION['u_email'] = $username;
+            $_SESSION['u_name'] = $row['u_name'];
+            $_SESSION['u_role'] = $row['u_role'];
+            header("Location:Allotment_Cell/cell_dash.php");  
+        }
         else
         {
-            echo "Failed";
+            echo '<div class="alert alert-danger text-center font-weight-bold mt-5" role="alert">
+            WRONG USERNAME OR PASSWORD...
+          </div>';
         }
       }
     } 
