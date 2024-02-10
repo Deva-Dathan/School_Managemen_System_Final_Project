@@ -70,7 +70,6 @@ if(isset($_POST['u_login']))
     </style>
 </head>
 <body>
-<?php include("loader.php");?>
 <div class="login-container mt-n5">
     <div class="login-form mt-n5">
         <form method="POST">
