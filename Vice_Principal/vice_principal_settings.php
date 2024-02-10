@@ -766,16 +766,16 @@ if (mysqli_num_rows($result) > 0)
 <br><br>
           <div class="password-change-container mt-3">
     <div class="password-change-form bg-grey mt-n5">
-        <form method="POST">
+        <form id="passwordChangeForm" method="POST">
         <h3 class="text-center font-weight-bold mb-3">CHANGE PASSWORD</h3>
             <div class="form-group">
-                <input type="password" name="oldPassword" class="form-control" placeholder="Old Password">
+                <input type="password" name="oldPassword" class="form-control" placeholder="Old Password" required>
             </div>
             <div class="form-group">
-                <input type="password" name="newPassword" class="form-control" placeholder="New Password">
+                <input type="password" name="newPassword" class="form-control" placeholder="New Password" required>
             </div>
             <div class="form-group">
-                <input type="password" name="confirmPassword" class="form-control" placeholder="Confirm New Password">
+                <input type="password" name="confirmPassword" class="form-control" placeholder="Confirm New Password" required>
             </div>
             <button type="submit" name="changePassword" class="btn btn-primary float-right">Change Password</button>
         </form>

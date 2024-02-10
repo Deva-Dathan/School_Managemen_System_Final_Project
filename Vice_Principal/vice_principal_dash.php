@@ -619,11 +619,33 @@ nav .profile .profile-link a:hover {
       <span class="divider"></span>
 			<div class="profile">
 			<abbr title="<?php echo $_SESSION['u_name'];?>">
-      <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="">
+      <?php
+      include("../include/db_connection.php");
+      $login_email=$_SESSION['u_email'];
+      $profile = "SELECT u_image FROM users WHERE u_email='$login_email'";
+      $result = $conn->query($profile);
+      if ($result->num_rows > 0)
+      {
+        while($row = $result->fetch_assoc())
+        {
+          if($row['u_image'])
+          {
+            ?>
+            <img src="../uploads/<?php echo $row['u_image'];?>">
+            <?php
+          }
+          else{
+            ?>
+            <img src="../assets/images/no_profile.jpg">
+            <?php
+          }
+        }
+      } 
+      ?>
     </abbr>
 				<ul class="profile-link">
-					<li><a href="admin_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
-					<li><a href="admin_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
+					<li><a href="vice_principal_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
+					<li><a href="vice_principal_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
 					<li><a href="../logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
 				</ul>
 			</div>
