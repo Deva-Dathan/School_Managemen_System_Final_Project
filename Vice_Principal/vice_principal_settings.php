@@ -619,7 +619,7 @@ nav .profile .profile-link a:hover {
     </div>
       <ul class="nav-links" id="nav-links">
         <li>
-          <a href="admin_dash.php">
+          <a href="vice_principal_dash.php">
             <i class='bx bx-grid-alt'></i>
             <span class="links_name">Dashboard</span>
           </a>
