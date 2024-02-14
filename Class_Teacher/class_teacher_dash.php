@@ -548,33 +548,33 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="change_principal.php">
+          <a href="add_students.php">
             <i class='bx bxs-user' ></i>
-            <span class="links_name">Principal</span>
-          </a>
-        </li>
-        <li>
-          <a href="change_vice_principal.php">
-            <i class='bx bx-user-circle' ></i>
-            <span class="links_name">Vice Principal</span>
-          </a>
-        </li>
-        <li>
-          <a href="add_teachers.php">
-            <i class='bx bxs-user-plus' ></i>
-            <span class="links_name">Teachers</span>
-          </a>
-        </li>
-        <li>
-          <a href="view_students.php">
-            <i class='bx bx-user' ></i>
             <span class="links_name">Students</span>
           </a>
         </li>
         <li>
-          <a href="add_allotement.php">
-            <i class='bx bxs-user-circle' ></i>
-            <span class="links_name">Allotment Cell</span>
+          <a href="class_activity.php">
+          <i class='bx bxs-briefcase'></i>
+            <span class="links_name">Class Activity</span>
+          </a>
+        </li>
+        <li>
+          <a href="upload_marks.php">
+          <i class='bx bx-bookmarks'></i>
+            <span class="links_name">Subject Marks</span>
+          </a>
+        </li>
+        <li>
+          <a href="subject_notes.php">
+          <i class='bx bxs-notepad'></i>
+            <span class="links_name">Subject Notes</span>
+          </a>
+        </li>
+        <li>
+          <a href="internal_marks.php">
+          <i class='bx bxs-bookmarks'></i>
+            <span class="links_name">Internal Marks</span>
           </a>
         </li>
         <li>
