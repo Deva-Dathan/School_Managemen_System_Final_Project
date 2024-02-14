@@ -548,9 +548,9 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="change_principal.php">
+          <a href="view_classes.php">
             <i class='bx bxs-user' ></i>
-            <span class="links_name">Principal</span>
+            <span class="links_name">Allotted Classes</span>
           </a>
         </li>
         <li>
