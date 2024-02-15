@@ -550,7 +550,13 @@ nav .profile .profile-link a:hover {
         <li>
           <a href="add_students.php">
             <i class='bx bxs-user' ></i>
-            <span class="links_name">Students</span>
+            <span class="links_name">Student Status</span>
+          </a>
+        </li>
+        <li>
+          <a href="view_students.php">
+            <i class='bx bx-user' ></i>
+            <span class="links_name">View Student</span>
           </a>
         </li>
         <li>
