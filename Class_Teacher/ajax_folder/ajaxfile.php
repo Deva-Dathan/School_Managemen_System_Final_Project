@@ -26,7 +26,7 @@ if ($conn->connect_error) {
 }
 
 $id = $_POST['id'];
-$sql = "SELECT * FROM student WHERE id='$id'";
+$sql = "SELECT * FROM users WHERE id='$id'";
 $result = mysqli_query($conn,$sql);
 while( $row = mysqli_fetch_array($result) )
 {
