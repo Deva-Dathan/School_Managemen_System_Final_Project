@@ -709,7 +709,7 @@ nav .profile .profile-link a:hover {
         $state = $_POST['state'];
         $zip = $_POST['zip'];
 
-        $sel_sql = "SELECT u_email FROM student_data WHERE u_email = '$Studentemail' AND parent_email = 'Parentemail'";
+        $sel_sql = "SELECT u_email FROM student_data WHERE u_email = '$Studentemail' AND parent_email = '$Parentemail'";
         $result = $conn->query($sel_sql);
         
         if ($result->num_rows > 0) {
