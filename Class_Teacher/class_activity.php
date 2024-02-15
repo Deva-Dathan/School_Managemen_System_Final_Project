@@ -586,21 +586,21 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="add_students.php" class="active">
-            <i class='bx bxs-user' style="color:var(--light);"></i>
-            <span class="links_name" style="color:var(--light);">Student Status</span>
+          <a href="add_students.php">
+            <i class='bx bxs-user'></i>
+            <span class="links_name">Student Status</span>
           </a>
         </li>
         <li>
           <a href="view_students.php">
-            <i class='bx bx-user' ></i>
+            <i class='bx bx-user'></i>
             <span class="links_name">View Student</span>
           </a>
         </li>
         <li>
-          <a href="class_activity.php">
-          <i class='bx bxs-briefcase'></i>
-            <span class="links_name">Class Activity</span>
+          <a href="class_activity.php" class="active">
+          <i class='bx bxs-briefcase' style="color:var(--light);"></i>
+            <span class="links_name" style="color:var(--light);">Class Activity</span>
           </a>
         </li>
         <li>
