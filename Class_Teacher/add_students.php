@@ -717,7 +717,8 @@ nav .profile .profile-link a:hover {
             echo '<script>Swal.fire({icon: "error",title: "Oops...",text: "E-mail Already Exist!"});</script>';
         } else {
             // Email does not exist, proceed with the insertion
-            // $sql = "INSERT INTO student_data (u_name, u_gender, u_mobile, u_email, parent_email, u_dob, standard, u_address, u_city, u_district, u_state, u_zip, status) VALUES ('$uid', '$fullname', '$gender', '$email', '$password', 'TEACHER', '$address', '$mobile', '$city', '$district', '$state', '$zip', '$image')";
+            $sql_user = "INSERT INTO users (id, u_name, u_gender, u_email, u_pass, u_role, u_address, u_mobile, u_city, u_district, u_state, u_zip, status) VALUES ('$uid', '$fullname', '$gender', '$Studentemail', '$password', 'STUDENT', '$address', '$mobile', '$city', '$district', '$state', '$zip', 0)";
+            if ($conn->query($sql_user) === TRUE) {
             $sql = "INSERT INTO student_data(u_name, u_gender, u_mobile, u_email, parent_email, u_dob, standard, u_address, u_city, u_district, u_state, u_zip, status) VALUES ('$fullname', '$gender', '$mobile', '$Studentemail', '$Parentemail', '$dob', '$standard', '$address', '$city', '$district', '$state', '$zip', 0)";
             if ($conn->query($sql) === TRUE) {
               $sql1 = "INSERT INTO parent_data(parent_name, parent_email, u_email, u_mobile, standard) VALUES ('$parentName', '$Parentemail', '$Studentemail', '$mobile', '$standard')";
@@ -726,6 +727,7 @@ nav .profile .profile-link a:hover {
             } else {
                 echo '<script>alert("Error: ' . $sql . '\\n' . $conn->error . '");</script>';
             }
+          }
         }
       }
       ?>

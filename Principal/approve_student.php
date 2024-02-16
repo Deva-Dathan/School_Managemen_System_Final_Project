@@ -1,5 +1,13 @@
 <?php
 session_start();
+include("../include/db_connection.php");
+include("../header.php");
+include("../footer.php");
+
+// if(!isset($_SESSION['u_email']))
+// {
+//   header("Location: ../login_page.php");
+// }
 
 // echo $_SESSION['u_username'];
 // echo "<br>";
@@ -33,7 +41,8 @@ session_start();
 	--light-blue: #D0E4FF;
 	--dark-blue: #081D45;
 	--red: #FC3B56;
-  --dark-red: #FC1605
+  --dark-red: #FC1605;
+  --primary-blue: #007bff;
 }
 .sidebar{
   position: fixed;
@@ -58,9 +67,11 @@ session_start();
   text-align: center
 }
 .sidebar .logo-details .logo_name{
-  color: var(--dark);
-  font-size: 24px;
+  color: var(--grey);
+  font-size: 40px;
   font-weight: 500;
+  margin-left:10px;
+  -webkit-text-stroke: 1px #000;
 }
 .sidebar .nav-links{
   margin-top: 10px;
@@ -285,65 +296,7 @@ nav .profile .profile-link a:hover {
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
-.overview-boxes .box-topic{
-  font-size: 20px;
-  font-weight: 500;
-}
-.home-content .box .number{
-  display: inline-block;
-  font-size: 35px;
-  margin-top: -6px;
-  font-weight: 500;
-}
-.home-content .box .indicator{
-  display: flex;
-  align-items: center;
-}
-.home-content .box .indicator i{
-  height: 20px;
-  width: 20px;
-  background: #8FDACB;
-  line-height: 20px;
-  text-align: center;
-  border-radius: 50%;
-  color: #fff;
-  font-size: 20px;
-  margin-right: 5px;
-}
-.box .indicator i.down{
-  background: #e87d88;
-}
-.home-content .box .indicator .text{
-  font-size: 12px;
-}
-.home-content .box .cart{
-  display: inline-block;
-  font-size: 32px;
-  height: 50px;
-  width: 50px;
-  background: #cce5ff;
-  line-height: 50px;
-  text-align: center;
-  color: #66b0ff;
-  border-radius: 12px;
-  margin: -15px 0 0 6px;
-}
-.home-content .box .cart.two{
-   color: #2BD47D;
-   background: #C0F2D8;
- }
-.home-content .box .cart.three{
-   color: #ffc233;
-   background: #ffe8b3;
- }
-.home-content .box .cart.four{
-   color: #e05260;
-   background: #f7d4d7;
- }
-.home-content .total-order{
-  font-size: 20px;
-  font-weight: 500;
-}
+
 .home-content .sales-boxes{
   display: flex;
   justify-content: space-between;
@@ -366,7 +319,7 @@ nav .profile .profile-link a:hover {
 }
 .sales-boxes .box .title{
   font-size: 24px;
-  font-weight: 500;
+  font-weight: bold;
   /* margin-bottom: 10px; */
 }
 .sales-boxes .sales-details li.topic{
@@ -404,10 +357,10 @@ nav .profile .profile-link a:hover {
 
 /* Right box */
 .home-content .sales-boxes .top-sales{
-  width: 35%;
+  width: 100%;
   background: #fff;
   padding: 20px 30px;
-  margin: 0 20px 0 0;
+  margin: 0 20px 0 20px;
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
@@ -528,19 +481,104 @@ nav .profile .profile-link a:hover {
     width: calc(100% - 60px);
   }
 }
+/* CSS for the adding pricipal model */
+.container {
+	max-width: 400px;
+	width: 100%;
+	background: #fff;
+	padding: 30px;
+	border-radius: 30px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.img-area, .img-area-update {
+	position: relative;
+	width: 60%;
+	height: 250px;
+	background: var(--grey);
+	margin-bottom: 30px;
+    border : 1px solid #f5f5f5;
+    border-radius:15px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+    cursor: pointer;
+}
+.img-area .icon, .img-area-update .icon {
+	font-size: 100px;
+    color:var(--primary-blue);
+}
+.img-area h3, .img-area-update h3 {
+	font-size: 20px;
+	font-weight: 500;
+	margin-bottom: 6px;
+}
+.img-area p, .img-area-update p {
+	color: #999;
+    text-align:center;
+    padding : 10px;
+}
+.img-area p span, .img-area-update p span {
+	font-weight: 600;
+}
+.img-area img, .img-area-update img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	z-index: 100;
+}
+.img-area::before, .img-area-update::before {
+	content: attr(data-img);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .5);
+	color: #fff;
+	font-weight: 500;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	pointer-events: none;
+	opacity: 0;
+	transition: all .3s ease;
+	z-index: 200;
+}
+.img-area.active:hover::before, .img-area-update.active:hover::before {
+	opacity: 1;
+}
+.required::after{
+  content : " *";
+  color: red;
+  font-size:15px;
+  font-weight:bold;
+}
+.error-message, .email_error-message {
+      color: red;
+    }
+
     </style>
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
-   
 <body id="element">
+  <?php include("../loader.php");?>
   <div class="sidebar" id="sidebar">
     <div class="logo-details">
       <img src="../assets/images/school_logo.png" alt="School_Logo" width=60 height=60>
       <span class="logo_name">G H S S</span>
     </div>
-      <ul class="nav-links" id="nav-links">
+    <ul class="nav-links" id="nav-links">
         <li>
           <a href="principal_dash.php" class="active">
             <i class='bx bx-grid-alt' style="color:var(--light);"></i>
@@ -601,7 +639,7 @@ nav .profile .profile-link a:hover {
     <nav>
       <div class="sidebar-button">
         <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard">Dashboard</span>
+        <span class="dashboard"><?php echo $_SESSION['u_name'];?></span>
       </div>
       <div class="search-box">
         <input type="text" placeholder="Search...">
@@ -618,205 +656,231 @@ nav .profile .profile-link a:hover {
 			</a>
       <span class="divider"></span>
 			<div class="profile">
-			<abbr title="<?php echo $_SESSION['u_name'];?>">
-      <?php
-      include("../include/db_connection.php");
-      $login_email=$_SESSION['u_email'];
-      $profile = "SELECT u_image FROM users WHERE u_email='$login_email'";
-      $result = $conn->query($profile);
-      if ($result->num_rows > 0)
-      {
-        while($row = $result->fetch_assoc())
-        {
-          if($row['u_image'])
-          {
-            ?>
-            <img src="../uploads/<?php echo $row['u_image'];?>">
-            <?php
-          }
-          else{
-            ?>
-            <img src="../assets/images/no_profile.jpeg">
-            <?php
-          }
-        }
-      } 
-      ?>
-    </abbr>
+			<abbr title="<?php echo $_SESSION['u_name'];?>"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt=""></abbr>
 				<ul class="profile-link">
-					<li><a href="principal_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
-					<li><a href="principal_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
+					<li><a href="admin_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
+					<li><a href="admin_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
 					<li><a href="../logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
 				</ul>
 			</div>
     </nav>
 
     <div class="home-content">
-      <div class="overview-boxes">
-        <div class="box">
-          <div class="right-side">
-            <div class="box-topic">Total Order</div>
-            <div class="number">40,876</div>
-            <div class="indicator">
-              <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
-            </div>
-          </div>
-          <i class='bx bx-cart-alt cart'></i>
-        </div>
-        <div class="box">
-          <div class="right-side">
-            <div class="box-topic">Total Sales</div>
-            <div class="number">38,876</div>
-            <div class="indicator">
-              <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
-            </div>
-          </div>
-          <i class='bx bxs-cart-add cart two' ></i>
-        </div>
-        <div class="box">
-          <div class="right-side">
-            <div class="box-topic">Total Profit</div>
-            <div class="number">$12,876</div>
-            <div class="indicator">
-              <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
-            </div>
-          </div>
-          <i class='bx bx-cart cart three' ></i>
-        </div>
-        <div class="box">
-          <div class="right-side">
-            <div class="box-topic">Total Return</div>
-            <div class="number">11,086</div>
-            <div class="indicator">
-              <i class='bx bx-down-arrow-alt down'></i>
-              <span class="text">Down From Today</span>
-            </div>
-          </div>
-          <i class='bx bxs-cart-download cart four' ></i>
-        </div>
-      </div>
-
       <div class="sales-boxes">
-        <div class="recent-sales box">
-          <div class="title">Recent Sales</div>
-          <div class="sales-details">
-            <ul class="details">
-              <li class="topic">Date</li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-            </ul>
-            <ul class="details">
-            <li class="topic">Customer</li>
-            <li><a href="#">Alex Doe</a></li>
-            <li><a href="#">David Mart</a></li>
-            <li><a href="#">Roe Parter</a></li>
-            <li><a href="#">Diana Penty</a></li>
-            <li><a href="#">Martin Paw</a></li>
-            <li><a href="#">Doe Alex</a></li>
-            <li><a href="#">Aiana Lexa</a></li>
-            <li><a href="#">Rexel Mags</a></li>
-             <li><a href="#">Tiana Loths</a></li>
-          </ul>
-          <ul class="details">
-            <li class="topic">Sales</li>
-            <li><a href="#">Delivered</a></li>
-            <li><a href="#">Pending</a></li>
-            <li><a href="#">Returned</a></li>
-            <li><a href="#">Delivered</a></li>
-            <li><a href="#">Pending</a></li>
-            <li><a href="#">Returned</a></li>
-            <li><a href="#">Delivered</a></li>
-             <li><a href="#">Pending</a></li>
-            <li><a href="#">Delivered</a></li>
-          </ul>
-          <ul class="details">
-            <li class="topic">Total</li>
-            <li><a href="#">$204.98</a></li>
-            <li><a href="#">$24.55</a></li>
-            <li><a href="#">$25.88</a></li>
-            <li><a href="#">$170.66</a></li>
-            <li><a href="#">$56.56</a></li>
-            <li><a href="#">$44.95</a></li>
-            <li><a href="#">$67.33</a></li>
-             <li><a href="#">$23.53</a></li>
-             <li><a href="#">$46.52</a></li>
-          </ul>
-          </div>
-          <div class="button">
-            <a href="#">See All</a>
-          </div>
-        </div>
         <div class="top-sales box">
-          <div class="title">Top Seling Product</div>
-          <ul class="top-sales-details">
-            <li>
-            <a href="#">
-              <img src="images/sunglasses.jpg" alt="">
-              <span class="product">Vuitton Sunglasses</span>
-            </a>
-            <span class="price">$1107</span>
-          </li>
-          <li>
-            <a href="#">
-               <img src="images/jeans.jpg" alt="">
-              <span class="product">Hourglass Jeans </span>
-            </a>
-            <span class="price">$1567</span>
-          </li>
-          <li>
-            <a href="#">
-             <img src="images/nike.jpg" alt="">
-              <span class="product">Nike Sport Shoe</span>
-            </a>
-            <span class="price">$1234</span>
-          </li>
-          <li>
-            <a href="#">
-              <img src="images/scarves.jpg" alt="">
-              <span class="product">Hermes Silk Scarves.</span>
-            </a>
-            <span class="price">$2312</span>
-          </li>
-          <li>
-            <a href="#">
-              <img src="images/blueBag.jpg" alt="">
-              <span class="product">Succi Ladies Bag</span>
-            </a>
-            <span class="price">$1456</span>
-          </li>
-          <li>
-            <a href="#">
-              <img src="images/bag.jpg" alt="">
-              <span class="product">Gucci Womens's Bags</span>
-            </a>
-            <span class="price">$2345</span>
-          <li>
-            <a href="#">
-              <img src="images/addidas.jpg" alt="">
-              <span class="product">Addidas Running Shoe</span>
-            </a>
-            <span class="price">$2345</span>
-          </li>
-<li>
-            <a href="#">
-             <img src="images/shirt.jpg" alt="">
-              <span class="product">Bilack Wear's Shirt</span>
-            </a>
-            <span class="price">$1245</span>
-          </li>
-          </ul>
+          <div class="row">
+          <div class="col-md-6 col-12 title">APPROVE STUDENT</div>
+          </div> <!--class row close div-->
+
+
+<!-- display the facult deatils -->
+
+
+<table id="example" class="table table-striped table-bordered nowrap mt-5" style="width:100%">
+        <thead align=center>
+            <tr>
+              <th>SL.No</th>
+              <th>Full Name</th>
+              <th>Parent/Guardian Name</th>
+              <th>Standard</th>
+              <th colspan=3>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        <?php
+        $i=1;
+$sql = "SELECT * FROM student_data INNER JOIN parent_data ON student_data.u_email=parent_data.u_email WHERE status = 0";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) 
+{
+  while($row = mysqli_fetch_assoc($result)) 
+  {
+?>
+
+            <tr align=center>
+              <td><?php echo $i++;?></td>
+              <td><?php echo $row['u_name'];?></td>
+              <td ><?php echo $row['parent_name'];?></td>
+              <td><?php echo $row['standard'];?></td>
+              <td>
+              <button data-u_email='<?php echo $row['u_email'] ?>' class="view-details btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="bx bx-expand"></i></button>
+              </td>
+              <td><a href="approve.php?u_email=<?php echo $row['u_email'];?>" class="btn btn-success"><i class='bx bxs-user-check'></i></a></td>
+              <td><a href="disapprove.php?u_email=<?php echo $row['u_email'];?>"><button class="btn btn-danger"><i class='bx bxs-user-x'></i></button></a></td>
+            </tr>
+
+<?php
+  }
+} 
+else 
+{
+  echo "0 results";
+}
+?>
+        </tbody>
+    </table> 
+
+<script type='text/javascript'>
+            $(document).ready(function(){
+                $('.view-details').click(function(){
+                    var u_email = $(this).data('u_email');
+                    $.ajax({
+                        url: 'ajax_folder/ajaxfile.php',
+                        type: 'post',
+                        data: {u_email: u_email},
+                        success: function(response){ 
+                            $('.modal-body').html(response); 
+                            $('#exampleModalCenter').modal('show'); 
+                        }
+                    });
+                });
+            });
+            </script>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"><span id="modal-name">User Info</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+    </div>
+  </div>
+</div> 
+
         </div>
       </div>
     </div>
   </section>
+
+
+<!-- Image inserting JavaScript for displaying the selected image -->
+  <script>
+        const imgArea = document.querySelector('.img-area');
+        const inputFile = document.querySelector('#file');
+
+        imgArea.addEventListener('click', function () {
+            inputFile.click();
+        });
+
+        inputFile.addEventListener('change', function () {
+            const image = this.files[0];
+            
+            if (image.size < 2000000) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const allImg = imgArea.querySelectorAll('img');
+                    allImg.forEach(item => item.remove());
+                    const imgUrl = reader.result;
+                    const img = document.createElement('img');
+                    img.src = imgUrl;
+                    imgArea.appendChild(img);
+                    imgArea.classList.add('active');
+                    imgArea.dataset.img = image.name;
+                };
+                reader.readAsDataURL(image);
+            } else {
+                alert("Image size more than 2MB");
+            }
+        });
+    </script>
+
+
+<!-- JavaScript for display image form the database and display the new image choose for updating -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const imgArea = document.querySelector('.img-area-update');
+        const inputFile = document.querySelector('#file-update');
+
+        // Trigger file input when the image area is clicked
+        imgArea.addEventListener('click', function () {
+            inputFile.click();
+        });
+
+        // Handle file input change
+        inputFile.addEventListener('change', function () {
+            const image = this.files[0];
+            
+            if (image.size < 2000000) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    // Remove any existing image before adding the new one
+                    const existingImg = imgArea.querySelector('u_image');
+                    if (existingImg) {
+                        existingImg.remove();
+                    }
+
+                    // Create a new image element with the uploaded image
+                    const img = document.createElement('u_image');
+                    img.src = reader.result;
+                    img.alt = "Uploaded Image";
+                    img.classList.add('uploaded-image');
+
+                    // Replace the existing image with the new one
+                    imgArea.appendChild(img);
+                    imgArea.classList.add('active');
+                    imgArea.dataset.img = image.name;
+                };
+                reader.readAsDataURL(image);
+            } else {
+                alert("Image size more than 2MB");
+            }
+        });
+    });
+</script>
+
+
+  <script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+
+<script>
+    // Get the input element
+    var mobileNumberInput = document.getElementById('validationCustom05');
+    
+    // Attach an input event listener to the input field
+    mobileNumberInput.addEventListener('input', function () {
+      // Get the value entered by the user
+      var enteredValue = mobileNumberInput.value;
+
+      // Remove any non-numeric characters
+      var numericValue = enteredValue.replace(/\D/g, '');
+
+      // Check if the numeric value is between 10 and 10 characters
+      if (numericValue.length === 10) {
+        // Clear any previous error message
+        document.getElementById('error-message').textContent = '';
+      } else {
+        // Display an error message
+        document.getElementById('error-message').textContent = 'Mobile number must be 10 digits.';
+      }
+    });
+  </script>
 
   <script>
   function toggleFullScreen() {
