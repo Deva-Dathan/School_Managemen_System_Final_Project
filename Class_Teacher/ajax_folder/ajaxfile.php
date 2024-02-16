@@ -25,8 +25,8 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$id = $_POST['id'];
-$sql = "SELECT * FROM users WHERE id='$id'";
+$u_email = $_POST['u_email'];
+$sql = "SELECT * FROM student_data INNER JOIN parent_data ON student_data.u_email=parent_data.u_email WHERE student_data.u_email = '$u_email'";
 $result = mysqli_query($conn,$sql);
 while( $row = mysqli_fetch_array($result) )
 {
@@ -35,24 +35,14 @@ while( $row = mysqli_fetch_array($result) )
 ?>
 <table border='0' width='100%'>
 <tr>
-    <?php 
-    if($row['u_image'] == NULL)
-    {
-    ?>
-        <td width="300" align=center><img src="../assets/images/no_image.jpg" width=150 height=200 style="border:1px solid #f5f5f5; border-radius:15px;">
-    <?php
-    }
-    else{
-    ?>
-        <td width="300" align=center><img src="../uploads/<?php echo $row['u_image']; ?>" width=150 height=200 style="border:1px solid #f5f5f5; border-radius:15px;">
-    <?php
-    }
-    ?>
     <td>
-    <p><label class="label_name">ID</label><label class="label_dot">:</label><?php echo $row['id']; ?></p>
     <p><label class="label_name">Name</label><label class="label_dot">:</label><?php echo $row['u_name']; ?></p>
-    <p><label class="label_name">Designation</label><label class="label_dot">:</label><?php echo $row['u_role'];?></p>
+    <p><label class="label_name">Gender</label><label class="label_dot">:</label><?php echo $row['u_gender'];?></p>
     <p><label class="label_name">E-Mail</label><label class="label_dot">:</label><?php echo $row['u_email']; ?></p>
+    <p><label class="label_name">Parent Name</label><label class="label_dot">:</label><?php echo $row['parent_name']; ?></p>
+    <p><label class="label_name">Parent E-Mail</label><label class="label_dot">:</label><?php echo $row['parent_email']; ?></p>
+    <p><label class="label_name">Date-Of-Birth</label><label class="label_dot">:</label><?php echo date('d-M-Y', strtotime($row['u_dob']));?></p>
+    <p><label class="label_name">Standard</label><label class="label_dot">:</label><?php echo $row['standard']; ?></p>
     <p><label class="label_name">Mobile Number</label><label class="label_dot">:</label><?php echo $row['u_mobile']; ?></p>
     <p><label class="label_name">Address</label><label class="label_dot">:</label><?php echo $row['u_address']; ?></p>
     <p><label class="label_name">City</label><label class="label_dot">:</label><?php echo $row['u_city']; ?></p>

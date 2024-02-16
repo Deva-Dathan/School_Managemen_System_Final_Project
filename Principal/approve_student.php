@@ -580,9 +580,9 @@ nav .profile .profile-link a:hover {
     </div>
     <ul class="nav-links" id="nav-links">
         <li>
-          <a href="principal_dash.php" class="active">
-            <i class='bx bx-grid-alt' style="color:var(--light);"></i>
-            <span class="links_name" style="color:var(--light);">Dashboard</span>
+          <a href="principal_dash.php">
+            <i class='bx bx-grid-alt'></i>
+            <span class="links_name">Dashboard</span>
           </a>
         </li>
         <li>
@@ -616,9 +616,9 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="approve_student.php">
-            <i class='bx bx-user-plus' ></i>
-            <span class="links_name">Approve Student</span>
+          <a href="approve_student.php" class="active">
+            <i class='bx bx-user-plus' style="color:var(--light);"></i>
+            <span class="links_name" style="color:var(--light);">Approve Student</span>
           </a>
         </li>
         <li>
@@ -672,6 +672,22 @@ nav .profile .profile-link a:hover {
           <div class="col-md-6 col-12 title">APPROVE STUDENT</div>
           </div> <!--class row close div-->
 
+          <?php
+          if(isset($_SESSION['success_msg']))
+          {
+            ?>
+          <div class="alert alert-success mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['success_msg'];?></div>
+          <?php
+            unset($_SESSION['success_msg']);
+          }
+          elseif(isset($_SESSION['reject_msg']))
+          {
+            ?>
+          <div class="alert alert-danger mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['reject_msg'];?></div>
+            <?php
+            unset($_SESSION['reject_msg']);
+          }
+          ?>
 
 <!-- display the facult deatils -->
 
@@ -706,8 +722,8 @@ if (mysqli_num_rows($result) > 0)
               <td>
               <button data-u_email='<?php echo $row['u_email'] ?>' class="view-details btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="bx bx-expand"></i></button>
               </td>
-              <td><a href="approve.php?u_email=<?php echo $row['u_email'];?>" class="btn btn-success"><i class='bx bxs-user-check'></i></a></td>
-              <td><a href="disapprove.php?u_email=<?php echo $row['u_email'];?>"><button class="btn btn-danger"><i class='bx bxs-user-x'></i></button></a></td>
+              <td><a href="approve.php?u_email=<?php echo $row['u_email'];?>&parent_email=<?php echo $row['parent_email'];?>" class="btn btn-success"><i class='bx bxs-user-check'></i></a></td>
+              <td><a href="disapprove.php?u_email=<?php echo $row['u_email'];?>&parent_email=<?php echo $row['parent_email'];?>"><button class="btn btn-danger"><i class='bx bxs-user-x'></i></button></a></td>
             </tr>
 
 <?php
@@ -715,7 +731,7 @@ if (mysqli_num_rows($result) > 0)
 } 
 else 
 {
-  echo "0 results";
+  echo '<br><div class="alert alert-danger text-center font-weight-bold" role="alert">NO STUDENT RECORD FOR VERIFICATION FOUND....!</div>';
 }
 ?>
         </tbody>
@@ -744,7 +760,7 @@ else
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle"><span id="modal-name">User Info</span></h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><span id="modal-name">Student Info</span></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

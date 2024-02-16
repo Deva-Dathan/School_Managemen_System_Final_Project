@@ -710,7 +710,7 @@ if (mysqli_num_rows($result) > 0)
               <td ><?php echo $row['parent_name'];?></td>
               <td><?php echo $row['standard'];?></td>
               <td>
-              <button data-id='<?php echo $row['id'] ?>' class="view-details btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="bx bx-expand"></i></button>
+              <button data-u_email='<?php echo $row['u_email'] ?>' class="view-details btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="bx bx-expand"></i></button>
               </td>
               <td><a href="student_delete.php?u_email=<?php echo $row['u_email'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
             </tr>
@@ -725,14 +725,14 @@ else
         </tbody>
     </table> 
 
-<script type='text/javascript'>
+    <script type='text/javascript'>
             $(document).ready(function(){
                 $('.view-details').click(function(){
-                    var id = $(this).data('id');
+                    var u_email = $(this).data('u_email');
                     $.ajax({
                         url: 'ajax_folder/ajaxfile.php',
                         type: 'post',
-                        data: {id: id},
+                        data: {u_email: u_email},
                         success: function(response){ 
                             $('.modal-body').html(response); 
                             $('#exampleModalCenter').modal('show'); 
@@ -741,6 +741,24 @@ else
                 });
             });
             </script>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"><span id="modal-name">Student Info</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+    </div>
+  </div>
+</div> 
  
 
         </div>
