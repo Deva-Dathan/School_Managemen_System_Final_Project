@@ -11,6 +11,8 @@ $dbname = "school_management_system";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 $delete_email = $_GET['u_email'];
+$parent_email = $_GET['parent_email'];
+
 $sql = "DELETE FROM student_data WHERE u_email='$delete_email'";
 
 if ($conn->query($sql) === TRUE) {
@@ -18,8 +20,10 @@ if ($conn->query($sql) === TRUE) {
     $conn->query($sql_users);
     $sql1 = "DELETE FROM parent_data WHERE u_email='$delete_email'";
     $conn->query($sql1);
+    $sql2 = "DELETE FROM users WHERE u_email='$parent_email'";
+    $conn->query($sql2);
     $_SESSION['success_msg'] = "STUDENT RECORD DELETED";
-    header("Location:add_students.php");
+    header("Location:view_students.php");
 } else {
   echo "Error deleting record: " . $conn->error;
 }

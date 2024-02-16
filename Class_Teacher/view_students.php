@@ -680,23 +680,38 @@ nav .profile .profile-link a:hover {
 
 <!-- display the facult deatils -->
 
+<?php
+          if(isset($_SESSION['success_msg']))
+          {
+            ?>
+          <div class="alert alert-success mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['success_msg'];?></div>
+          <?php
+            unset($_SESSION['success_msg']);
+          }
+          ?>
 
-<table id="example" class="table table-striped table-bordered nowrap mt-5" style="width:100%">
+
+<table id="example" class="table table-bordered nowrap mt-5" style="width:100%">
         <thead align=center>
             <tr>
               <th>SL.No</th>
               <th>Full Name</th>
               <th>Parent/Guardian Name</th>
               <th>Standard</th>
-              <th>Actions</th>
-              <th>Status</th>
+              <th colspan=3>Actions</th>
             </tr>
         </thead>
         <tbody>
 
         <?php
         $i=1;
-$sql = "SELECT * FROM student_data INNER JOIN parent_data ON student_data.u_email = parent_data.u_email INNER JOIN users ON parent_data.u_email=users.u_email WHERE users.u_role = 'STUDENT' AND users.status=1";
+        $logged_user = $_SESSION['u_email'];
+$get_class = "SELECT standard FROM class_teacher WHERE u_email = '$logged_user'";
+$result_cls = $conn->query($get_class);
+$row_cls = mysqli_fetch_assoc($result_cls);
+
+$cls = $row_cls['standard'];
+$sql = "SELECT * FROM student_data INNER JOIN parent_data ON student_data.u_email = parent_data.u_email INNER JOIN users ON parent_data.u_email=users.u_email WHERE users.u_role = 'STUDENT' AND users.status=1 AND student_data.standard='$cls'";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) 
 {
@@ -712,7 +727,8 @@ if (mysqli_num_rows($result) > 0)
               <td>
               <button data-u_email='<?php echo $row['u_email'] ?>' class="view-details btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="bx bx-expand"></i></button>
               </td>
-              <td><a href="student_delete.php?u_email=<?php echo $row['u_email'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
+              <td><a href="student_edit.php?email_id=<?php echo $row['u_email'];?>&parent_email=<?php echo $row['parent_email'];?>"><button class="btn btn-primary"><i class="bx bxs-edit"></i></button></a></td>
+              <td><a href="student_delete.php?u_email=<?php echo $row['u_email'];?>&parent_email=<?php echo $row['parent_email'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
             </tr>
 <?php
   }

@@ -1,8 +1,18 @@
 <?php
+ob_start();
 session_start();
-include("../include/db_connection.php");
-include("../header.php");
-include("../footer.php");
+$servername = "localhost";
+$username = "root";
+$password = "";
+$db_name = "school_management_system";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $db_name);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
 
 // if(!isset($_SESSION['u_email']))
 // {
@@ -15,12 +25,13 @@ include("../footer.php");
 ?>
 
 <!DOCTYPE html>
-<!-- Coding by CodingNepal | www.codingnepalweb.com -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
     <title> G H S S </title>
     <link rel="icon" type="image/x-icon" href="../assets/images/school_logo.png">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
       /* Googlefont Poppins CDN Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
@@ -43,6 +54,19 @@ include("../footer.php");
 	--red: #FC3B56;
   --dark-red: #FC1605;
   --primary-blue: #007bff;
+}
+    /*** Spinner ***/
+    #spinner {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s ease-out, visibility 0s linear .5s;
+    z-index: 99999;
+}
+
+#spinner.show {
+    transition: opacity .5s ease-out, visibility 0s linear 0s;
+    visibility: visible;
+    opacity: 1;
 }
 .sidebar{
   position: fixed;
@@ -492,39 +516,40 @@ nav .profile .profile-link a:hover {
   justify-content:center;
   align-items:center;
 }
-.img-area, .img-area-update {
+.img-area-update {
 	position: relative;
 	width: 60%;
 	height: 250px;
 	background: var(--grey);
 	margin-bottom: 30px;
-    border : 1px solid #f5f5f5;
-    border-radius:15px;
+  border : 1px solid #f5f5f5;
+  border-radius:15px;
 	overflow: hidden;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-    cursor: pointer;
+  cursor: pointer;
+  z-index:1;
 }
-.img-area .icon, .img-area-update .icon {
+.img-area-update .icon {
 	font-size: 100px;
     color:var(--primary-blue);
 }
-.img-area h3, .img-area-update h3 {
+.img-area-update h3 {
 	font-size: 20px;
 	font-weight: 500;
 	margin-bottom: 6px;
 }
-.img-area p, .img-area-update p {
+.img-area-update p {
 	color: #999;
     text-align:center;
     padding : 10px;
 }
-.img-area p span, .img-area-update p span {
+.img-area-update p span {
 	font-weight: 600;
 }
-.img-area img, .img-area-update img {
+.img-area-update img {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -534,7 +559,7 @@ nav .profile .profile-link a:hover {
 	object-position: center;
 	z-index: 100;
 }
-.img-area::before, .img-area-update::before {
+.img-area-update::before {
 	content: attr(data-img);
 	position: absolute;
 	top: 0;
@@ -553,7 +578,7 @@ nav .profile .profile-link a:hover {
 	transition: all .3s ease;
 	z-index: 200;
 }
-.img-area.active:hover::before, .img-area-update.active:hover::before {
+.img-area-update.active:hover::before {
 	opacity: 1;
 }
 .required::after{
@@ -569,10 +594,12 @@ nav .profile .profile-link a:hover {
     </style>
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
 <body id="element">
-  <?php include("../loader.php");?>
+
+
   <div class="sidebar" id="sidebar">
     <div class="logo-details">
       <img src="../assets/images/school_logo.png" alt="School_Logo" width=60 height=60>
@@ -586,15 +613,15 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="add_students.php" class="active">
-            <i class='bx bxs-user' style="color:var(--light);"></i>
-            <span class="links_name" style="color:var(--light);">Student Status</span>
+          <a href="add_students.php">
+            <i class='bx bxs-user'></i>
+            <span class="links_name">Student Status</span>
           </a>
         </li>
         <li>
-          <a href="view_students.php">
-            <i class='bx bx-user' ></i>
-            <span class="links_name">View Student</span>
+          <a href="view_students.php" class="active">
+            <i class='bx bx-user' style="color:var(--light);"></i>
+            <span class="links_name" style="color:var(--light);">View Student</span>
           </a>
         </li>
         <li>
@@ -645,7 +672,7 @@ nav .profile .profile-link a:hover {
     <nav>
       <div class="sidebar-button">
         <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard"><?php echo $_SESSION['u_name'];?></span>
+        <span class="dashboard">Dashboard</span>
       </div>
       <div class="search-box">
         <input type="text" placeholder="Search...">
@@ -671,352 +698,279 @@ nav .profile .profile-link a:hover {
 			</div>
     </nav>
 
+
+
     <div class="home-content">
       <div class="sales-boxes">
         <div class="top-sales box">
           <div class="row">
-          <div class="col-md-6 col-12 title">ADD STUDENTS</div>
-          <div class="col-md-6 col-12" style="display:flex; justify-content:right; align-items:right;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class='bx bx-plus'></i>&nbspNew Student</button></div>
+          <div class="col-md-6 col-12 title mb-5">UPDATE STUDENT DATA</div>
           </div> <!--class row close div-->
-          
-          <?php
-          if(isset($_SESSION['success_msg']))
-          {
-            ?>
-          <div class="alert alert-success mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['success_msg'];?></div>
-          <?php
-            unset($_SESSION['success_msg']);
-          }
-          ?>
 
-      <!-- inserting data into the table -->
-      <?php
-      if($_SERVER["REQUEST_METHOD"] == "POST")
-      {
-        $uid = time();
-        $fullname = $_POST['fname']." ".$_POST['lname'];
-        $gender = $_POST['gender'];
-        $standard = $_POST['standard'];
-        $parentName = $_POST['parent_name'];
-        $mobile = $_POST['mobile'];
-        $dob = $_POST['dob'];
-        $Studentemail = $_POST['student_email'];
-        $Parentemail = $_POST['parent_email'];
-        $password = $_POST['password'];
-        $address = $_POST['address'];
-        $city = $_POST['city'];
-        $district = $_POST['district'];
-        $state = $_POST['state'];
-        $zip = $_POST['zip'];
 
-        $sel_sql = "SELECT u_email FROM student_data WHERE u_email = '$Studentemail' AND parent_email = '$Parentemail'";
-        $result = $conn->query($sel_sql);
-        
-        if ($result->num_rows > 0) {
-            // Email already exists, show an error message or handle it accordingly
-            echo '<script>Swal.fire({icon: "error",title: "Oops...",text: "E-mail Already Exist!"});</script>';
-        } else {
-            // Email does not exist, proceed with the insertion
-            $sql_user = "INSERT INTO users (id, u_name, u_gender, u_email, u_pass, u_role, u_address, u_mobile, u_city, u_district, u_state, u_zip, status) VALUES ('$uid', '$fullname', '$gender', '$Studentemail', '$password', 'STUDENT', '$address', '$mobile', '$city', '$district', '$state', '$zip', 0)";
-            if ($conn->query($sql_user) === TRUE) {
-            $sql = "INSERT INTO student_data(u_name, u_gender, u_mobile, u_email, parent_email, u_dob, standard, u_address, u_city, u_district, u_state, u_zip, status) VALUES ('$fullname', '$gender', '$mobile', '$Studentemail', '$Parentemail', '$dob', '$standard', '$address', '$city', '$district', '$state', '$zip', 0)";
-            if ($conn->query($sql) === TRUE) {
-              $sql_parent = "INSERT INTO users (id, u_name, u_email, u_pass, u_role, status) VALUES ('$uid', '$parentName', '$Parentemail', '$password', 'PARENT', 0)";
-                $conn->query($sql_parent);
-              $sql1 = "INSERT INTO parent_data(parent_name, parent_email, u_email, u_mobile, standard) VALUES ('$parentName', '$Parentemail', '$Studentemail', '$mobile', '$standard')";
-                $conn->query($sql1);
-                echo '<div class="alert alert-danger mt-3" role="alert">Student Record is <a href="#" class="alert-link">UNDER VERFICATION</a>.</div>';
-            } else {
-                echo '<script>alert("Error: ' . $sql . '\\n' . $conn->error . '");</script>';
-            }
-          }
+  <?php
+    $email_id = $_GET['email_id'];
+    $parent_email = $_GET['parent_email'];
+
+  if($_SERVER['REQUEST_METHOD'] == 'POST')
+  {
+    $name = $_POST['fname']." ".$_POST['lname'];
+    $gender = $_POST['gender'];
+    $mobile = $_POST['mobile'];
+    $parentName = $_POST['parent_name'];
+    $dob = $_POST['dob'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $district = $_POST['district'];
+    $state = $_POST['state'];
+    $zip = $_POST['zip'];
+
+        // Proceed with the updating user table with changed student data
+        $sql = "UPDATE users SET u_name = '$name', u_gender = '$gender', u_address = '$address', u_mobile = '$mobile', u_city = '$city', u_district = '$district', u_state = '$state', u_zip = '$zip' WHERE u_email = '$email_id'";
+        if ($conn->query($sql) === TRUE) 
+        {
+          // update student data in student table
+          $sql1 = "UPDATE student_data SET u_name = '$name', u_gender = '$gender', u_dob = '$dob', u_address = '$address', u_mobile = '$mobile', u_city = '$city', u_district = '$district', u_state = '$state', u_zip = '$zip' WHERE u_email = '$email_id'";
+          $conn->query($sql1);
+
+            // update parent data in parent table
+            $sql2 = "UPDATE parent_data SET parent_name = '$parentName', u_mobile = '$mobile' WHERE parent_email = '$parent_email'";
+            $conn->query($sql2);
+
+            // update parent data in user table
+            $sql3 = "UPDATE users SET u_name = '$parentName', status = 2 WHERE u_email = '$parent_email'";
+            $conn->query($sql3);
+            ob_end_clean();
+            $_SESSION['success_msg'] = "STUDENT RECORD UPDATED SUCCESSFULLY";
+            header("Location:view_students.php");
         }
-      }
-      ?>
-          <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">ADD NEW STUDENT</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+        else 
+        {
+          echo '<div class="alert alert-danger mt-3" role="alert">Error: '. $sql .'\\n' .$conn->error .' </div>';
+        }
+  }
 
-      <form method="POST" class="needs-validation" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data" novalidate>
+  ?>
 
-      <div class="row">
-        <div class="col-md-4 mb-3">
-
-          <div class="form-group">
-            <label for="validationCustom01" class="required">First name</label>
-            <input type="text" class="form-control" name="fname" id="validationCustom01" required>
-            <div class="valid-feedback">Looks good!</div>
-          </div> <!-- form-group close -->
-
-          <div class="form-group">
-            <label for="validationCustomd03" class="required">Parent/Guardian Name</label>
-            <input type="text" class="form-control" name="parent_name" id="validationCustom01" required>
-            <div class="valid-feedback">Looks good!</div>
-          </div> <!-- form-group close -->
-
-          <div class="form-group">
-            <label for="validationCustom05" class="required">Parent/Guardian Mobile Number</label>
-            <input type="number" class="form-control" name="mobile" id="validationCustom05" required>
-            <p class="error-message" id="error-message"></p>
-            <div class="invalid-feedback">Please provide a valid mobile number.</div>
-          </div> <!-- form-group close -->
-
-        </div><!-- col-md-4 mb-3 close -->
-
-        <div class="col-md-4 mb-3">
-
-          <div class="form-group">
-            <label for="validationCustom04" class="required">Last name</label>
-            <input type="text" class="form-control" name="lname" id="validationCustom04" required>
-            <div class="valid-feedback">Looks good!</div>
-          </div> <!-- form-group close -->
-
-          <div class="form-group">
-          <label for="validationCustom02" class="required">Standard</label>
-          <select class="custom-select" name="standard" id="validationCustom02" required onchange="toggleEmailField()">
-              <option selected disabled>Choose...</option>
-              <?php
+<?php
+        $i=1;
 $logged_user = $_SESSION['u_email'];
 $get_class = "SELECT standard FROM class_teacher WHERE u_email = '$logged_user'";
 $result_cls = $conn->query($get_class);
-while($row_cls = mysqli_fetch_assoc($result_cls))
-{
-  ?>
-              <option value="<?php echo $row_cls['standard'];?>"><?php echo $row_cls['standard'];?></option>
-              <?php
-}
-?>
-            </select>
-              <div class="invalid-feedback">Please select a standard for the list.</div>
-          </div> <!-- form-group close -->
+$row_cls = mysqli_fetch_assoc($result_cls);
 
-          <div class="form-group" id="student_email_group">
-      <label for="validationCustom06" class="required">Student's E-mail</label>
-      <input type="email" class="form-control" name="student_email" id="validationCustom06" required>
-      <div class="invalid-feedback">Please provide a valid Student's E-Mail.</div>
-      <span id="email_error-message" class="email_error-message"></span>
-    </div> <!-- form-group close -->
-    
-    <div class="form-group" id="parent_email_group" style="display:none;">
-      <label for="validationCustom07" class="required">Parent's E-mail</label>
-      <input type="email" class="form-control" name="parent_email" id="validationCustom07" required>
-      <div class="invalid-feedback">Please provide a valid Parent's E-Mail.</div>
-      <span id="parent_email_error-message" class="email_error-message"></span>
-    </div> <!-- form-group close -->
+$cls = $row_cls['standard'];
+$get_email = $_GET['email_id'];
 
-        </div><!-- col-md-4 mb-3 close -->
-
-        <script>
-  function toggleEmailField() {
-    var standardSelect = document.getElementById("validationCustom02");
-    var studentEmailGroup = document.getElementById("student_email_group");
-    var parentEmailGroup = document.getElementById("parent_email_group");
-
-    if (standardSelect.value === "I" || standardSelect.value === "II" || standardSelect.value === "III" || standardSelect.value === "IV") {
-      studentEmailGroup.style.display = "none";
-      parentEmailGroup.style.display = "block";
-      parentEmailGroup.querySelector('input').setAttribute("required", "required");
-      studentEmailGroup.querySelector('input').removeAttribute("required");
-    } else {
-      studentEmailGroup.style.display = "block";
-      parentEmailGroup.style.display = "block";
-      studentEmailGroup.querySelector('input').setAttribute("required", "required");
-      parentEmailGroup.querySelector('input').setAttribute("required", "required");
-    }
-  }
-</script>
-
-
-        <div class="col-md-4 mb-3">
-        <div class="form-group">
-            <label for="validationCustom08" class="required">Gender</label>
-              <select class="custom-select" name="gender" id="validationCustom08" required>
-                <option selected disabled>Choose...</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
-              <div class="invalid-feedback">Please select a valid gender.</div>
-          </div> <!-- form-group close -->
-
-          <div class="form-group">
-            <label for="validationCustom09" class="required">Date-of-Birth</label>
-            <input type="date" class="form-control" name="dob" id="validationCustom09" required>
-            <div class="invalid-feedback">Please provide a valid DOB.</div>
-          </div> <!-- form-group close -->
-
-          <div class="form-group">
-            <label for="validationCustom10" class="required">Password</label>
-            <input type="password" class="form-control" name="password" id="validationCustom10" value="<?php echo md5('password');?>" required>
-            <div class="valid-feedback">Looks good!</div>
-          </div> <!-- form-group close -->
-
-        </div>
-
-
-      </div><!-- row close -->
-
-      <div class="row">
-      <div class="col-md-6 mb-3">
-          <label for="validationCustom11" class="required">Address</label>
-            <input type="text" class="form-control" name="address" id="validationCustom11" required>
-            <div class="invalid-feedback">Please provide a valid address.</div>
-      </div>
-
-      <div class="col-md-6 mb-3">
-          <label for="validationCustom12" class="required">City</label>
-          <input type="text" class="form-control" name="city" id="validationCustom12" required>
-          <div class="invalid-feedback">Please provide a valid city.</div>
-      </div>
-      </div>
-
-      <div class="row">
-      <div class="col-md-4 mb-3">
-      <label for="validationCustom13" class="required">District</label>
-          <select class="custom-select" name="district" id="validationCustom13" required>
-            <option selected disabled>Choose...</option>
-            <option value="Alappuzha">Alappuzha</option>
-            <option value="Ernakulam">Ernakulam</option>
-            <option value="Idukki">Idukki</option>
-            <option value="Kannur">Kannur</option>
-            <option value="Kasaragod">Kasaragod</option>
-            <option value="Kollam">Kollam</option>
-            <option value="Kottayam">Kottayam</option>
-            <option value="Kozhikode">Kozhikode</option>
-            <option value="Malappuram">Malappuram</option>
-            <option value="Palakkad">Palakkad</option>
-            <option value="Pathanamthitta">Pathanamthitta</option>
-            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
-            <option value="Thrissur">Thrissur</option>
-            <option value="Wayanad">Wayanad</option>
-          </select>
-          <div class="invalid-feedback">Please select a valid district.</div>
-      </div>
-
-      <div class="col-md-4 mb-3">
-      <label for="validationCustom14" class="required">State</label>
-      <input type="text" class="form-control" name="state" id="validationCustom14" value="Kerala" required>
-        <div class="invalid-feedback">Please select a valid State.</div>
-      </div>
-
-      <div class="col-md-4 mb-3">
-        <label for="validationCustom15" class="required">Zip code</label>
-        <input type="text" class="form-control" name="zip" id="validationCustom15" required>
-        <div class="invalid-feedback">Please provide a valid zip code.</div>
-      </div>
-      </div>
-      <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-      <label class="form-check-label" for="invalidCheck">
-        Agree to terms and conditions
-      </label>
-      <div class="invalid-feedback">
-        You must agree before submitting.
-      </div>
-    </div>
-  </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" name="u_add_teacher" class="btn btn-primary">Add Student</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- display the facult deatils -->
-
-
-<table id="example" class="table table-striped table-bordered nowrap mt-5" style="width:100%">
-        <thead align=center>
-            <tr>
-              <th>SL.No</th>
-              <th>Full Name</th>
-              <th>Parent/Guardian Name</th>
-              <th>Standard</th>
-              <th>Actions</th>
-              <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-
-        <?php
-        $i=1;
-$sql = "SELECT * FROM student_data INNER JOIN parent_data ON student_data.u_email = parent_data.u_email WHERE student_data.status = 0";
+$sql = "SELECT * FROM users INNER JOIN student_data ON users.u_email = student_data.u_email INNER JOIN parent_data ON student_data.u_email=parent_data.u_email WHERE users.u_email='$get_email' AND student_data.standard='$cls'";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) 
 {
   while($row = mysqli_fetch_assoc($result)) 
   {
+    $Name = explode(" ",$row['u_name']);
 ?>
 
-            <tr align=center>
-              <td><?php echo $i++;?></td>
-              <td><?php echo $row['u_name'];?></td>
-              <td ><?php echo $row['parent_name'];?></td>
-              <td><?php echo $row['standard'];?></td>
-              <td><a href="student_delete.php?u_email=<?php echo $row['u_email'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
-              <?php
-              if($row['status'] == 0)
-              {
-              ?>
-              <td><p style="color:red; font-weight:bold; text">NOT VERIFIED</p></td>
-              <?php
-              }
-              else
-              {
-                ?>
-              <td><p style="color:green; font-weight:bold; text">VERIFIED</p></td>
-                <?php
-              }
-              ?>
-            </tr>
+<form method="POST" class="needs-validation" novalidate>
+
+<div class="row">
+  <div class="col-md-4 mb-3">
+
+    <div class="form-group">
+      <label for="validationCustom01" class="required">First name</label>
+      <input type="text" class="form-control" value="<?php echo $Name[0];?>" name="fname" id="validationCustom01" required>
+      <div class="valid-feedback">Looks good!</div>
+    </div> <!-- form-group close -->
+
+    <div class="form-group">
+      <label for="validationCustomd03" class="required">Parent/Guardian Name</label>
+      <input type="text" class="form-control" value="<?php echo $row['parent_name'];?>" name="parent_name" id="validationCustom01" required>
+      <div class="valid-feedback">Looks good!</div>
+    </div> <!-- form-group close -->
+
+    <div class="form-group">
+      <label for="validationCustom05" class="required">Parent/Guardian Mobile Number</label>
+      <input type="number" class="form-control" value="<?php echo $row['u_mobile'];?>" name="mobile" id="validationCustom05" required>
+      <p class="error-message" id="error-message"></p>
+      <div class="invalid-feedback">Please provide a valid mobile number.</div>
+    </div> <!-- form-group close -->
+
+  </div><!-- col-md-4 mb-3 close -->
+
+  <div class="col-md-4 mb-3">
+
+    <div class="form-group">
+      <label for="validationCustom04" class="required">Last name</label>
+      <input type="text" class="form-control" value="<?php echo $Name[1];?>" name="lname" id="validationCustom04" required>
+      <div class="valid-feedback">Looks good!</div>
+    </div> <!-- form-group close -->
+
+    <div class="form-group">
+    <label for="validationCustom02" class="required">Standard</label>
+    <select class="custom-select" name="standard" id="validationCustom02">
+        <option disabled>Choose...</option>
+        <option value="<?php echo $row['standard']?>" selected disabled><?php echo $row['standard']?></option>
+        </select>
+        <div class="invalid-feedback">Please select a standard for the list.</div>
+    </div> <!-- form-group close -->
+
+    <div class="form-group" id="student_email_group">
+<label for="validationCustom06" class="required">Student's E-mail</label>
+<input type="email" class="form-control" value="<?php echo $row['u_email'];?>" name="student_email" id="validationCustom06" readonly>
+<div class="invalid-feedback">Please provide a valid Student's E-Mail.</div>
+<span id="email_error-message" class="email_error-message"></span>
+</div> <!-- form-group close -->
+
+<div class="form-group" id="parent_email_group" style="display:none;">
+<label for="validationCustom07" class="required">Parent's E-mail</label>
+<input type="email" class="form-control" value="<?php echo $row['parent_email'];?>" name="parent_email" id="validationCustom07" readonly>
+<div class="invalid-feedback">Please provide a valid Parent's E-Mail.</div>
+<span id="parent_email_error-message" class="email_error-message"></span>
+</div> <!-- form-group close -->
+
+  </div><!-- col-md-4 mb-3 close -->
+
+
+
+  <div class="col-md-4 mb-3">
+  <div class="form-group">
+      <label for="validationCustom08" class="required">Gender</label>
+        <select class="custom-select" value="<?php echo $row['u_gender'];?>" name="gender" id="validationCustom08" required>
+          <option selected disabled>Choose...</option>
+          <option value="Male" <?php echo ($row['u_gender'] == 'Male') ? 'selected' : ''; ?>>Male</option>
+          <option value="Female" <?php echo ($row['u_gender'] == 'Female') ? 'selected' : ''; ?>>Female</option>
+          <option value="Other" <?php echo ($row['u_gender'] == 'Other') ? 'selected' : ''; ?>>Other</option>
+        </select>
+        <div class="invalid-feedback">Please select a valid gender.</div>
+    </div> <!-- form-group close -->
+
+    <div class="form-group">
+      <label for="validationCustom09" class="required">Date-of-Birth</label>
+      <input type="date" class="form-control" value="<?php echo $row['u_dob'];?>" name="dob" id="validationCustom09" required>
+      <div class="invalid-feedback">Please provide a valid DOB.</div>
+    </div> <!-- form-group close -->
+
+    <div class="form-group" id="parent_email_group">
+<label for="validationCustom07" class="required">Parent's E-mail</label>
+<input type="email" class="form-control" value="<?php echo $row['parent_email'];?>" name="parent_email" id="validationCustom07" readonly>
+<div class="invalid-feedback">Please provide a valid Parent's E-Mail.</div>
+<span id="parent_email_error-message" class="email_error-message"></span>
+</div> <!-- form-group close -->
+
+  </div>
+
+
+</div><!-- row close -->
+
+<div class="row">
+<div class="col-md-6 mb-3">
+    <label for="validationCustom11" class="required">Address</label>
+      <input type="text" class="form-control" value="<?php echo $row['u_address'];?>" name="address" id="validationCustom11" required>
+      <div class="invalid-feedback">Please provide a valid address.</div>
+</div>
+
+<div class="col-md-6 mb-3">
+    <label for="validationCustom12" class="required">City</label>
+    <input type="text" class="form-control" value="<?php echo $row['u_city'];?>" name="city" id="validationCustom12" required>
+    <div class="invalid-feedback">Please provide a valid city.</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-4 mb-3">
+<label for="validationCustom13" class="required">District</label>
+    <select class="custom-select" name="district" id="validationCustom13" required>
+    <option disabled>Choose...</option>
+      <option value="Alappuzha" <?php echo ($row['u_district'] == 'Alappuzha') ? 'selected' : ''; ?>>Alappuzha</option>
+      <option value="Ernakulam" <?php echo ($row['u_district'] == 'Ernakulam') ? 'selected' : ''; ?>>Ernakulam</option>
+      <option value="Idukki" <?php echo ($row['u_district'] == 'Idukki') ? 'selected' : ''; ?>>Idukki</option>
+      <option value="Kannur" <?php echo ($row['u_district'] == 'Kannur') ? 'selected' : ''; ?>>Kannur</option>
+      <option value="Kasaragod" <?php echo ($row['u_district'] == 'Kasaragod') ? 'selected' : ''; ?>>Kasaragod</option>
+      <option value="Kollam" <?php echo ($row['u_district'] == 'Kollam') ? 'selected' : ''; ?>>Kollam</option>
+      <option value="Kottayam" <?php echo ($row['u_district'] == 'Kottayam') ? 'selected' : ''; ?>>Kottayam</option>
+      <option value="Kozhikode" <?php echo ($row['u_district'] == 'Kozhikode') ? 'selected' : ''; ?>>Kozhikode</option>
+      <option value="Malappuram" <?php echo ($row['u_district'] == 'Malappuram') ? 'selected' : ''; ?>>Malappuram</option>
+      <option value="Palakkad" <?php echo ($row['u_district'] == 'Palakkad') ? 'selected' : ''; ?>>Palakkad</option>
+      <option value="Pathanamthitta" <?php echo ($row['u_district'] == 'Pathanamthitta') ? 'selected' : ''; ?>>Pathanamthitta</option>
+      <option value="Thiruvananthapuram" <?php echo ($row['u_district'] == 'Thiruvananthapuram') ? 'selected' : ''; ?>>Thiruvananthapuram</option>
+      <option value="Thrissur" <?php echo ($row['u_district'] == 'Thrissur') ? 'selected' : ''; ?>>Thrissur</option>
+      <option value="Wayanad" <?php echo ($row['u_district'] == 'Wayanad') ? 'selected' : ''; ?>>Wayanad</option>
+    </select>
+    <div class="invalid-feedback">Please select a valid district.</div>
+</div>
+
+<div class="col-md-4 mb-3">
+<label for="validationCustom14" class="required">State</label>
+<input type="text" class="form-control" value="<?php echo $row['u_state'];?>" name="state" id="validationCustom14" value="Kerala" required>
+  <div class="invalid-feedback">Please select a valid State.</div>
+</div>
+
+<div class="col-md-4 mb-3">
+  <label for="validationCustom15" class="required">Zip code</label>
+  <input type="text" class="form-control" value="<?php echo $row['u_zip'];?>" name="zip" id="validationCustom15" required>
+  <div class="invalid-feedback">Please provide a valid zip code.</div>
+</div>
+</div>
+<div class="row  float-right">
+  <div class="col-md-6"><input type="submit" name="u_update_student" class="btn btn-primary" value="Update Data"></div>
+ </div>
+</div>
+  </form>
+
 <?php
   }
-} 
-else 
-{
-  echo '<br><div class="alert alert-danger text-center font-weight-bold" role="alert">NO RECORD FOUND....!</div>';
 }
 ?>
-        </tbody>
-    </table> 
 
-<script type='text/javascript'>
-            $(document).ready(function(){
-                $('.view-details').click(function(){
-                    var id = $(this).data('id');
-                    $.ajax({
-                        url: 'ajax_folder/ajaxfile.php',
-                        type: 'post',
-                        data: {id: id},
-                        success: function(response){ 
-                            $('.modal-body').html(response); 
-                            $('#exampleModalCenter').modal('show'); 
-                        }
-                    });
-                });
-            });
-            </script>
- 
 
         </div>
       </div>
     </div>
   </section>
 
+
+<!-- JavaScript for display image form the database and display the new image choose for updating -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const imgArea = document.querySelector('.img-area-update');
+        const inputFile = document.querySelector('#file-update');
+
+        // Trigger file input when the image area is clicked
+        imgArea.addEventListener('click', function () {
+            inputFile.click();
+        });
+
+        // Handle file input change
+        inputFile.addEventListener('change', function () {
+            const image = this.files[0];
+            
+            if (image.size < 2000000) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    // Remove any existing image before adding the new one
+                    const existingImg = imgArea.querySelector('u_image');
+                    if (existingImg) {
+                        existingImg.remove();
+                    }
+
+                    // Create a new image element with the uploaded image
+                    const img = document.createElement('u_image');
+                    img.src = reader.result;
+                    img.alt = "Uploaded Image";
+                    img.classList.add('uploaded-image');
+
+                    // Replace the existing image with the new one
+                    imgArea.appendChild(img);
+                    imgArea.classList.add('active');
+                    imgArea.dataset.img = image.name;
+                };
+                reader.readAsDataURL(image);
+            } else {
+                alert("Image size more than 2MB");
+            }
+        });
+    });
+</script>
 
   <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -1130,6 +1084,15 @@ sidebarBtn.onclick = function() {
   sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
 }
  </script>
+
+<script async src="https://cdn.ampproject.org/v0.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script async src="https://cdn.ampproject.org/v0.js"></script> 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 </body>
 </html>
