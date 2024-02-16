@@ -696,7 +696,7 @@ nav .profile .profile-link a:hover {
 
         <?php
         $i=1;
-$sql = "SELECT * FROM student_data INNER JOIN parent_data ON student_data.u_email = parent_data.u_email INNER JOIN users ON parent_data.u_email=users.u_email WHERE users.u_role = 'STUDENT'";
+$sql = "SELECT * FROM student_data INNER JOIN parent_data ON student_data.u_email = parent_data.u_email INNER JOIN users ON parent_data.u_email=users.u_email WHERE users.u_role = 'STUDENT' AND users.status=1";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) 
 {

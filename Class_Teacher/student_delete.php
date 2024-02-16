@@ -14,6 +14,8 @@ $delete_email = $_GET['u_email'];
 $sql = "DELETE FROM student_data WHERE u_email='$delete_email'";
 
 if ($conn->query($sql) === TRUE) {
+    $sql_users = "DELETE FROM users WHERE u_email='$delete_email'";
+    $conn->query($sql_users);
     $sql1 = "DELETE FROM parent_data WHERE u_email='$delete_email'";
     $conn->query($sql1);
     $_SESSION['success_msg'] = "STUDENT RECORD DELETED";

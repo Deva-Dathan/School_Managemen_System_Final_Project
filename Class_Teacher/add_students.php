@@ -721,6 +721,8 @@ nav .profile .profile-link a:hover {
             if ($conn->query($sql_user) === TRUE) {
             $sql = "INSERT INTO student_data(u_name, u_gender, u_mobile, u_email, parent_email, u_dob, standard, u_address, u_city, u_district, u_state, u_zip, status) VALUES ('$fullname', '$gender', '$mobile', '$Studentemail', '$Parentemail', '$dob', '$standard', '$address', '$city', '$district', '$state', '$zip', 0)";
             if ($conn->query($sql) === TRUE) {
+              $sql_parent = "INSERT INTO users (id, u_name, u_email, u_pass, u_role, status) VALUES ('$uid', '$parentName', '$Parentemail', '$password', 'PARENT', 0)";
+                $conn->query($sql_parent);
               $sql1 = "INSERT INTO parent_data(parent_name, parent_email, u_email, u_mobile, standard) VALUES ('$parentName', '$Parentemail', '$Studentemail', '$mobile', '$standard')";
                 $conn->query($sql1);
                 echo '<div class="alert alert-danger mt-3" role="alert">Student Record is <a href="#" class="alert-link">UNDER VERFICATION</a>.</div>';

@@ -6,7 +6,7 @@ if(isset($_POST['u_login']))
     $username = $_POST['username'];
     $password = md5($_POST['password']);
 
-    $sql = "SELECT u_name, u_role FROM users WHERE u_email='$username' AND u_pass='$password'";
+    $sql = "SELECT u_name, u_role, status FROM users WHERE u_email='$username' AND u_pass='$password'";
     $result = $conn->query($sql);
     
     if ($result->num_rows > 0) 
@@ -57,17 +57,31 @@ if(isset($_POST['u_login']))
         }
         elseif($row['u_role'] == 'STUDENT')
         {
-            $_SESSION['u_email'] = $username;
-            $_SESSION['u_name'] = $row['u_name'];
-            $_SESSION['u_role'] = $row['u_role'];
-            header("Location: Student/student_dash.php");  
+            if($row['status'] == 1)
+            {
+                $_SESSION['u_email'] = $username;
+                $_SESSION['u_name'] = $row['u_name'];
+                $_SESSION['u_role'] = $row['u_role'];
+                header("Location: Student/student_dash.php");  
+            }
+            else
+            {
+                echo '<div class="alert alert-danger text-center font-weight-bold mt-5" role="alert">ACCOUNT NOT VERIFIED...</div>';
+            }
         }
         elseif($row['u_role'] == 'PARENT')
         {
-            $_SESSION['u_email'] = $username;
-            $_SESSION['u_name'] = $row['u_name'];
-            $_SESSION['u_role'] = $row['u_role'];
-            header("Location: Parent/parent_dash.php");  
+            if($row['status'] == 1)
+            {
+                $_SESSION['u_email'] = $username;
+                $_SESSION['u_name'] = $row['u_name'];
+                $_SESSION['u_role'] = $row['u_role'];
+                header("Location: Parent/parent_dash.php"); 
+            }
+            else
+            {
+                echo '<div class="alert alert-danger text-center font-weight-bold mt-5" role="alert">ACCOUNT NOT VERIFIED...</div>';
+            } 
         }
         elseif($row['u_role'] == 'ALLOTMENT CELL')
         {

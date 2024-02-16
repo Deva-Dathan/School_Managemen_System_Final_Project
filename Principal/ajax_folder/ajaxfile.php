@@ -39,7 +39,7 @@ while( $row = mysqli_fetch_array($result) )
     <p><label class="label_name">Name</label><label class="label_dot">:</label><?php echo $row['u_name']; ?></p>
     <p><label class="label_name">Gender</label><label class="label_dot">:</label><?php echo $row['u_gender'];?></p>
     <p><label class="label_name">E-Mail</label><label class="label_dot">:</label><?php echo $row['u_email']; ?></p>
-    <p><label class="label_name">Parent E-Mail</label><label class="label_dot">:</label><?php echo $row['parent_email']; ?></p>
+    <p><label class="label_name">Parent Name</label><label class="label_dot">:</label><?php echo $row['parent_name']; ?></p>
     <p><label class="label_name">Date-Of-Birth</label><label class="label_dot">:</label><?php echo $row['u_dob']; ?></p>
     <p><label class="label_name">Standard</label><label class="label_dot">:</label><?php echo $row['standard']; ?></p>
     <p><label class="label_name">Mobile Number</label><label class="label_dot">:</label><?php echo $row['u_mobile']; ?></p>
