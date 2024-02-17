@@ -693,6 +693,7 @@ nav .profile .profile-link a:hover {
       <?php
       if($_SERVER["REQUEST_METHOD"] == "POST")
       {
+        $logged_user = $_SESSION['u_email'];
         $uid = time();
         $fullname = $_POST['fname']." ".$_POST['lname'];
         $gender = $_POST['gender'];
@@ -719,7 +720,7 @@ nav .profile .profile-link a:hover {
             // Email does not exist, proceed with the insertion
             $sql_user = "INSERT INTO users (id, u_name, u_gender, u_email, u_pass, u_role, u_address, u_mobile, u_city, u_district, u_state, u_zip, status) VALUES ('$uid', '$fullname', '$gender', '$Studentemail', '$password', 'STUDENT', '$address', '$mobile', '$city', '$district', '$state', '$zip', 0)";
             if ($conn->query($sql_user) === TRUE) {
-            $sql = "INSERT INTO student_data(u_name, u_gender, u_mobile, u_email, parent_email, u_dob, standard, u_address, u_city, u_district, u_state, u_zip, status) VALUES ('$fullname', '$gender', '$mobile', '$Studentemail', '$Parentemail', '$dob', '$standard', '$address', '$city', '$district', '$state', '$zip', 0)";
+            $sql = "INSERT INTO student_data(u_name, u_gender, u_mobile, u_email, parent_email, u_dob, standard, u_address, u_city, u_district, u_state, u_zip, status, added_by) VALUES ('$fullname', '$gender', '$mobile', '$Studentemail', '$Parentemail', '$dob', '$standard', '$address', '$city', '$district', '$state', '$zip', 0, '$logged_user')";
             if ($conn->query($sql) === TRUE) {
               $sql_parent = "INSERT INTO users (id, u_name, u_email, u_pass, u_role, status) VALUES ('$uid', '$parentName', '$Parentemail', '$password', 'PARENT', 0)";
                 $conn->query($sql_parent);
@@ -954,7 +955,8 @@ while($row_cls = mysqli_fetch_assoc($result_cls))
 
         <?php
         $i=1;
-$sql = "SELECT * FROM student_data INNER JOIN parent_data ON student_data.u_email = parent_data.u_email WHERE student_data.status = 0";
+        $get_email = $_SESSION['u_email'];
+$sql = "SELECT * FROM student_data INNER JOIN parent_data ON student_data.u_email = parent_data.u_email WHERE student_data.added_by='$get_email'";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) 
 {
@@ -975,7 +977,7 @@ if (mysqli_num_rows($result) > 0)
               <td><p style="color:red; font-weight:bold; text">NOT VERIFIED</p></td>
               <?php
               }
-              else
+              elseif($row['status'] == 1)
               {
                 ?>
               <td><p style="color:green; font-weight:bold; text">VERIFIED</p></td>
