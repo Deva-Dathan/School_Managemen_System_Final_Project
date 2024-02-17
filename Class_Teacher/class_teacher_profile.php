@@ -733,10 +733,12 @@ if (mysqli_num_rows($result) > 0)
         $sql = "UPDATE users SET u_name = '$name', u_gender = '$gender', u_address = '$address', u_mobile = '$mobile', u_city = '$city', u_district = '$district', u_state = '$state', u_zip = '$zip' WHERE u_email = '$get_email'";
         if ($conn->query($sql) === TRUE) 
         {
-          $sql1 = "UPDATE admin_data SET u_name = '$name', u_dob = '$dob', u_qualification = '$qualification' WHERE u_email = '$get_email'";
+          $sql1 = "UPDATE teachers_data SET u_name = '$name', u_dob = '$dob', u_qualification = '$qualification' WHERE u_email = '$get_email'";
             $conn->query($sql1);
+            $sql2 = "UPDATE class_teacher SET teacher_name = '$name' WHERE u_email = '$get_email'";
+            $conn->query($sql2);
             $_SESSION['update_msg'] = "PROFILE UPDATED SUCCESSFULLY";
-            header("Location:admin_profile.php");
+            header("Location:class_teacher_profile.php");
         }
         else 
         {
@@ -785,10 +787,9 @@ if (mysqli_num_rows($result) > 0)
   ?>
 
 
-
           <?php
 $get_email = $_SESSION['u_email'];
-$sql = "SELECT * FROM users INNER JOIN admin_data ON users.u_email = admin_data.u_email WHERE users.u_email='$get_email'";
+$sql = "SELECT * FROM users INNER JOIN teachers_data ON users.u_email = teachers_data.u_email WHERE users.u_email='$get_email'";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) 
 {
