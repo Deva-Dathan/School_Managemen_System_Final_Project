@@ -596,41 +596,47 @@ nav .profile .profile-link a:hover {
       <img src="../assets/images/school_logo.png" alt="School_Logo" width=60 height=60>
       <span class="logo_name">G H S S</span>
     </div>
-      <ul class="nav-links" id="nav-links">
+    <ul class="nav-links" id="nav-links">
         <li>
-          <a href="admin_dash.php">
+          <a href="class_teacher_dash.php">
             <i class='bx bx-grid-alt'></i>
             <span class="links_name">Dashboard</span>
           </a>
         </li>
         <li>
-          <a href="change_principal.php">
+          <a href="add_students.php">
             <i class='bx bxs-user'></i>
-            <span class="links_name">Principal</span>
-          </a>
-        </li>
-        <li>
-          <a href="change_vice_principal.php">
-            <i class='bx bx-user-circle' ></i>
-            <span class="links_name">Vice Principal</span>
-          </a>
-        </li>
-        <li>
-          <a href="add_teachers.php">
-            <i class='bx bxs-user-plus'></i>
-            <span class="links_name">Teachers</span>
+            <span class="links_name">Student Status</span>
           </a>
         </li>
         <li>
           <a href="view_students.php">
-            <i class='bx bx-user' ></i>
-            <span class="links_name">Students</span>
+            <i class='bx bx-user'></i>
+            <span class="links_name">View Student</span>
           </a>
         </li>
         <li>
-          <a href="add_allotement.php">
-            <i class='bx bxs-user-circle' ></i>
-            <span class="links_name">Allotment Cell</span>
+          <a href="class_activity.php">
+          <i class='bx bxs-briefcase'></i>
+            <span class="links_name">Class Activity</span>
+          </a>
+        </li>
+        <li>
+          <a href="upload_marks.php">
+          <i class='bx bx-bookmarks'></i>
+            <span class="links_name">Subject Marks</span>
+          </a>
+        </li>
+        <li>
+          <a href="subject_notes.php">
+          <i class='bx bxs-notepad'></i>
+            <span class="links_name">Subject Notes</span>
+          </a>
+        </li>
+        <li>
+          <a href="internal_marks.php">
+          <i class='bx bxs-bookmarks'></i>
+            <span class="links_name">Internal Marks</span>
           </a>
         </li>
         <li>
@@ -691,8 +697,8 @@ if (mysqli_num_rows($result) > 0)
       ?>
       </abbr>
 				<ul class="profile-link">
-					<li><a href="admin_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
-					<li><a href="admin_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
+					<li><a href="class_teacher_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
+					<li><a href="class_teacher_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
 					<li><a href="../logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
 				</ul>
 			</div>

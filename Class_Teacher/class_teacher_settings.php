@@ -711,9 +711,9 @@ if (mysqli_num_rows($result) > 0)
 }
       ?>
       </abbr>
-				<ul class="profile-link">
-					<li><a href="admin_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
-					<li><a href="admin_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
+      <ul class="profile-link">
+					<li><a href="class_teacher_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
+					<li><a href="class_teacher_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
 					<li><a href="../logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
 				</ul>
 			</div>
