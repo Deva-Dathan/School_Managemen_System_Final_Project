@@ -681,7 +681,7 @@ nav .profile .profile-link a:hover {
               <th>Activity No</th>
               <th>Topic</th>
               <th>Given By</th>
-              <th>Action</th>
+              <th colspan=2>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -742,7 +742,7 @@ if (mysqli_num_rows($result) > 0)
               <td ><?php echo $sub = $row['subject'];?></td>
               <td><?php echo $num = $row['activity_no'];?></td>
               <td><?php echo $top = $row['activity_topic'];?></td>
-              <td><?php echo $row['u_name'];?></td>
+              <td><?php echo $row['u_name'];?></td> 
               <?php
               include("../include/db_connection.php");
               error_reporting(0);
@@ -752,6 +752,7 @@ if (mysqli_num_rows($result) > 0)
               if($row_act['upload_file'] == NULL)
               {
               ?>
+              <td><a href="#" class="btn btn-primary" disabled>View</a></td>  
               <td><button type="button"
               data-standard = "<?php echo $row['standard'];?>"
               data-subject = "<?php echo $row['subject'];?>"
@@ -764,6 +765,7 @@ if (mysqli_num_rows($result) > 0)
               }
               else{
                 ?>
+                <td><a href="<?php echo "../activity_uploads/".$row_act['upload_file']; ?>" onclick="openInNewChromeWindow(event)" class="btn btn-primary">View</a></td>  
                 <td><a href="activity_delete.php?subject=<?php echo $row['subject'];?>&activityNo=<?php echo $row['activity_no'];?>"><button class="btn btn-outline-danger">Unsubmit</button></a></td>
                 <?php
               }
