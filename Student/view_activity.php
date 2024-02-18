@@ -709,7 +709,7 @@ if (mysqli_num_rows($result) > 0)
               <td><?php echo $row['activity_no'];?></td>
               <td><?php echo $row['activity_topic'];?></td>
               <td><?php echo $row['u_name'];?></td>
-              <th><a href="#"><button class="btn btn-primary">Upload</button></a></th>
+              <th><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Upload</button></th>
               </tr>
 <?php
   }
@@ -721,6 +721,75 @@ else
 ?>
         </tbody>
     </table> 
+
+        <!--File Upload Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Upload Activity</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+            <div class="row"> <!-- Row Starts -->
+
+                <div class="col-md-4">
+                    <label for="validationCustom03" class="required">Standard</label>
+                    <input type="text" class="form-control" name="standard" id="validationCustom03" readonly>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="validationCustom03" class="required">Student E-Mail</label>
+                    <input type="text" class="form-control" name="e-mail" value="<?php echo $_SESSION['u_email'];?>" id="validationCustom03" readonly>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="validationCustom03" class="required">Subject</label>
+                    <input type="text" class="form-control" name="e-mail" id="validationCustom03" readonly>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+            </div><!-- Row Ends -->
+<br>
+            <div class="row"><!-- Row Starts -->
+
+            <div class="col-md-6">
+                    <label for="validationCustom03" class="required">Topic</label>
+                    <input type="text" class="form-control" name="topic" id="validationCustom03" readonly>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="validationCustom03" class="required">Activity No</label>
+                    <input type="text" class="form-control" name="activity_no" id="validationCustom03" readonly>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+            </div><!-- Row Ends -->
+            <br>
+            <div class="row"><!-- Row Starts -->
+            <div class="col-md-12">
+            <label for="validationCustom03" class="required">Upload The File</label>
+    <div class="custom-file">
+    <input type="file" name="note_file" class="custom-file-input" id="customFile" required>
+    <label class="custom-file-label" for="customFile">Choose file</label>
+  </div>
+    </div>
+            </div><!-- Row Ends -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success">Upload File</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type='text/javascript'>
             $(document).ready(function(){
