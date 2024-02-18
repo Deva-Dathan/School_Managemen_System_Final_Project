@@ -100,7 +100,9 @@ if(isset($_POST['u_login']))
     } 
     else 
     {
-      echo "0 results";
+        echo '<div class="alert alert-danger text-center font-weight-bold mt-5" role="alert">
+        NO USER FOUND...
+      </div>';
     }
 }
 
