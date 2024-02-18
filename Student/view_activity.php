@@ -664,7 +664,7 @@ nav .profile .profile-link a:hover {
           if(isset($_SESSION['success_msg']))
           {
             ?>
-          <div class="alert alert-success mt-3" role="alert"><?php echo $_SESSION['success_msg'];?></div>
+          <div class="alert alert-success mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['success_msg'];?></div>
           <?php
             unset($_SESSION['success_msg']);
           }
@@ -686,6 +686,40 @@ nav .profile .profile-link a:hover {
         </thead>
         <tbody>
 
+                  <!-- inserting data into the table -->
+                  <?php
+      if($_SERVER["REQUEST_METHOD"] == "POST")
+      {
+        $standard = $_POST['standard'];
+        $email = $_POST['e_mail'];
+        $teacheremail = $_POST['submitted_to'];
+        $subject = $_POST['subject'];
+        $activity_topic = $_POST['topic'];
+        $activityNo = $_POST['activity_no'];
+
+        $activity = $subject."-".$activityNo."-".$_FILES["activity_file"]["name"];
+        $tname = $_FILES["activity_file"]["tmp_name"];
+        $target_dir = "../activity_uploads/";
+        move_uploaded_file($tname, $target_dir.'/'.$activity);
+
+        $sel_sql = "SELECT activity_no FROM upload_activity WHERE standard = '$standard' AND subject = '$subject'";
+        $result = $conn->query($sel_sql);
+        
+        if ($result->num_rows > 0) {
+            // Activity already exists, show an error message or handle it accordingly
+            echo '<script>Swal.fire({icon: "error",title: "Oops...",text: "Activity Already Submitted!"});</script>';
+        } else {
+            // Email does not exist, proceed with the insertion
+            $sql = "INSERT INTO upload_activity(standard, u_email, teacher_email, subject, topic, activity_no, upload_file) VALUES ('$standard', '$email', '$teacheremail', '$subject', '$activity_topic', '$activityNo', '$activity')";
+            if ($conn->query($sql) === TRUE) {
+                echo '<div class="alert alert-success mt-3 font-weight-bold" role="alert">CLASS ACTIVITY SUBMITTED</div>';
+            } else {
+                echo '<script>alert("Error: ' . $sql . '\\n' . $conn->error . '");</script>';
+            }
+        }
+      }
+      ?>
+
         <?php
         $i=1;
         $login_email = $_SESSION['u_email'];
@@ -705,12 +739,37 @@ if (mysqli_num_rows($result) > 0)
 
             <tr align=center>
               <td><?php echo $i++;?></td>
-              <td ><?php echo $row['subject'];?></td>
-              <td><?php echo $row['activity_no'];?></td>
-              <td><?php echo $row['activity_topic'];?></td>
+              <td ><?php echo $sub = $row['subject'];?></td>
+              <td><?php echo $num = $row['activity_no'];?></td>
+              <td><?php echo $top = $row['activity_topic'];?></td>
               <td><?php echo $row['u_name'];?></td>
-              <th><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Upload</button></th>
-              </tr>
+              <?php
+              include("../include/db_connection.php");
+              error_reporting(0);
+              $sql_act = "SELECT * FROM upload_activity WHERE subject = '$sub' AND activity_no = '$num' AND topic = '$top'";
+              $result_act = mysqli_query($conn, $sql_act);
+              $row_act = mysqli_fetch_assoc($result_act);
+              if($row_act['upload_file'] == NULL)
+              {
+              ?>
+              <td><button type="button"
+              data-standard = "<?php echo $row['standard'];?>"
+              data-subject = "<?php echo $row['subject'];?>"
+              data-topic = "<?php echo $row['activity_topic'];?>"
+              data-no = "<?php echo $row['activity_no'];?>" 
+              data-email = "<?php echo $row['u_email'];?>"
+              class="btn btn-success upload-btn" data-toggle="modal" data-target="#exampleModal">Upload</button>
+              </td>
+              <?php
+              }
+              else{
+                ?>
+                <td><a href="activity_delete.php?subject=<?php echo $row['subject'];?>&activityNo=<?php echo $row['activity_no'];?>"><button class="btn btn-outline-danger">Unsubmit</button></a></td>
+                <?php
+              }
+              ?>
+              
+            </tr>
 <?php
   }
 } 
@@ -733,24 +792,24 @@ else
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST">
+        <form method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
             <div class="row"> <!-- Row Starts -->
 
                 <div class="col-md-4">
                     <label for="validationCustom03" class="required">Standard</label>
-                    <input type="text" class="form-control" name="standard" id="validationCustom03" readonly>
+                    <input type="text" class="form-control" name="standard" id="standardInput" readonly>
                     <div class="valid-feedback">Looks good!</div>
                 </div>
 
                 <div class="col-md-4">
                     <label for="validationCustom03" class="required">Student E-Mail</label>
-                    <input type="text" class="form-control" name="e-mail" value="<?php echo $_SESSION['u_email'];?>" id="validationCustom03" readonly>
+                    <input type="text" class="form-control" name="e_mail" value="<?php echo $_SESSION['u_email'];?>" id="emailtInput" readonly>
                     <div class="valid-feedback">Looks good!</div>
                 </div>
 
                 <div class="col-md-4">
                     <label for="validationCustom03" class="required">Subject</label>
-                    <input type="text" class="form-control" name="e-mail" id="validationCustom03" readonly>
+                    <input type="text" class="form-control" name="subject" id="subjectInput" readonly>
                     <div class="valid-feedback">Looks good!</div>
                 </div>
 
@@ -758,38 +817,75 @@ else
 <br>
             <div class="row"><!-- Row Starts -->
 
-            <div class="col-md-6">
+            <div class="col-md-12">
                     <label for="validationCustom03" class="required">Topic</label>
-                    <input type="text" class="form-control" name="topic" id="validationCustom03" readonly>
-                    <div class="valid-feedback">Looks good!</div>
-                </div>
-
-                <div class="col-md-6">
-                    <label for="validationCustom03" class="required">Activity No</label>
-                    <input type="text" class="form-control" name="activity_no" id="validationCustom03" readonly>
+                    <textarea class="form-control" name="topic" id="topicInput" readonly row=1></textarea>
                     <div class="valid-feedback">Looks good!</div>
                 </div>
 
             </div><!-- Row Ends -->
+<br>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="validationCustom03" class="required">Activity No</label>
+                    <input type="text" class="form-control" name="activity_no" id="activityNoInput" readonly>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="validationCustom03" class="required">Submitted To</label>
+                    <input type="text"  class="form-control" name="submitted_to" id="submitInput" readonly>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+            </div>
+
             <br>
             <div class="row"><!-- Row Starts -->
             <div class="col-md-12">
             <label for="validationCustom03" class="required">Upload The File</label>
     <div class="custom-file">
-    <input type="file" name="note_file" class="custom-file-input" id="customFile" required>
+    <input type="file" name="activity_file" class="custom-file-input" id="customFile" required>
     <label class="custom-file-label" for="customFile">Choose file</label>
   </div>
     </div>
             </div><!-- Row Ends -->
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success">Upload File</button>
+        <input type="submit" name="upload_activity" class="btn btn-success" value="Upload File">
       </div>
+      </form>
     </div>
   </div>
 </div>
+
+<script>
+// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.upload-btn').click(function() {
+            // Get data attributes from the button
+            var standard = $(this).data('standard');
+            var subject = $(this).data('subject');
+            var topic = $(this).data('topic');
+            var activityNo = $(this).data('no');
+            var email = $(this).data('email');
+
+            // Set input field values in the modal
+            $('#standardInput').val(standard);
+            $('#subjectInput').val(subject);
+            $('#topicInput').val(topic);
+            $('#activityNoInput').val(activityNo);
+            $('#submitInput').val(email);
+        });
+    });
+</script>
 
 <script type='text/javascript'>
             $(document).ready(function(){
