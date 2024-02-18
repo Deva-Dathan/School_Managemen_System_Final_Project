@@ -596,59 +596,47 @@ nav .profile .profile-link a:hover {
       <img src="../assets/images/school_logo.png" alt="School_Logo" width=60 height=60>
       <span class="logo_name">G H S S</span>
     </div>
-      <ul class="nav-links" id="nav-links">
+    <ul class="nav-links" id="nav-links">
         <li>
-          <a href="admin_dash.php">
+          <a href="class_teacher_dash.php">
             <i class='bx bx-grid-alt'></i>
             <span class="links_name">Dashboard</span>
           </a>
         </li>
         <li>
-          <a href="change_principal.php">
-            <i class='bx bxs-user'></i>
-            <span class="links_name">Principal</span>
-          </a>
-        </li>
-        <li>
-          <a href="change_vice_principal.php">
-            <i class='bx bx-user-circle' ></i>
-            <span class="links_name">Vice Principal</span>
-          </a>
-        </li>
-        <li>
-          <a href="add_teachers.php">
-            <i class='bx bxs-user-plus'></i>
-            <span class="links_name">Teachers</span>
+          <a href="view_classes.php">
+            <i class='bx bxs-user' ></i>
+            <span class="links_name">Allotted Classes</span>
           </a>
         </li>
         <li>
           <a href="view_students.php">
             <i class='bx bx-user' ></i>
-            <span class="links_name">Students</span>
+            <span class="links_name">View Student</span>
           </a>
         </li>
         <li>
-          <a href="add_allotement.php">
-            <i class='bx bxs-user-circle' ></i>
-            <span class="links_name">Allotment Cell</span>
+          <a href="class_activity.php">
+          <i class='bx bxs-briefcase'></i>
+            <span class="links_name">Class Activity</span>
           </a>
         </li>
         <li>
-          <a href="add_office.php">
-            <i class='bx bx-user-plus' ></i>
-            <span class="links_name">Office Staff</span>
+          <a href="upload_marks.php">
+          <i class='bx bx-bookmarks'></i>
+            <span class="links_name">Subject Marks</span>
           </a>
         </li>
         <li>
-          <a href="add_subjects.php">
-            <i class='bx bx-book' ></i>
-            <span class="links_name">Subjects</span>
+          <a href="subject_notes.php">
+          <i class='bx bxs-notepad'></i>
+            <span class="links_name">Subject Notes</span>
           </a>
         </li>
         <li>
-          <a href="update_fees.php">
-            <i class='bx bx-dollar' ></i>
-            <span class="links_name">Fees</span>
+          <a href="internal_marks.php">
+          <i class='bx bxs-bookmarks'></i>
+            <span class="links_name">Internal Marks</span>
           </a>
         </li>
       </ul>
@@ -690,9 +678,9 @@ if (mysqli_num_rows($result) > 0)
 }
       ?>
       </abbr>
-				<ul class="profile-link">
-					<li><a href="admin_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
-					<li><a href="admin_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
+      <ul class="profile-link">
+					<li><a href="teacher_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
+					<li><a href="teacher_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
 					<li><a href="../logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
 				</ul>
 			</div>
@@ -727,10 +715,10 @@ if (mysqli_num_rows($result) > 0)
         $sql = "UPDATE users SET u_name = '$name', u_gender = '$gender', u_address = '$address', u_mobile = '$mobile', u_city = '$city', u_district = '$district', u_state = '$state', u_zip = '$zip' WHERE u_email = '$get_email'";
         if ($conn->query($sql) === TRUE) 
         {
-          $sql1 = "UPDATE admin_data SET u_name = '$name', u_dob = '$dob', u_qualification = '$qualification' WHERE u_email = '$get_email'";
+          $sql1 = "UPDATE teachers_data SET u_name = '$name', u_dob = '$dob', u_qualification = '$qualification' WHERE u_email = '$get_email'";
             $conn->query($sql1);
             $_SESSION['update_msg'] = "PROFILE UPDATED SUCCESSFULLY";
-            header("Location:admin_profile.php");
+            header("Location:class_teacher_profile.php");
         }
         else 
         {
@@ -779,10 +767,9 @@ if (mysqli_num_rows($result) > 0)
   ?>
 
 
-
           <?php
 $get_email = $_SESSION['u_email'];
-$sql = "SELECT * FROM users INNER JOIN admin_data ON users.u_email = admin_data.u_email WHERE users.u_email='$get_email'";
+$sql = "SELECT * FROM users INNER JOIN teachers_data ON users.u_email = teachers_data.u_email WHERE users.u_email='$get_email'";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) 
 {
