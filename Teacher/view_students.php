@@ -745,6 +745,23 @@ if (isset($_SESSION['u_email'])) {
 }
 ?>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"><span id="modal-name">Student Info</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="studentDetails">
+
+      </div>
+    </div>
+  </div>
+</div> 
+
 <script>
 // JavaScript to handle class filtering
 document.addEventListener('DOMContentLoaded', function() {
@@ -780,25 +797,51 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
+<script>
+  $(document).ready(function(){
+    
+            // Click event handler for Expand button
+            $(document).on('click', '.view-details', function(){
+                var u_email = $(this).data('u_email');
+                $.ajax({
+                    url: 'ajax_folder/ajaxfile.php', // URL to fetch detailed student information
+                    type: 'post',
+                    data: {u_email: u_email},
+                    success: function(response){ 
+                        $('#studentDetails').html(response); // Populate student details in modal body
+                        $('#exampleModalCenter').modal('show'); // Show the modal
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX request failed:', status, error);
+                    }
+                });
+            });
+  });
+</script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle"><span id="modal-name">Student Info</span></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-
-      </div>
-    </div>
-  </div>
-</div> 
+<script type='text/javascript'>
+            $(document).ready(function(){
+                $('.view-details').click(function(){
+                    var u_email = $(this).data('u_email');
+                    $.ajax({
+                        url: 'ajax_folder/ajaxfile.php',
+                        type: 'post',
+                        data: {u_email: u_email},
+                        success: function(response){ 
+                            $('.modal-body').html(response); 
+                            $('#exampleModalCenter').modal('show'); 
+                        }
+                    });
+                });
+            });
+            </script>
  
 
         </div>

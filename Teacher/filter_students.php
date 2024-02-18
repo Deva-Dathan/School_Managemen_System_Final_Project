@@ -26,7 +26,7 @@ if (isset($_GET['class'])) {
     <td><?php echo $row['parent_name']; ?></td>
     <td><?php echo $row['standard']; ?></td>
     <td>
-        <button data-u_email='<?php echo $row['u_email']; ?>' class='view-details btn btn-outline-primary' data-toggle='modal' data-target='#exampleModalCenter'>
+        <button data-u_email='<?php echo $row['u_email']; ?>' class='view-details btn btn-primary' data-toggle='modal' data-target='#exampleModalCenter'>
             <i class='bx bx-expand'></i>
         </button>
     </td>
