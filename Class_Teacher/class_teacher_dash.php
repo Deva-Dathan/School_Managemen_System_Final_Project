@@ -639,14 +639,23 @@ nav .profile .profile-link a:hover {
       <div class="overview-boxes">
         <div class="box">
           <div class="right-side">
-            <div class="box-topic">Total Order</div>
-            <div class="number">40,876</div>
-            <div class="indicator">
-              <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
+            <div class="box-topic">CLASS TEACHER</div>
+            <div class="number">
+              <?php
+              include("../include/db_connection.php");
+              $logged_email = $_SESSION['u_email'];
+              $sql = "SELECT standard FROM class_teacher WHERE u_email = '$logged_email'";
+              $result = $conn->query($sql);
+              if ($result->num_rows > 0)
+              {
+              while($row = $result->fetch_assoc())
+              {
+                echo $row['standard'];
+              }
+              }
+              ?>
             </div>
           </div>
-          <i class='bx bx-cart-alt cart'></i>
         </div>
         <div class="box">
           <div class="right-side">
