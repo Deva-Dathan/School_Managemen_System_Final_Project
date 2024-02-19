@@ -16,12 +16,13 @@ if (isset($_GET['class'])) {
             WHERE users.u_role = 'STUDENT' AND users.status = 1 AND student_data.standard = '$class'";
 
     $result = mysqli_query($conn, $sql);
-
+    $i=1;
     if (mysqli_num_rows($result) > 0) {
         // Display student data in table rows
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
             <tr align='center'>
+            <td><?php echo $i++; ?></td>
     <td><?php echo $row['u_name']; ?></td>
     <td><?php echo $row['parent_name']; ?></td>
     <td><?php echo $row['standard']; ?></td>

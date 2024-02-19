@@ -676,6 +676,7 @@ nav .profile .profile-link a:hover {
         <div class="top-sales box">
           <div class="row">
           <div class="col-md-6 col-12 title">VIEW STUDENTS</div>
+          <div class="col-md-6 col-12" style="display:flex; justify-content:right; align-items:right;"><a href="assign_rollno.php"><button type="button" class="btn btn-primary"><i class='bx bx-plus'></i>&nbspAssign Roll No</button></a></div>
           </div> <!--class row close div-->
 
 <!-- display the facult deatils -->

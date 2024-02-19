@@ -565,21 +565,6 @@ nav .profile .profile-link a:hover {
 .error-message, .email_error-message {
       color: red;
     }
-.filter-btn{
-    height:6vh;
-    background:none;
-    outline:none;
-    border:1px solid #c3c3c3;
-    border-top:none;
-    border-radius:0px 0px 15px 15px;
-    margin-top:-17px;
-    font-weight:bold;
-    transition:0.5s;
-}
-.filter-btn:hover{
-    background:#081d44;
-    color:#fff;
-}
 
     </style>
     <!-- Boxicons CDN Link -->
@@ -595,21 +580,21 @@ nav .profile .profile-link a:hover {
     </div>
     <ul class="nav-links" id="nav-links">
         <li>
-          <a href="class_teacher_dash.php" >
+          <a href="class_teacher_dash.php">
             <i class='bx bx-grid-alt'></i>
             <span class="links_name">Dashboard</span>
           </a>
         </li>
         <li>
-          <a href="view_classes.php">
+          <a href="add_students.php">
             <i class='bx bxs-user'></i>
-            <span class="links_name">Allotted Classes</span>
+            <span class="links_name">Student Status</span>
           </a>
         </li>
         <li>
-          <a href="view_students.php">
-            <i class='bx bx-user'></i>
-            <span class="links_name">View Student</span>
+          <a href="view_students.php" class="active">
+            <i class='bx bx-user' style="color:var(--light);"></i>
+            <span class="links_name" style="color:var(--light);">View Student</span>
           </a>
         </li>
         <li>
@@ -619,9 +604,9 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="upload_marks.php" class="active">
-          <i class='bx bx-bookmarks' style="color:var(--light);"></i>
-            <span class="links_name" style="color:var(--light);">Subject Marks</span>
+          <a href="upload_marks.php">
+          <i class='bx bx-bookmarks'></i>
+            <span class="links_name">Subject Marks</span>
           </a>
         </li>
         <li>
@@ -634,6 +619,24 @@ nav .profile .profile-link a:hover {
           <a href="internal_marks.php">
           <i class='bx bxs-bookmarks'></i>
             <span class="links_name">Internal Marks</span>
+          </a>
+        </li>
+        <li>
+          <a href="add_office.php">
+            <i class='bx bx-user-plus' ></i>
+            <span class="links_name">Office Staff</span>
+          </a>
+        </li>
+        <li>
+          <a href="add_subjects.php">
+            <i class='bx bx-book' ></i>
+            <span class="links_name">Subjects</span>
+          </a>
+        </li>
+        <li>
+          <a href="update_fees.php">
+            <i class='bx bx-dollar' ></i>
+            <span class="links_name">Fees</span>
           </a>
         </li>
       </ul>
@@ -661,8 +664,8 @@ nav .profile .profile-link a:hover {
 			<div class="profile">
 			<abbr title="<?php echo $_SESSION['u_name'];?>"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt=""></abbr>
       <ul class="profile-link">
-					<li><a href="teacher_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
-					<li><a href="teacher_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
+					<li><a href="class_teacher_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
+					<li><a href="class_teacher_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
 					<li><a href="../logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
 				</ul>
 			</div>
@@ -672,9 +675,10 @@ nav .profile .profile-link a:hover {
       <div class="sales-boxes">
         <div class="top-sales box">
           <div class="row">
-          <div class="col-md-6 col-12 title">UPLOAD SUBJECT MARKS</div>
+          <div class="col-md-6 col-12 title">ASSIGN ROLL NO</div>
+          <div class="col-md-6 col-12" style="display:flex; justify-content:right; align-items:right;"><a href="assign_rollno.php"><button type="button" class="btn btn-primary"><i class='bx bx-plus'></i>&nbspAssign Roll No</button></a></div>
           </div> <!--class row close div-->
-<hr>
+
 <!-- display the facult deatils -->
 
 <?php
@@ -688,15 +692,90 @@ nav .profile .profile-link a:hover {
           ?>
 
 
+<table id="example" class="table table-bordered nowrap mt-5" style="width:100%">
+        <thead align=center>
+            <tr>
+              <th>SL.No</th>
+              <th>Full Name</th>
+              <th>Parent/Guardian Name</th>
+              <th>Standard</th>
+              <th colspan=3>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        <?php
+        $i=1;
+        $logged_user = $_SESSION['u_email'];
+$get_class = "SELECT standard FROM class_teacher WHERE u_email = '$logged_user'";
+$result_cls = $conn->query($get_class);
+$row_cls = mysqli_fetch_assoc($result_cls);
+
+$cls = $row_cls['standard'];
+$sql = "SELECT * FROM student_data INNER JOIN parent_data ON student_data.u_email = parent_data.u_email INNER JOIN users ON parent_data.u_email=users.u_email WHERE users.u_role = 'STUDENT' AND users.status=1 AND student_data.standard='$cls'";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) 
+{
+  while($row = mysqli_fetch_assoc($result)) 
+  {
+?>
+
+            <tr align=center>
+              <td><?php echo $i++;?></td>
+              <td><?php echo $row['u_name'];?></td>
+              <td ><?php echo $row['parent_name'];?></td>
+              <td><?php echo $row['standard'];?></td>
+              <td>
+              <button data-u_email='<?php echo $row['u_email'] ?>' class="view-details btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="bx bx-expand"></i></button>
+              </td>
+              <td><a href="student_edit.php?email_id=<?php echo $row['u_email'];?>&parent_email=<?php echo $row['parent_email'];?>"><button class="btn btn-primary"><i class="bx bxs-edit"></i></button></a></td>
+              <td><a href="student_delete.php?u_email=<?php echo $row['u_email'];?>&parent_email=<?php echo $row['parent_email'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
+            </tr>
+<?php
+  }
+} 
+else 
+{
+  echo '<br><div class="alert alert-danger text-center font-weight-bold" role="alert">NO STUDENT RECORD FOUND....!</div>';
+}
+?>
+        </tbody>
+    </table> 
+
+    <script type='text/javascript'>
+            $(document).ready(function(){
+                $('.view-details').click(function(){
+                    var u_email = $(this).data('u_email');
+                    $.ajax({
+                        url: 'ajax_folder/ajaxfile.php',
+                        type: 'post',
+                        data: {u_email: u_email},
+                        success: function(response){ 
+                            $('.modal-body').html(response); 
+                            $('#exampleModalCenter').modal('show'); 
+                        }
+                    });
+                });
+            });
+            </script>
 
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"><span id="modal-name">Student Info</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
-
+      </div>
+    </div>
+  </div>
+</div> 
  
 
         </div>
@@ -726,6 +805,28 @@ nav .profile .profile-link a:hover {
 })();
 </script>
 
+<script>
+    // Get the input element
+    var mobileNumberInput = document.getElementById('validationCustom05');
+    
+    // Attach an input event listener to the input field
+    mobileNumberInput.addEventListener('input', function () {
+      // Get the value entered by the user
+      var enteredValue = mobileNumberInput.value;
+
+      // Remove any non-numeric characters
+      var numericValue = enteredValue.replace(/\D/g, '');
+
+      // Check if the numeric value is between 10 and 10 characters
+      if (numericValue.length === 10) {
+        // Clear any previous error message
+        document.getElementById('error-message').textContent = '';
+      } else {
+        // Display an error message
+        document.getElementById('error-message').textContent = 'Mobile number must be 10 digits.';
+      }
+    });
+  </script>
 
   <script>
   function toggleFullScreen() {
