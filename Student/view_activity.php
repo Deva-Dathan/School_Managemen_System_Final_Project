@@ -752,7 +752,7 @@ if (mysqli_num_rows($result) > 0)
               if($row_act['upload_file'] == NULL)
               {
               ?>
-              <td><a href="#" class="btn btn-primary" disabled>View</a></td>  
+              <td></td> 
               <td><button type="button"
               data-standard = "<?php echo $row['standard'];?>"
               data-subject = "<?php echo $row['subject'];?>"
