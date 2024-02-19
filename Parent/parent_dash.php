@@ -548,51 +548,33 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="change_principal.php">
-            <i class='bx bxs-user' ></i>
-            <span class="links_name">Principal</span>
+          <a href="attendance.php">
+            <i class='bx bx-calendar' ></i>
+            <span class="links_name">Attendance</span>
           </a>
         </li>
         <li>
-          <a href="change_vice_principal.php">
-            <i class='bx bx-user-circle' ></i>
-            <span class="links_name">Vice Principal</span>
+          <a href="online_exam_mark.php">
+          <i class='bx bxs-pencil'></i>
+            <span class="links_name">Online Exam Mark</span>
           </a>
         </li>
         <li>
-          <a href="add_teachers.php">
-            <i class='bx bxs-user-plus' ></i>
-            <span class="links_name">Teachers</span>
+          <a href="internal_mark.php">
+          <i class='bx bx-copy-alt'></i>
+            <span class="links_name">Internal Mark</span>
           </a>
         </li>
         <li>
-          <a href="view_students.php">
-            <i class='bx bx-user' ></i>
-            <span class="links_name">Students</span>
+          <a href="live_meeting.php">
+          <i class='bx bx-dollar'></i>
+            <span class="links_name">Pay Fees</span>
           </a>
         </li>
         <li>
-          <a href="add_allotement.php">
-            <i class='bx bxs-user-circle' ></i>
-            <span class="links_name">Allotment Cell</span>
-          </a>
-        </li>
-        <li>
-          <a href="add_office.php">
-            <i class='bx bx-user-plus' ></i>
-            <span class="links_name">Office Staff</span>
-          </a>
-        </li>
-        <li>
-          <a href="add_subjects.php">
-            <i class='bx bx-book' ></i>
-            <span class="links_name">Subjects</span>
-          </a>
-        </li>
-        <li>
-          <a href="update_fees.php">
-            <i class='bx bx-dollar' ></i>
-            <span class="links_name">Fees</span>
+          <a href="live_meeting.php">
+          <i class='bx bx-video-recording'></i>
+            <span class="links_name">Meeting</span>
           </a>
         </li>
       </ul>
@@ -622,8 +604,8 @@ nav .profile .profile-link a:hover {
       <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="">
     </abbr>
 				<ul class="profile-link">
-					<li><a href="admin_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
-					<li><a href="admin_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
+					<li><a href="parent_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
+					<li><a href="parent_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
 					<li><a href="../logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
 				</ul>
 			</div>
