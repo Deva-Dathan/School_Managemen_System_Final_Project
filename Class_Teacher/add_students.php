@@ -956,7 +956,7 @@ while($row_cls = mysqli_fetch_assoc($result_cls))
         <?php
         $i=1;
         $get_email = $_SESSION['u_email'];
-$sql = "SELECT * FROM student_data INNER JOIN parent_data ON student_data.u_email = parent_data.u_email WHERE student_data.added_by='$get_email'";
+$sql = "SELECT * FROM student_data INNER JOIN parent_data ON student_data.u_email = parent_data.u_email WHERE student_data.added_by='$get_email' ORDER BY student_data.u_name";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) 
 {

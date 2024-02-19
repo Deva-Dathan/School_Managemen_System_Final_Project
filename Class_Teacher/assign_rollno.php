@@ -678,6 +678,78 @@ nav .profile .profile-link a:hover {
           <div class="col-md-6 col-12 title">ASSIGN ROLL NO</div>
           <div class="col-md-6 col-12" style="display:flex; justify-content:right; align-items:right;"><a href="assign_rollno.php"><button type="button" class="btn btn-primary"><i class='bx bx-plus'></i>&nbspAssign Roll No</button></a></div>
           </div> <!--class row close div-->
+<br>
+          <form method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+
+<div class="row">
+  <div class="col-md-4 mb-3">
+  <label for="validationCustom01" class="required">Student Name</label>
+              <select class="custom-select" name="standard" id="validationCustom01" required>
+                <option selected disabled>Choose...</option>
+                <?php
+          include("../include/db_connection.php");
+          $login_email = $_SESSION['u_email'];
+
+          $sql_std = "SELECT * FROM class_teacher WHERE u_email = '$login_email'";
+          $result_std = $conn->query($sql_std);
+          $row_std = mysqli_fetch_assoc($result_std);
+          echo $get_std = $row_std['standard'];
+
+          $sql = "SELECT * FROM student_data WHERE standard = '$get_std' ORDER BY u_name";
+          $result = $conn->query($sql);
+          while($row = mysqli_fetch_assoc($result))
+          {
+            $_SESSION['parent_email'] = $row['parent_email'];
+            ?>
+                <option value="<?php echo $row['u_name'];?>"><?php echo $row['u_name'];?></option>
+                <?php
+          }
+          ?>
+              </select>
+              <div class="invalid-feedback">Please select a standard from the list.</div>
+  </div> <!-- col-md-6 mb-3 close -->
+
+  <div class="col-md-4 mb-3">
+<label for="validationCustom03" class="required">Parent Name</label>
+            <input type="text" class="form-control" name="e_mail" value="" id="validationCustom03" readonly>
+            <div class="valid-feedback">Looks good!</div>
+</div>
+
+<div class="col-md-4 mb-3">
+    <label for="validationCustom04" class="required">Roll No</label>
+    <input type="text" class="form-control" name="roll_no" value="" id="validationCustom03" required>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#validationCustom01').change(function(){
+            var standard = $(this).val();
+            $.ajax({
+                type: 'POST',
+                url: 'get_subject.php', // PHP script to fetch subjects based on standard
+                data: {standard: standard},
+                success: function(response){
+                    $('#validationCustom04').empty(); // Clear existing options
+                    $('#validationCustom04').append(response); // Append new options
+                }
+            });
+        });
+    });
+</script>
+
+        </div>    
+
+<script>
+// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+</script>
+
+<br>
+        <button type="submit" name="u_upload" class="btn btn-primary">Add Activity</button> 
+      </form>
 
 <!-- display the facult deatils -->
 
