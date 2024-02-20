@@ -22,7 +22,7 @@ if (isset($_GET['class'])) {
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
             <tr align='center'>
-            <td><?php echo $i++; ?></td>
+            <td><?php echo $row['roll_no']; ?></td>
     <td><?php echo $row['u_name']; ?></td>
     <td><?php echo $row['parent_name']; ?></td>
     <td><?php echo $row['standard']; ?></td>

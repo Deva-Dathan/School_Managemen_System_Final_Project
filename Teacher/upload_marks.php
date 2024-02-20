@@ -595,7 +595,7 @@ nav .profile .profile-link a:hover {
     </div>
     <ul class="nav-links" id="nav-links">
         <li>
-          <a href="class_teacher_dash.php" >
+          <a href="teacher_dash.php" >
             <i class='bx bx-grid-alt'></i>
             <span class="links_name">Dashboard</span>
           </a>

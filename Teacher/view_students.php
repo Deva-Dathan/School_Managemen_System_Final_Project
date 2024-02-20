@@ -727,7 +727,7 @@ if (isset($_SESSION['u_email'])) {
     <table id='example' class='table table-bordered nowrap mt-5' style='width:100%'>
     <thead align='center'>
         <tr>
-            <th>SL.No</th>
+            <th>Roll.No</th>
             <th>Full Name</th>
             <th>Parent/Guardian Name</th>
             <th>Standard</th>
