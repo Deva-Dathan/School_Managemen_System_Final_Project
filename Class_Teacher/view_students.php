@@ -695,7 +695,7 @@ nav .profile .profile-link a:hover {
 <table id="example" class="table table-bordered nowrap mt-5" style="width:100%">
         <thead align=center>
             <tr>
-              <th>SL.No</th>
+              <th>Roll.No</th>
               <th>Full Name</th>
               <th>Parent/Guardian Name</th>
               <th>Standard</th>
@@ -721,7 +721,7 @@ if (mysqli_num_rows($result) > 0)
 ?>
 
             <tr align=center>
-              <td><?php echo $i++;?></td>
+              <td><?php echo $row['roll_no'];?></td>
               <td><?php echo $row['u_name'];?></td>
               <td ><?php echo $row['parent_name'];?></td>
               <td><?php echo $row['standard'];?></td>

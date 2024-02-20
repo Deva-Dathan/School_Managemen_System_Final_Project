@@ -671,85 +671,162 @@ nav .profile .profile-link a:hover {
 			</div>
     </nav>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Make sure jQuery is included -->
+
     <div class="home-content">
       <div class="sales-boxes">
         <div class="top-sales box">
           <div class="row">
           <div class="col-md-6 col-12 title">ASSIGN ROLL NO</div>
-          <div class="col-md-6 col-12" style="display:flex; justify-content:right; align-items:right;"><a href="assign_rollno.php"><button type="button" class="btn btn-primary"><i class='bx bx-plus'></i>&nbspAssign Roll No</button></a></div>
           </div> <!--class row close div-->
 <br>
-          <form method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+<?php
+include("../include/db_connection.php");
 
-<div class="row">
-  <div class="col-md-4 mb-3">
-  <label for="validationCustom01" class="required">Student Name</label>
-              <select class="custom-select" name="standard" id="validationCustom01" required>
-                <option selected disabled>Choose...</option>
-                <?php
-          include("../include/db_connection.php");
-          $login_email = $_SESSION['u_email'];
+// Fetch class teacher's email
+$login_email = $_SESSION['u_email'];
 
-          $sql_std = "SELECT * FROM class_teacher WHERE u_email = '$login_email'";
-          $result_std = $conn->query($sql_std);
-          $row_std = mysqli_fetch_assoc($result_std);
-          echo $get_std = $row_std['standard'];
+// Fetch class standard for the class teacher
+$sql_std = "SELECT * FROM class_teacher WHERE u_email = '$login_email'";
+$result_std = $conn->query($sql_std);
+$row_std = mysqli_fetch_assoc($result_std);
+$get_std = $row_std['standard'];
 
-          $sql = "SELECT * FROM student_data WHERE standard = '$get_std' ORDER BY u_name";
-          $result = $conn->query($sql);
-          while($row = mysqli_fetch_assoc($result))
-          {
-            $_SESSION['parent_email'] = $row['parent_email'];
+// Count the number of students in the class
+$sql = "SELECT standard, COUNT(u_name) as student_count FROM student_data WHERE standard = '$get_std'";
+$result = $conn->query($sql);
+$row = mysqli_fetch_assoc($result);
+$student_count = $row['student_count'];
+
+$current_year = date("y");
+?>
+
+<form method="POST" class="needs-validation" novalidate>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label for="validationCustom03" class="required">Student Name</label>
+            <?php
+            // Fetch student names
+            $sql_students = "SELECT * FROM student_data WHERE standard = '$get_std' ORDER BY u_name";
+            $result_students = $conn->query($sql_students);
+            while ($row_student = mysqli_fetch_assoc($result_students)) {
+                ?>
+                <input type="text" class="form-control" value="<?php echo $row_student['u_name']; ?>" name="student_name" id="validationCustom01" readonly><br>
+            <?php
+            }
             ?>
-                <option value="<?php echo $row['u_name'];?>"><?php echo $row['u_name'];?></option>
-                <?php
-          }
-          ?>
-              </select>
-              <div class="invalid-feedback">Please select a standard from the list.</div>
-  </div> <!-- col-md-6 mb-3 close -->
-
-  <div class="col-md-4 mb-3">
-<label for="validationCustom03" class="required">Parent Name</label>
-            <input type="text" class="form-control" name="e_mail" value="" id="validationCustom03" readonly>
             <div class="valid-feedback">Looks good!</div>
-</div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <label for="validationCustom03" class="required">Student Email</label>
+            <?php
+            // Fetch student emails
+            $sql_emails = "SELECT * FROM student_data WHERE standard = '$get_std' ORDER BY u_name";
+            $result_emails = $conn->query($sql_emails);
+            while ($row_email = mysqli_fetch_assoc($result_emails)) {
+                ?>
+                <input type="text" class="form-control" value="<?php echo $row_email['u_email']; ?>" name="student_email[]" id="validationCustom03" readonly><br>
+            <?php
+            }
+            ?>
+            <div class="valid-feedback">Looks good!</div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <label for="validationCustom04" class="required">Roll No</label>
+            <?php
+            // Generate or display existing roll numbers for students
+            $i = 1;
+            while ($i <= $student_count) {
+                $counter = sprintf('%03d', $i);
+                $roll_number = $current_year . $get_std . $counter;
 
-<div class="col-md-4 mb-3">
-    <label for="validationCustom04" class="required">Roll No</label>
-    <input type="text" class="form-control" name="roll_no" value="" id="validationCustom03" required>
-</div>
+                // Fetch existing roll number for the student
+                $sql_existing_roll = "SELECT roll_no FROM student_data WHERE standard = '$get_std' ORDER BY u_name LIMIT 1 OFFSET " . ($i - 1);
+                $result_existing_roll = $conn->query($sql_existing_roll);
+                $existing_roll_row = mysqli_fetch_assoc($result_existing_roll);
+                $existing_roll = $existing_roll_row['roll_no'];
+
+                // Output the input field with the generated or existing roll number
+                ?>
+                <input type="text" class="form-control" name="roll_no[]" value="<?php echo $existing_roll ? $existing_roll : $roll_number; ?>" id="validationCustom03" required><br>
+                <?php
+
+                // Increment counter
+                $i++;
+            }
+            ?>
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="row">
+        <div class="col-md-3 mr-n3">
+            <button type="button" id="generateRollNumbersBtn" class="btn btn-dark mb-3">Generate Roll No</button>
+        </div>
+        <div class="col-md-3 ml-n5">
+            <button type="submit" name="u_upload" class="btn btn-primary mb-3">Upload Roll No</button>
+        </div>
+    </div>
+
+    <?php
+    ob_start();
+include("../include/db_connection.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['roll_no'])) {
+    $roll_numbers = $_POST['roll_no'];
+
+    // Loop through each roll number
+    foreach ($roll_numbers as $key => $roll_number) {
+        // Get the corresponding student email
+        $student_email = $_POST['student_email'][$key];
+
+        // Update the roll number in the student_table
+        $sql_update = "UPDATE student_data SET roll_no = '$roll_number' WHERE u_email = '$student_email'";
+        $conn->query($sql_update);
+    }
+
+    // Close the database connection
+    $conn->close();
+
+    // Redirect to a success page or display a success message
+    ob_get_clean();
+    header("Location: assign_rollno.php");
+    exit();
+}
+?>
+
+</form>
 
 <script>
-    $(document).ready(function(){
-        $('#validationCustom01').change(function(){
-            var standard = $(this).val();
-            $.ajax({
-                type: 'POST',
-                url: 'get_subject.php', // PHP script to fetch subjects based on standard
-                data: {standard: standard},
-                success: function(response){
-                    $('#validationCustom04').empty(); // Clear existing options
-                    $('#validationCustom04').append(response); // Append new options
-                }
-            });
+    $(document).ready(function () {
+        $('#generateRollNumbersBtn').click(function () {
+            generateRollNumbers();
         });
     });
+
+    function generateRollNumbers() {
+        <?php
+        $i = 1;
+        while ($i <= $student_count) {
+            $counter = sprintf('%03d', $i);
+            $roll_number = $current_year . $standard . $counter;
+        ?>
+            $('#roll_number_<?php echo $i; ?>').val('<?php echo $roll_number; ?>');
+        <?php
+            $i++;
+        }
+        ?>
+    }
 </script>
 
-        </div>    
 
-<script>
-// Add the following code if you want the name of the file appear on select
-$(".custom-file-input").on("change", function() {
-  var fileName = $(this).val().split("\\").pop();
-  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-});
-</script>
 
-<br>
-        <button type="submit" name="u_upload" class="btn btn-primary">Add Activity</button> 
-      </form>
+
+
+
 
 <!-- display the facult deatils -->
 
@@ -767,7 +844,7 @@ $(".custom-file-input").on("change", function() {
 <table id="example" class="table table-bordered nowrap mt-5" style="width:100%">
         <thead align=center>
             <tr>
-              <th>SL.No</th>
+              <th>Roll No</th>
               <th>Full Name</th>
               <th>Parent/Guardian Name</th>
               <th>Standard</th>
@@ -777,7 +854,6 @@ $(".custom-file-input").on("change", function() {
         <tbody>
 
         <?php
-        $i=1;
         $logged_user = $_SESSION['u_email'];
 $get_class = "SELECT standard FROM class_teacher WHERE u_email = '$logged_user'";
 $result_cls = $conn->query($get_class);
@@ -793,7 +869,7 @@ if (mysqli_num_rows($result) > 0)
 ?>
 
             <tr align=center>
-              <td><?php echo $i++;?></td>
+              <td><?php echo $row['roll_no'];?></td>
               <td><?php echo $row['u_name'];?></td>
               <td ><?php echo $row['parent_name'];?></td>
               <td><?php echo $row['standard'];?></td>
