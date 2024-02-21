@@ -610,6 +610,12 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
+          <a href="predict_marks.php">
+          <i class='bx bxs-award'></i>
+            <span class="links_name">Predict Marks</span>
+          </a>
+        </li>
+        <li>
           <a href="subject_notes.php" class="active">
           <i class='bx bxs-notepad' style="color:var(--light);"></i>
             <span class="links_name" style="color:var(--light);">Subject Notes</span>

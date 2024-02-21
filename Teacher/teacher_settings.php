@@ -644,8 +644,14 @@ nav .profile .profile-link a:hover {
         </li>
         <li>
           <a href="upload_marks.php">
-          <i class='bx bx-bookmarks'></i>
+          <i class='bx bxs-award'></i>
             <span class="links_name">Subject Marks</span>
+          </a>
+        </li>
+        <li>
+          <a href="predict_marks.php">
+          <i class='bx bxs-bookmarks'></i>
+            <span class="links_name">Predict Marks</span>
           </a>
         </li>
         <li>

@@ -625,6 +625,12 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
+          <a href="predict_marks.php">
+          <i class='bx bxs-award'></i>
+            <span class="links_name">Predict Marks</span>
+          </a>
+        </li>
+        <li>
           <a href="subject_notes.php">
           <i class='bx bxs-notepad'></i>
             <span class="links_name">Subject Notes</span>
@@ -799,58 +805,151 @@ nav .profile .profile-link a:hover {
 
 <button type="submit" name="u_upload" class="btn btn-primary">Upload Marks</button>
 </form>
-
-
+<br>
+<hr>
+<br>
 <!-- display the facult deatils -->
 
-<table id="example" class="table table-striped table-bordered nowrap mt-5" style="width:100%">
-        <thead align=center>
+<table id="example" class="table table-striped table-bordered nowrap">
+        <thead align="center">
             <tr>
-              <th>Roll No</th>
-              <th>Name</th>
-              <th>Standard</th>
-              <th>Subject</th>
-              <th>I<sup>st</sup> Term</th>
-              <th>II<sup>st</sup> Term</th>
-              <th>Final Exam</th>
-              <th>Exam Score</th>
-              <th>Action</th>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>STD</th>
+                <th>Subject</th>
+                <th>I<sup>st</sup> Term</th>
+                <th>II<sup>st</sup> Term</th>
+                <th>Final Exam</th>
+                <th>Exam Score</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
-
         <?php
-        $i=1;
+        // Assuming $conn is your database connection
+        // Assuming session has already started
         $login_email = $_SESSION['u_email'];
-$sql = "SELECT * FROM subject_mark";
-$result = mysqli_query($conn, $sql);
-if (mysqli_num_rows($result) > 0) 
-{
-  while($row = mysqli_fetch_assoc($result)) 
-  {
-?>
-
-            <tr align=center>
-              <td><?php echo $row['roll_no'];?></td>
-              <td><?php echo $row['u_name'];?></td>
-              <td ><?php echo $row['standard'];?></td>
-              <td><?php echo $row['subject'];?></td>
-              <td><?php echo $row['mark1'];?></td>
-              <td><?php echo $row['mark2'];?></td>
-              <td><?php echo $row['mark3'];?></td>
-              <td><?php echo number_format((($row['mark1'] + $row['mark2'] + $row['mark3']) * 100) / 240, 2); ?></td>
-              <td><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
-            </tr>
-<?php
-  }
-} 
-else 
-{
-  echo '<br><div class="alert alert-danger text-center font-weight-bold" role="alert">NO RECORD FOUND....!</div>';
-}
-?>
+        $sql = "SELECT * FROM subject_mark";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                ?>
+                <tr align="center">
+                    <td><?php echo $row['roll_no'];?></td>
+                    <td><?php echo $row['u_name'];?></td>
+                    <td><?php echo $row['standard'];?></td>
+                    <td><?php echo $row['subject'];?></td>
+                    <td><?php echo $row['mark1'];?></td>
+                    <td><?php echo $row['mark2'];?></td>
+                    <td><?php echo $row['mark3'];?></td>
+                    <td><?php echo number_format((($row['mark1'] + $row['mark2'] + $row['mark3']) * 100) / 240, 2); ?></td>
+                    <td>
+                        <button class="btn btn-primary edit-btn" data-rollno="<?php echo $row['roll_no'];?>" data-subject="<?php echo $row['subject'];?>" data-standard="<?php echo $row['standard'];?>" data-toggle="modal" data-target="#exampleModal"><i class="bx bxs-edit"></i></button>
+                    </td>
+                </tr>
+                <?php
+            }
+        } else {
+            echo '<tr><td colspan="9" class="text-center">NO RECORD FOUND....!</td></tr>';
+        }
+        ?>
         </tbody>
-    </table> 
+    </table>
+
+<!-- Modal For Edit Mark -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Student Mark</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Your form fields for editing marks -->
+                <form method="POST" id="editForm">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="editRollNo">Roll No</label>
+                            <input type="text" class="form-control" id="editRollNo" name="rollNo" readonly>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="editSubject">Subject</label>
+                            <input type="text" class="form-control" id="editSubject" name="subject" readonly>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="editStandard">Standard</label>
+                            <input type="text" class="form-control" id="editStandard" name="standard" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="editMark1">I<sup>st</sup> Term</label>
+                            <input type="number" class="form-control" id="editMark1" name="mark1">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="editMark2">II<sup>nd</sup> Term</label>
+                            <input type="number" class="form-control" id="editMark2" name="mark2">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="editMark3">Final Exam</label>
+                            <input type="number" class="form-control" id="editMark3" name="mark3">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveChangesBtn">Update Mark</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.edit-btn').on('click', function() {
+            var rollNo = $(this).data('rollno');
+            var subject = $(this).data('subject');
+            var standard = $(this).data('standard');
+            var mark1 = $(this).closest('tr').find('td:eq(4)').text();
+            var mark2 = $(this).closest('tr').find('td:eq(5)').text();
+            var mark3 = $(this).closest('tr').find('td:eq(6)').text();
+
+            // Set the values in the modal fields
+            $('#editRollNo').val(rollNo);
+            $('#editSubject').val(subject);
+            $('#editStandard').val(standard);
+            $('#editMark1').val(mark1);
+            $('#editMark2').val(mark2);
+            $('#editMark3').val(mark3);
+        });
+
+        $('#saveChangesBtn').on('click', function() {
+            var formData = $('#editForm').serialize();
+            $.ajax({
+                url: 'update_marks.php',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    console.log(response);
+                    // You may want to update the table with the new data or perform any other actions upon success.
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
