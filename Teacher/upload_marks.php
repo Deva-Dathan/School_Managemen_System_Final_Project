@@ -839,10 +839,11 @@ nav .profile .profile-link a:hover {
                     <td><?php echo $row['u_name'];?></td>
                     <td><?php echo $row['standard'];?></td>
                     <td><?php echo $row['subject'];?></td>
-                    <td><?php echo $row['mark1'];?></td>
-                    <td><?php echo $row['mark2'];?></td>
-                    <td><?php echo $row['mark3'];?></td>
+                    <td><?php echo number_format($row['mark1'], 2); ?></td>
+                    <td><?php echo number_format($row['mark2'], 2); ?></td>
+                    <td><?php echo number_format($row['mark3'], 2); ?></td>
                     <td><?php echo number_format((($row['mark1'] + $row['mark2'] + $row['mark3']) * 100) / 240, 2); ?></td>
+
                     <td>
                         <button class="btn btn-primary edit-btn" data-rollno="<?php echo $row['roll_no'];?>" data-subject="<?php echo $row['subject'];?>" data-standard="<?php echo $row['standard'];?>" data-toggle="modal" data-target="#exampleModal"><i class="bx bxs-edit"></i></button>
                     </td>
@@ -850,7 +851,7 @@ nav .profile .profile-link a:hover {
                 <?php
             }
         } else {
-            echo '<tr><td colspan="9" class="text-center">NO RECORD FOUND....!</td></tr>';
+          echo '<tr><td colspan="9" class="alert alert-danger text-center font-weight-bold" role="alert">NO RECORD FOUND....!</td></tr>';
         }
         ?>
         </tbody>
@@ -898,12 +899,12 @@ nav .profile .profile-link a:hover {
                             <input type="number" class="form-control" id="editMark3" name="mark3">
                         </div>
                     </div>
-                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveChangesBtn">Update Mark</button>
+                <button type="submit" class="btn btn-primary" id="saveChangesBtn">Update Mark</button>
             </div>
+            </form>
         </div>
     </div>
 </div>
