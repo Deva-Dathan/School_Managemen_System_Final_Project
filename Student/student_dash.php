@@ -7,7 +7,6 @@ session_start();
 ?>
 
 <!DOCTYPE html>
-<!-- Coding by CodingNepal | www.codingnepalweb.com -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
@@ -575,6 +574,12 @@ nav .profile .profile-link a:hover {
           <a href="online_exam.php">
           <i class='bx bxs-pencil'></i>
             <span class="links_name">Online Exam</span>
+          </a>
+        </li>
+        <li>
+          <a href="course_recommend.php">
+          <i class='bx bx-book'></i>
+            <span class="links_name">Suggested Course</span>
           </a>
         </li>
         <li>

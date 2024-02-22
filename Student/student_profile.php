@@ -634,6 +634,12 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
+          <a href="course_recommend.php">
+          <i class='bx bx-book'></i>
+            <span class="links_name">Suggested Course</span>
+          </a>
+        </li>
+        <li>
           <a href="pay_fees.php">
             <i class='bx bx-dollar' ></i>
             <span class="links_name">Pay Fees</span>

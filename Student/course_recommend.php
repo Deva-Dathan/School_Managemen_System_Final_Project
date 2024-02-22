@@ -1,28 +1,26 @@
 <?php
 session_start();
-error_reporting(0);
-$servername = "localhost";
-$username = "root";
-$password = "";
-$db_name = "school_management_system";
+include("../include/db_connection.php");
+include("../header.php");
+include("../footer.php");
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $db_name);
+// if(!isset($_SESSION['u_email']))
+// {
+//   header("Location: ../login_page.php");
+// }
 
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+// echo $_SESSION['u_username'];
+// echo "<br>";
+// echo $_SESSION['u_role'];
 ?>
 
 <!DOCTYPE html>
+<!-- Coding by CodingNepal | www.codingnepalweb.com -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
     <title> G H S S </title>
     <link rel="icon" type="image/x-icon" href="../assets/images/school_logo.png">
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
       /* Googlefont Poppins CDN Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
@@ -45,19 +43,6 @@ if ($conn->connect_error) {
 	--red: #FC3B56;
   --dark-red: #FC1605;
   --primary-blue: #007bff;
-}
-    /*** Spinner ***/
-    #spinner {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .5s ease-out, visibility 0s linear .5s;
-    z-index: 99999;
-}
-
-#spinner.show {
-    transition: opacity .5s ease-out, visibility 0s linear 0s;
-    visibility: visible;
-    opacity: 1;
 }
 .sidebar{
   position: fixed;
@@ -507,40 +492,39 @@ nav .profile .profile-link a:hover {
   justify-content:center;
   align-items:center;
 }
-.img-area-update {
+.img-area, .img-area-update {
 	position: relative;
 	width: 60%;
 	height: 250px;
 	background: var(--grey);
 	margin-bottom: 30px;
-  border : 1px solid #f5f5f5;
-  border-radius:15px;
+    border : 1px solid #f5f5f5;
+    border-radius:15px;
 	overflow: hidden;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-  cursor: pointer;
-  z-index:1;
+    cursor: pointer;
 }
-.img-area-update .icon {
+.img-area .icon, .img-area-update .icon {
 	font-size: 100px;
     color:var(--primary-blue);
 }
-.img-area-update h3 {
+.img-area h3, .img-area-update h3 {
 	font-size: 20px;
 	font-weight: 500;
 	margin-bottom: 6px;
 }
-.img-area-update p {
+.img-area p, .img-area-update p {
 	color: #999;
     text-align:center;
     padding : 10px;
 }
-.img-area-update p span {
+.img-area p span, .img-area-update p span {
 	font-weight: 600;
 }
-.img-area-update img {
+.img-area img, .img-area-update img {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -550,7 +534,7 @@ nav .profile .profile-link a:hover {
 	object-position: center;
 	z-index: 100;
 }
-.img-area-update::before {
+.img-area::before, .img-area-update::before {
 	content: attr(data-img);
 	position: absolute;
 	top: 0;
@@ -569,7 +553,7 @@ nav .profile .profile-link a:hover {
 	transition: all .3s ease;
 	z-index: 200;
 }
-.img-area-update.active:hover::before {
+.img-area.active:hover::before, .img-area-update.active:hover::before {
 	opacity: 1;
 }
 .required::after{
@@ -581,37 +565,40 @@ nav .profile .profile-link a:hover {
 .error-message, .email_error-message {
       color: red;
     }
-.password-change-container {
-    height: 50vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.filter-btn{
+    height:6vh;
+    background:none;
+    outline:none;
+    border:1px solid #c3c3c3;
+    border-top:none;
+    border-radius:0px 0px 15px 15px;
+    margin-top:-17px;
+    font-weight:bold;
+    transition:0.5s;
 }
-.password-change-form {
-    max-width: 600px;
-    width: 100%;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+.filter-btn:hover{
+    background:#081d44;
+    color:#fff;
 }
-.bg-grey {
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
+.table-re {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .table-re th,.table-re td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .table-re th {
+            background-color: #f2f2f2;
+        }
     </style>
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
 <body id="element">
-
-
+  <?php include("../loader.php");?>
   <div class="sidebar" id="sidebar">
     <div class="logo-details">
       <img src="../assets/images/school_logo.png" alt="School_Logo" width=60 height=60>
@@ -626,13 +613,13 @@ nav .profile .profile-link a:hover {
         </li>
         <li>
           <a href="view_activity.php">
-            <i class='bx bxs-briefcase'></i>
+            <i class='bx bxs-briefcase' ></i>
             <span class="links_name">Class Activity</span>
           </a>
         </li>
         <li>
           <a href="view_notes.php">
-            <i class='bx bxs-notepad'></i>
+            <i class='bx bxs-notepad' ></i>
             <span class="links_name">Subject Notes</span>
           </a>
         </li>
@@ -655,9 +642,9 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="course_recommend.php">
-          <i class='bx bx-book'></i>
-            <span class="links_name">Suggested Course</span>
+          <a href="course_recommend.php" class="active">
+          <i class='bx bx-book' style="color:var(--light);"></i>
+            <span class="links_name" style="color:var(--light);">Suggested Course</span>
           </a>
         </li>
         <li>
@@ -672,7 +659,7 @@ nav .profile .profile-link a:hover {
     <nav>
       <div class="sidebar-button">
         <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard">Dashboard</span>
+        <span class="dashboard"><?php echo $_SESSION['u_name'];?></span>
       </div>
       <div class="search-box">
         <input type="text" placeholder="Search...">
@@ -689,23 +676,8 @@ nav .profile .profile-link a:hover {
 			</a>
       <span class="divider"></span>
 			<div class="profile">
-			<abbr title="<?php echo $_SESSION['u_name'];?>">
-      <?php
-$get_email = $_SESSION['u_email'];
-$sql = "SELECT u_image FROM users WHERE u_email='$get_email'";
-$result = mysqli_query($conn, $sql);
-if (mysqli_num_rows($result) > 0) 
-{
-  while($row = mysqli_fetch_assoc($result)) 
-  {
-?>
-      <img src="../uploads/<?php echo $row['u_image'];?>" alt="">
-      <?php
-  }
-}
-      ?>
-      </abbr>
-      <ul class="profile-link">
+			<abbr title="<?php echo $_SESSION['u_name'];?>"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt=""></abbr>
+            <ul class="profile-link">
 					<li><a href="student_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
 					<li><a href="student_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
 					<li><a href="../logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
@@ -717,92 +689,178 @@ if (mysqli_num_rows($result) > 0)
       <div class="sales-boxes">
         <div class="top-sales box">
           <div class="row">
-          <div class="col-md-6 col-12 title mb-5">SETTINGS</div>
+          <div class="col-md-6 col-12 title">SUGGESTED COURSE</div>
           </div> <!--class row close div-->
-
-
           <?php
-          if(isset($_POST['changePassword']))
+          if(isset($_SESSION['success_msg']))
           {
-            $email = $_SESSION['u_email'];
-            $old = md5($_POST['oldPassword']);
-            $new = md5($_POST['newPassword']);
-            $confirm = md5($_POST['confirmPassword']);
-
-            $sql = "SELECT u_pass FROM users WHERE u_email = '$email'";
-            $result = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($result) > 0) 
-            {
-                while($row = mysqli_fetch_assoc($result)) 
-                {
-                    if($row['u_pass'] == $old)
-                    {
-                        if($new == $confirm)
-                        {
-                            $update_pw = "UPDATE users SET u_pass = '$confirm' WHERE u_email='$email'";
-                            $conn->query($update_pw);
-                            echo '<div class="alert alert-success" role="alert">PASSWORD UPDATED SUCCESSFULLY</div>';
-                        }
-                        else
-                        {
-                            echo '<div class="alert alert-danger" role="alert">NEW PASSWORD & CONFIRM PASSWORD IS MISMATCHING</div>';
-                        }
-                    }
-                    else
-                    {
-                        echo '<div class="alert alert-danger" role="alert">OLD PASSWORD IS MISMATCHING</div>';
-                    }
-                }
-            } 
+            ?>
+          <div class="alert alert-success mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['success_msg'];?></div>
+          <?php
+            unset($_SESSION['success_msg']);
           }
           ?>
 
-<br><br>
-          <div class="password-change-container mt-3">
-    <div class="password-change-form bg-grey mt-n5">
-        <form method="POST">
-        <h3 class="text-center font-weight-bold mb-3">CHANGE PASSWORD</h3>
-            <div class="form-group">
-                <input type="password" name="oldPassword" class="form-control" placeholder="Old Password">
-            </div>
-            <div class="form-group">
-                <input type="password" name="newPassword" class="form-control" placeholder="New Password">
-            </div>
-            <div class="form-group">
-                <input type="password" name="confirmPassword" class="form-control" placeholder="Confirm New Password">
-            </div>
-            <button type="submit" name="changePassword" class="btn btn-primary float-right">Change Password</button>
-        </form>
-    </div>
-</div>
+<hr>
+<br>
+<!-- display the facult deatils -->
 
+<table id="example" class="table table-striped table-bordered nowrap">
+    <thead align="center">
+        <tr>
+            <th>Subject Code</th>
+            <th>Subject</th>
+            <th>Exam Date</th>
+            <th>Exam Score</th>
+        </tr>
+    </thead>
+    <tbody align="center">
+        <?php
+        $sql = "SELECT * FROM subject_data";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $subject_name = $row['subject_name'];
+                ?>
+                <tr>
+                    <td><?php echo $row['subject_code']; ?></td>
+                    <td><?php echo $subject_name; ?></td>
+                    <td>05-JAN-2024</td>
+                    <td>
+                        <?php
+                        $sql1 = "SELECT exam_score FROM exam_mark WHERE subject = '$subject_name'";
+                        $result1 = $conn->query($sql1);
+                        if ($result1->num_rows > 0) {
+                            while ($row1 = $result1->fetch_assoc()) {
+                                echo $row1['exam_score'] . "<br>";
+                            }
+                        } else {
+                            echo "No exam score available<br>";
+                        }
+                        ?>
+                    </td>
+                </tr>
+                <?php
+            }
+        } else {
+            ?>
+            <tr>
+                <td colspan="4">No subjects found</td>
+            </tr>
+            <?php
+        }
+        ?>
+    </tbody>
+</table>
+
+<?php
+// Assuming $conn is your database connection
+
+// Fetch subject names and marks from the database
+$sql = "SELECT subject_name, exam_score FROM subject_data LEFT JOIN exam_mark ON subject_data.subject_name = exam_mark.subject";
+$result = $conn->query($sql);
+
+// Initialize $scores array
+$scores = array();
+
+// Construct $scores array with subject names and marks
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $subject_name = $row['subject_name'];
+        $exam_score = $row['exam_score'];
+        // Add subject name and marks to $scores array
+        $scores[$subject_name] = $exam_score;
+    }
+}
+
+// Function to get course recommendations
+function getCourseRecommendations($scores) {
+    // Data to be sent to the Flask API
+    $data = array('scores' => $scores);
+
+    // URL to Flask API
+    $url = 'http://localhost:5000/recommend_courses';
+
+    // Use curl to make the request
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    // Execute the request
+    $response = curl_exec($ch);
+
+    // Check for errors
+    if($response === false){
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    // Close curl resource
+    curl_close($ch);
+
+    // Decode JSON response
+    $result = json_decode($response, true);
+
+    return $result['courses'] ?? [];
+}
+
+// Get course recommendations
+$recommended_courses = getCourseRecommendations($scores);
+
+?>
+
+
+
+<h2>Recommended Courses</h2>
+    <table class="table-re">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Recommended Courses</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if (!empty($recommended_courses)) {
+                $displayed_subjects = array(); // Keep track of displayed subjects
+                foreach ($recommended_courses as $course) {
+                    // Extract subject name from course
+                    $subject = explode(' ', $course)[0];
+                    // Display subject only if it has not been displayed before
+                    if (!in_array($subject, $displayed_subjects)) {
+                        echo "<tr>";
+                        echo "<td>$subject</td>";
+                        echo "<td>";
+                        // Display recommended courses for this subject
+                        foreach ($recommended_courses as $recommended_course) {
+                            if (strpos($recommended_course, $subject) === 0) {
+                                echo "- $recommended_course<br>";
+                            }
+                        }
+                        echo "</td>";
+                        echo "</tr>";
+                        $displayed_subjects[] = $subject; // Add subject to displayed subjects
+                    }
+                }
+            } else {
+                echo "<tr><td colspan='2'>No courses recommended.</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         </div>
       </div>
     </div>
   </section>
 
-
-
-  <script>
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
-</script>
 
 
   <script>
@@ -873,15 +931,6 @@ sidebarBtn.onclick = function() {
   sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
 }
  </script>
-
-<script async src="https://cdn.ampproject.org/v0.js"></script> 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script async src="https://cdn.ampproject.org/v0.js"></script> 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 </body>
 </html>
