@@ -598,7 +598,7 @@ nav .profile .profile-link a:hover {
     </div>
     <ul class="nav-links" id="nav-links">
         <li>
-          <a href="class_teacher_dash.php">
+          <a href="teacher_dash.php">
             <i class='bx bx-grid-alt'></i>
             <span class="links_name">Dashboard</span>
           </a>
@@ -637,6 +637,12 @@ nav .profile .profile-link a:hover {
           <a href="subject_notes.php">
           <i class='bx bxs-notepad'></i>
             <span class="links_name">Subject Notes</span>
+          </a>
+        </li>
+        <li>
+          <a href="create_online_exam.php">
+          <i class='bx bx-bookmarks'></i>
+            <span class="links_name">Online Exam</span>
           </a>
         </li>
         <li>

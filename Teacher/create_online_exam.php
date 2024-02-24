@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set('Asia/Kolkata');
 include("../include/db_connection.php");
 include("../header.php");
 include("../footer.php");
@@ -565,22 +566,9 @@ nav .profile .profile-link a:hover {
 .error-message, .email_error-message {
       color: red;
     }
-.filter-btn{
-    height:6vh;
-    background:none;
-    outline:none;
-    border:1px solid #c3c3c3;
-    border-top:none;
-    border-radius:0px 0px 15px 15px;
-    margin-top:-17px;
-    font-weight:bold;
-    transition:0.5s;
-}
-.filter-btn:hover{
-    background:#081d44;
-    color:#fff;
-}
-
+    .hidden {
+    display: none;
+  }
     </style>
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -595,20 +583,20 @@ nav .profile .profile-link a:hover {
     </div>
     <ul class="nav-links" id="nav-links">
         <li>
-          <a href="teacher_dash.php" >
+          <a href="teacher_dash.php">
             <i class='bx bx-grid-alt'></i>
             <span class="links_name">Dashboard</span>
           </a>
         </li>
         <li>
           <a href="view_classes.php">
-            <i class='bx bxs-user'></i>
+            <i class='bx bxs-user' ></i>
             <span class="links_name">Allotted Classes</span>
           </a>
         </li>
         <li>
           <a href="view_students.php">
-            <i class='bx bx-user'></i>
+            <i class='bx bx-user' ></i>
             <span class="links_name">View Student</span>
           </a>
         </li>
@@ -619,9 +607,9 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="upload_marks.php" class="active">
-          <i class='bx bx-bookmarks' style="color:var(--light);"></i>
-            <span class="links_name" style="color:var(--light);">Subject Marks</span>
+          <a href="upload_marks.php">
+          <i class='bx bx-bookmarks'></i>
+            <span class="links_name">Subject Marks</span>
           </a>
         </li>
         <li>
@@ -637,9 +625,9 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="create_online_exam.php">
-          <i class='bx bx-bookmarks'></i>
-            <span class="links_name">Online Exam</span>
+          <a href="online_exam.php" class="active">
+          <i class='bx bx-bookmarks' style="color:var(--light);"></i>
+            <span class="links_name" style="color:var(--light);">Online Exam</span>
           </a>
         </li>
         <li>
@@ -672,7 +660,7 @@ nav .profile .profile-link a:hover {
       <span class="divider"></span>
 			<div class="profile">
 			<abbr title="<?php echo $_SESSION['u_name'];?>"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt=""></abbr>
-      <ul class="profile-link">
+            <ul class="profile-link">
 					<li><a href="teacher_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
 					<li><a href="teacher_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
 					<li><a href="../logout.php"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
@@ -684,283 +672,232 @@ nav .profile .profile-link a:hover {
       <div class="sales-boxes">
         <div class="top-sales box">
           <div class="row">
-          <div class="col-md-6 col-12 title">UPLOAD SUBJECT MARKS</div>
+          <div class="col-md-6 col-12 title">ONLINE EXAM</div>
           </div> <!--class row close div-->
+          <br>
           <?php
           if(isset($_SESSION['success_msg']))
           {
             ?>
-          <div class="alert alert-success mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['success_msg'];?></div>
+          <div class="alert alert-success mt-3" role="alert"><?php echo $_SESSION['success_msg'];?></div>
           <?php
             unset($_SESSION['success_msg']);
           }
           ?>
-<hr>
-<br>
 
-
-<form method="POST" action="insert_marks.php" class="needs-validation" novalidate>
-
+<form method="POST" class="needs-validation" action="online_exam_question.php" novalidate>
 
 <div class="row">
   <div class="col-md-4 mb-3">
-    <label for="validationCustom01" class="required">Standard</label>
-    <select class="custom-select" name="standard" id="validationCustom01" required>
-      <option selected disabled>Choose...</option>
-      <?php
-      include("../include/db_connection.php");
-      $login_email = $_SESSION['u_email'];
-      echo $login_email;
-      $sql = "SELECT DISTINCT standard FROM subject_teacher WHERE u_email='$login_email'";
-      $result = $conn->query($sql);
-      while ($row = mysqli_fetch_assoc($result)) {
-        ?>
-        <option value="<?php echo $row['standard']; ?>"><?php echo $row['standard']; ?></option>
-      <?php
-      }
-      ?>
-    </select>
-    <div class="invalid-feedback">Please select a standard from the list.</div>
-  </div>
+  <label for="validationCustom01" class="required">Standard</label>
+              <select class="custom-select" name="standard" id="validationCustom01" required>
+                <option selected disabled>Choose...</option>
+                <?php
+          include("../include/db_connection.php");
+          $login_email = $_SESSION['u_email'];
+          echo $login_email;
+          $sql = "SELECT DISTINCT standard FROM subject_teacher WHERE u_email='$login_email'";
+          $result = $conn->query($sql);
+          while($row = mysqli_fetch_assoc($result))
+          {
+            ?>
+                <option value="<?php echo $row['standard'];?>"><?php echo $row['standard'];?></option>
+                <?php
+          }
+          ?>
+              </select>
+              <div class="invalid-feedback">Please select a standard from the list.</div>
+  </div> <!-- col-md-6 mb-3 close -->
 
   <div class="col-md-4 mb-3">
     <label for="validationCustom04" class="required">Subject</label>
     <select class="custom-select" name="subject" id="validationCustom04" required>
-      <option selected disabled>Choose...</option>
+          <option selected disabled>Choose...</option>
     </select>
-  </div>
-
-  <div class="col-md-4 mb-3">
-    <label for="validationCustom03" class="required">Exam Type</label>
-    <select class="custom-select" name="exam_type" id="validationCustom03" required>
-      <option selected disabled>Choose...</option>
-      <option value="I Term">I Term</option>
-      <option value="II Term">II Term</option>
-      <option value="Final Exam">Final Exam</option>
-    </select>
-  </div>
 </div>
 
-<div id="studentsContainer"></div> <!-- Container for dynamically generated input fields -->
-
 <script>
-  $(document).ready(function () {
-    $('#validationCustom01').change(function () {
-      var standard = $(this).val();
-      $.ajax({
-        type: 'POST',
-        url: 'get_subject.php', // PHP script to fetch subjects based on standard
-        data: {
-          standard: standard
-        },
-        success: function (response) {
-          $('#validationCustom04').empty(); // Clear existing options
-          $('#validationCustom04').append(response); // Append new options
-        }
-      });
-      
-      // Fetch student data for the selected standard
-      $.ajax({
-        type: 'POST',
-        url: 'get_student_data.php', // PHP script to fetch student data based on standard
-        data: {
-          standard: standard
-        },
-        dataType: 'json', // Expect JSON response
-        success: function (data) {
-          generateInputFields(data); // Generate input fields based on student data
-        },
-        error: function (xhr, status, error) {
-          console.error(xhr.responseText);
-        }
-      });
-    });
-  });
-
-  function generateInputFields(studentData) {
-    var container = $('#studentsContainer');
-    container.empty(); // Clear previous content
-
-    // Iterate over each student data and create input fields
-    studentData.forEach(function(student, index) {
-      var inputs = `<hr>
-        <div class="row">
-          <div class="col-md-3 mb-3">
-            <label for="studentName${index}" class="required">Student Name</label>
-            <input type="text" class="form-control" id="studentName${index}" name="studentName[]" value="${student.u_name}" required>
-          </div>
-          <div class="col-md-3 mb-3">
-            <label for="rollNo${index}" class="required">Roll No</label>
-            <input type="text" class="form-control" id="rollNo${index}" name="rollNo[]" value="${student.roll_no}" required>
-          </div>
-          <div class="col-md-3 mb-3">
-            <label for="email${index}" class="required">Email</label>
-            <input type="email" class="form-control" id="email${index}" name="email[]" value="${student.u_email}" required>
-          </div>
-          <div class="col-md-3 mb-3">
-            <label for="marks${index}" class="required">Marks</label>
-            <input type="number" class="form-control" id="marks${index}" name="marks[]" required>
-          </div>
-        </div>
-      `;
-      container.append(inputs);
-    });
-  }
-</script>
-
-
-<button type="submit" name="u_upload" class="btn btn-primary">Upload Marks</button>
-</form>
-<br>
-<hr>
-<br>
-<!-- display the facult deatils -->
-
-<table id="example" class="table table-striped table-bordered nowrap">
-        <thead align="center">
-            <tr>
-                <th>Roll No</th>
-                <th>Name</th>
-                <th>STD</th>
-                <th>Subject</th>
-                <th>I<sup>st</sup> Term</th>
-                <th>II<sup>st</sup> Term</th>
-                <th>Final Exam</th>
-                <th>Exam Score</th>
-                <th>Edit</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php
-        // Assuming $conn is your database connection
-        // Assuming session has already started
-        $login_email = $_SESSION['u_email'];
-        $sql = "SELECT * FROM subject_mark";
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0) {
-            while($row = mysqli_fetch_assoc($result)) {
-                ?>
-                <tr align="center">
-                    <td><?php echo $row['roll_no'];?></td>
-                    <td><?php echo $row['u_name'];?></td>
-                    <td><?php echo $row['standard'];?></td>
-                    <td><?php echo $row['subject'];?></td>
-                    <td><?php echo number_format($row['mark1'], 2); ?></td>
-                    <td><?php echo number_format($row['mark2'], 2); ?></td>
-                    <td><?php echo number_format($row['mark3'], 2); ?></td>
-                    <td><?php echo number_format((($row['mark1'] + $row['mark2'] + $row['mark3']) * 100) / 240, 2); ?></td>
-
-                    <td>
-                        <button class="btn btn-primary edit-btn" data-rollno="<?php echo $row['roll_no'];?>" data-subject="<?php echo $row['subject'];?>" data-standard="<?php echo $row['standard'];?>" data-toggle="modal" data-target="#exampleModal"><i class="bx bxs-edit"></i></button>
-                    </td>
-                </tr>
-                <?php
-            }
-        } else {
-          echo '<tr><td colspan="9" class="alert alert-danger text-center font-weight-bold" role="alert">NO RECORD FOUND....!</td></tr>';
-        }
-        ?>
-        </tbody>
-    </table>
-
-<!-- Modal For Edit Mark -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Update Student Mark</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Your form fields for editing marks -->
-                <form method="POST" id="editForm">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="editRollNo">Roll No</label>
-                            <input type="text" class="form-control" id="editRollNo" name="rollNo" readonly>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="editSubject">Subject</label>
-                            <input type="text" class="form-control" id="editSubject" name="subject" readonly>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="editStandard">Standard</label>
-                            <input type="text" class="form-control" id="editStandard" name="standard" readonly>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="editMark1">I<sup>st</sup> Term</label>
-                            <input type="number" class="form-control" id="editMark1" name="mark1">
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="editMark2">II<sup>nd</sup> Term</label>
-                            <input type="number" class="form-control" id="editMark2" name="mark2">
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="editMark3">Final Exam</label>
-                            <input type="number" class="form-control" id="editMark3" name="mark3">
-                        </div>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="saveChangesBtn">Update Mark</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $('.edit-btn').on('click', function() {
-            var rollNo = $(this).data('rollno');
-            var subject = $(this).data('subject');
-            var standard = $(this).data('standard');
-            var mark1 = $(this).closest('tr').find('td:eq(4)').text();
-            var mark2 = $(this).closest('tr').find('td:eq(5)').text();
-            var mark3 = $(this).closest('tr').find('td:eq(6)').text();
-
-            // Set the values in the modal fields
-            $('#editRollNo').val(rollNo);
-            $('#editSubject').val(subject);
-            $('#editStandard').val(standard);
-            $('#editMark1').val(mark1);
-            $('#editMark2').val(mark2);
-            $('#editMark3').val(mark3);
-        });
-
-        $('#saveChangesBtn').on('click', function() {
-            var formData = $('#editForm').serialize();
+    $(document).ready(function(){
+        $('#validationCustom01').change(function(){
+            var standard = $(this).val();
             $.ajax({
-                url: 'update_marks.php',
                 type: 'POST',
-                data: formData,
-                success: function(response) {
-                    console.log(response);
-                    // You may want to update the table with the new data or perform any other actions upon success.
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
+                url: 'get_subject.php', // PHP script to fetch subjects based on standard
+                data: {standard: standard},
+                success: function(response){
+                    $('#validationCustom04').empty(); // Clear existing options
+                    $('#validationCustom04').append(response); // Append new options
                 }
             });
         });
     });
 </script>
 
+<div class="col-md-4 mb-3">
+  <label for="validationCustom03" class="required">No. of Question</label>
+  <input type="number" class="form-control" name="no_qn" id="validationCustom03" required>
+            <div class="valid-feedback">Looks good!</div>
+  </div> <!-- col-md-6 mb-3 close -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <div class="col-md-3 mb-3">
+<label for="validationCustom02" class="required">Start Time (HH:MM)</label>
+            <input type="time" class="form-control" value="00:00" name="start_time" id="validationCustom02" required>
+            <div class="valid-feedback">Looks good!</div>
+</div>
+
+  <div class="col-md-3 mb-3">
+    <label for="validationCustom05" class="required">End Time (HH:MM)</label>
+    <input type="time" class="form-control" value="00:00" name="end_time" id="validationCustom05" required>
+    <div class="valid-feedback">Looks good!</div>
+</div>
+
+<div class="col-md-3 mb-3">
+    <label for="validationCustom07" class="required">Exam Duration (HH:MM)</label>
+    <input type="time" class="form-control" value="00:00" name="exam_duration" id="validationCustom07" required>
+    <div class="valid-feedback">Looks good!</div>
+</div>
+
+<script>
+    // Function to calculate exam duration
+    function calculateExamDuration() {
+        // Get the start time input element
+        var startTimeInput = document.getElementById("validationCustom02");
+
+        // Get the end time input element
+        var endTimeInput = document.getElementById("validationCustom05");
+
+        // Get the exam duration input element
+        var examDurationInput = document.getElementById("validationCustom07");
+
+        // Get the values of start time and end time
+        var startTimeValue = startTimeInput.value;
+        var endTimeValue = endTimeInput.value;
+
+        // Parse the time values into hours and minutes
+        var startParts = startTimeValue.split(':');
+        var endParts = endTimeValue.split(':');
+
+        // Calculate the time difference in minutes
+        var startMinutes = parseInt(startParts[0]) * 60 + parseInt(startParts[1]);
+        var endMinutes = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
+        var durationMinutes = endMinutes - startMinutes;
+
+        // Convert duration back to hours and minutes
+        var hours = Math.floor(durationMinutes / 60);
+        var minutes = durationMinutes % 60;
+
+        // Format the duration as HH:mm
+        var formattedDuration = hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0');
+
+        // Set the value of the exam duration input field
+        examDurationInput.value = formattedDuration;
+    }
+
+    // Call the function when the start time and end time inputs change
+    document.getElementById("validationCustom02").addEventListener("change", calculateExamDuration);
+    document.getElementById("validationCustom05").addEventListener("change", calculateExamDuration);
+</script>
+
+<div class="col-md-3 mb-3">
+    <label for="validationCustom06" class="required">Due Date</label>
+    <input type="datetime-local" class="form-control" name="due_date" id="validationCustom06" required>
+    <div class="valid-feedback">Looks good!</div>
+</div>
+
+<script>
+    // Get the current date and time
+    var now = new Date();
+
+    // Add 1 hour to the current date and time
+    now.setTime(now.getTime() + 60 * 120 * 1000);
+
+    // Format the date and time as YYYY-MM-DDTHH:MM
+    var year = now.getFullYear().toString().padStart(4, '0');
+    var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    var day = now.getDate().toString().padStart(2, '0');
+    var hours = now.getHours().toString().padStart(2, '0');
+    var minutes = now.getMinutes().toString().padStart(2, '0');
+    var dateTimeString = year + "-" + month + "-" + day + "T" + hours + ":" + minutes;
+
+    // Set the value of the input field
+    document.getElementById("validationCustom06").value = dateTimeString;
+</script>
+
+
+
+
+</div><!-- row close -->
+
+<br>
+<button type="submit" class="btn btn-primary">Next</button>
+      </form>
+
+
+
+<!-- display the facult deatils -->
+
+
+<table id="example" class="table table-striped table-bordered nowrap mt-5" style="width:100%">
+        <thead align=center>
+            <tr>
+              <th>SL.No</th>
+              <th>Standard</th>
+              <th>Subject</th>
+              <th>Activity No</th>
+              <th>Topic</th>
+              <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        <?php
+        $i=1;
+        $login_email = $_SESSION['u_email'];
+$sql = "SELECT * FROM activity_data WHERE u_email = '$login_email'";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) 
+{
+  while($row = mysqli_fetch_assoc($result)) 
+  {
+?>
+
+            <tr align=center>
+              <td><?php echo $i++;?></td>
+              <td><?php echo $row['standard'];?></td>
+              <td ><?php echo $row['subject'];?></td>
+              <td><?php echo $row['activity_no'];?></td>
+              <td><?php echo $row['activity_topic'];?></td>
+              <td><a href="activity_delete.php?subject=<?php echo $row['subject'];?>&topic=<?php echo $row['activity_no'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
+            </tr>
+<?php
+  }
+} 
+else 
+{
+  echo '<br><div class="alert alert-danger text-center font-weight-bold" role="alert">NO RECORD FOUND....!</div>';
+}
+?>
+        </tbody>
+    </table> 
+
+<script type='text/javascript'>
+            $(document).ready(function(){
+                $('.view-details').click(function(){
+                    var id = $(this).data('id');
+                    $.ajax({
+                        url: 'ajax_folder/ajaxfile.php',
+                        type: 'post',
+                        data: {id: id},
+                        success: function(response){ 
+                            $('.modal-body').html(response); 
+                            $('#exampleModalCenter').modal('show'); 
+                        }
+                    });
+                });
+            });
+            </script>
+ 
+
         </div>
       </div>
     </div>
@@ -988,6 +925,28 @@ nav .profile .profile-link a:hover {
 })();
 </script>
 
+<script>
+    // Get the input element
+    var mobileNumberInput = document.getElementById('validationCustom05');
+    
+    // Attach an input event listener to the input field
+    mobileNumberInput.addEventListener('input', function () {
+      // Get the value entered by the user
+      var enteredValue = mobileNumberInput.value;
+
+      // Remove any non-numeric characters
+      var numericValue = enteredValue.replace(/\D/g, '');
+
+      // Check if the numeric value is between 10 and 10 characters
+      if (numericValue.length === 10) {
+        // Clear any previous error message
+        document.getElementById('error-message').textContent = '';
+      } else {
+        // Display an error message
+        document.getElementById('error-message').textContent = 'Mobile number must be 10 digits.';
+      }
+    });
+  </script>
 
   <script>
   function toggleFullScreen() {
