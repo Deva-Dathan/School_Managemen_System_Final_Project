@@ -625,7 +625,7 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="online_exam.php" class="active">
+          <a href="create_online_exam.php" class="active">
           <i class='bx bx-bookmarks' style="color:var(--light);"></i>
             <span class="links_name" style="color:var(--light);">Online Exam</span>
           </a>
@@ -679,10 +679,27 @@ nav .profile .profile-link a:hover {
           if(isset($_SESSION['success_msg']))
           {
             ?>
-          <div class="alert alert-success mt-3" role="alert"><?php echo $_SESSION['success_msg'];?></div>
+          <div class="alert alert-success mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['success_msg'];?></div>
           <?php
             unset($_SESSION['success_msg']);
           }
+          ?>
+
+          <?php
+              if(isset($_SESSION['created_success']))
+              {
+              ?>
+               <div class="alert alert-success mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['created_success'];?></div>
+              <?php
+              unset($_SESSION['created_success']);
+              }
+              elseif(isset($_SESSION['created_fail']))
+              {
+                ?>
+                <div class="alert alert-danger mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['created_fail'];?></div>
+               <?php
+               unset($_SESSION['created_fail']);
+              }
           ?>
 
 <form method="POST" class="needs-validation" action="online_exam_question.php" novalidate>
@@ -740,63 +757,66 @@ nav .profile .profile-link a:hover {
   </div> <!-- col-md-6 mb-3 close -->
 
   <div class="col-md-3 mb-3">
-<label for="validationCustom02" class="required">Start Time (HH:MM)</label>
-            <input type="time" class="form-control" value="00:00" name="start_time" id="validationCustom02" required>
-            <div class="valid-feedback">Looks good!</div>
+    <label for="validationCustom02" class="required">Start Time (HH:MM)</label>
+    <input type="datetime-local" class="form-control" value="<?php echo date("Y-m-d\TH:i"); ?>" name="start_time" id="start_time" required>
+    <div class="valid-feedback">Looks good!</div>
 </div>
 
-  <div class="col-md-3 mb-3">
+<div class="col-md-3 mb-3">
     <label for="validationCustom05" class="required">End Time (HH:MM)</label>
-    <input type="time" class="form-control" value="00:00" name="end_time" id="validationCustom05" required>
+    <?php
+        // Get the current timestamp
+        $current_time = time();
+        
+        // Calculate the timestamp for 1 hour from now
+        $one_hour_from_now = $current_time + (1 * 60 * 60); // 1 hour = 3600 seconds
+        
+        // Format the timestamp for the input field
+        $formatted_time = date("Y-m-d\TH:i", $one_hour_from_now); // Format: YYYY-MM-DDTHH:MM
+    ?>
+    <input type="datetime-local" class="form-control" value="<?php echo $formatted_time; ?>" name="end_time" id="end_time" required>
     <div class="valid-feedback">Looks good!</div>
 </div>
 
 <div class="col-md-3 mb-3">
     <label for="validationCustom07" class="required">Exam Duration (HH:MM)</label>
-    <input type="time" class="form-control" value="00:00" name="exam_duration" id="validationCustom07" required>
+    <input type="time" class="form-control" value="00:00" name="exam_duration" id="exam_duration" required>
     <div class="valid-feedback">Looks good!</div>
 </div>
 
 <script>
-    // Function to calculate exam duration
-    function calculateExamDuration() {
-        // Get the start time input element
-        var startTimeInput = document.getElementById("validationCustom02");
+    // Function to calculate duration and update "Exam Duration" field
+    function updateDuration() {
+        // Get start and end time values
+        var startTime = document.getElementById("start_time").value;
+        var endTime = document.getElementById("end_time").value;
 
-        // Get the end time input element
-        var endTimeInput = document.getElementById("validationCustom05");
+        // Convert start and end time strings to Date objects
+        var startDate = new Date(startTime);
+        var endDate = new Date(endTime);
 
-        // Get the exam duration input element
-        var examDurationInput = document.getElementById("validationCustom07");
+        // Calculate duration in milliseconds
+        var durationMs = endDate - startDate;
 
-        // Get the values of start time and end time
-        var startTimeValue = startTimeInput.value;
-        var endTimeValue = endTimeInput.value;
+        // Convert duration from milliseconds to HH:MM format
+        var durationHours = Math.floor(durationMs / (1000 * 60 * 60));
+        var durationMinutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
 
-        // Parse the time values into hours and minutes
-        var startParts = startTimeValue.split(':');
-        var endParts = endTimeValue.split(':');
+        // Format duration as HH:MM
+        var formattedDuration = (durationHours < 10 ? "0" : "") + durationHours + ":" + (durationMinutes < 10 ? "0" : "") + durationMinutes;
 
-        // Calculate the time difference in minutes
-        var startMinutes = parseInt(startParts[0]) * 60 + parseInt(startParts[1]);
-        var endMinutes = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
-        var durationMinutes = endMinutes - startMinutes;
-
-        // Convert duration back to hours and minutes
-        var hours = Math.floor(durationMinutes / 60);
-        var minutes = durationMinutes % 60;
-
-        // Format the duration as HH:mm
-        var formattedDuration = hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0');
-
-        // Set the value of the exam duration input field
-        examDurationInput.value = formattedDuration;
+        // Update "Exam Duration" field
+        document.getElementById("exam_duration").value = formattedDuration;
     }
 
-    // Call the function when the start time and end time inputs change
-    document.getElementById("validationCustom02").addEventListener("change", calculateExamDuration);
-    document.getElementById("validationCustom05").addEventListener("change", calculateExamDuration);
+    // Call updateDuration function when start or end time changes
+    document.getElementById("start_time").addEventListener("change", updateDuration);
+    document.getElementById("end_time").addEventListener("change", updateDuration);
+
+    // Initial call to updateDuration to set initial duration
+    updateDuration();
 </script>
+
 
 <div class="col-md-3 mb-3">
     <label for="validationCustom06" class="required">Due Date</label>
@@ -840,11 +860,11 @@ nav .profile .profile-link a:hover {
 <table id="example" class="table table-striped table-bordered nowrap mt-5" style="width:100%">
         <thead align=center>
             <tr>
-              <th>SL.No</th>
+              <th>SL.NO</th>
+              <th>Exam ID</th>
               <th>Standard</th>
               <th>Subject</th>
-              <th>Activity No</th>
-              <th>Topic</th>
+              <th>Date & Time</th>
               <th>Action</th>
             </tr>
         </thead>
@@ -853,7 +873,7 @@ nav .profile .profile-link a:hover {
         <?php
         $i=1;
         $login_email = $_SESSION['u_email'];
-$sql = "SELECT * FROM activity_data WHERE u_email = '$login_email'";
+$sql = "SELECT DISTINCT(online_exam_id), standard, subject, date FROM exam_questions WHERE question_by = '$login_email'";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) 
 {
@@ -862,12 +882,12 @@ if (mysqli_num_rows($result) > 0)
 ?>
 
             <tr align=center>
-              <td><?php echo $i++;?></td>
+            <td><?php echo $i++;?></td>
+              <td><?php echo $row['online_exam_id'];?></td>
               <td><?php echo $row['standard'];?></td>
               <td ><?php echo $row['subject'];?></td>
-              <td><?php echo $row['activity_no'];?></td>
-              <td><?php echo $row['activity_topic'];?></td>
-              <td><a href="activity_delete.php?subject=<?php echo $row['subject'];?>&topic=<?php echo $row['activity_no'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
+              <td><?php echo date('d-m-Y H:m:i', strtotime($row['date'])); ?></td>
+              <td><a href="exam_delete.php?subject=<?php echo $row['subject'];?>&exam_id=<?php echo $row['online_exam_id'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
             </tr>
 <?php
   }

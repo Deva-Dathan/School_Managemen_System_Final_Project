@@ -1,5 +1,7 @@
 <?php
 session_start();
+ob_start();
+date_default_timezone_set('Asia/Kolkata');
 include("../include/db_connection.php");
 include("../header.php");
 include("../footer.php");
@@ -624,7 +626,7 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="online_exam.php" class="active">
+          <a href="create_online_exam.php" class="active">
           <i class='bx bx-bookmarks' style="color:var(--light);"></i>
             <span class="links_name" style="color:var(--light);">Online Exam</span>
           </a>
@@ -684,54 +686,171 @@ nav .profile .profile-link a:hover {
           }
           ?>
 
-          <?php
-          include("../include/db_connection.php");
-          $question = $_POST['question'];
-          $option_a = $_POST['option_a'];
-          $option_b = $_POST['option_b'];
-          $option_c = $_POST['option_c'];
-          $option_d = $_POST['option_d'];
-          $crt_option = $_POST['crt_option'];
-          $standard = $_POST['standard'];
-          $subject = $_POST['subject'];
-          $question_by = $_POST['e_mail'];
-          $start_time = $_POST['start_time'];
-          $end_time = $_POST['end_time'];
-          $time = $_POST['exam_duration'];
-          $last_date = $_POST['due_date'];
-          $exam_id = $standard."_".$subject."_".rand();
-          $i=1;
-          
-          $sql = "INSERT INTO exam_questions(online_exam_id, question_id, question, option_a, option_b, option_c, option_d, crt_option, date, standard, subject, question_by, duration_time, start_time, last_date) VALUES ('$exam_id', '$i++', '', )";
-          
-          if ($conn->query($sql) === TRUE) {
-            echo "New record created successfully";
-          } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-          }
-          ?>
+
+<?php
+if(isset($_POST['create_exam'])) {
+    include("../include/db_connection.php");
+
+    // Assuming the following variables are correctly obtained from the form submission or session
+    $standard = $_POST['standard'];
+    $subject = $_POST['subject'];
+    $no_qn = $_POST['no_qn'];
+    $question_by = $_SESSION['u_email']; // Assuming 'u_email' is available in session
+    $start_time = $_POST['start_time'];
+    $end_time = $_POST['end_time'];
+    $time = $_POST['exam_duration'];
+    $last_date = $_POST['due_date']; 
+    $exam_id = $standard . "_" . $subject . "_" . rand(1000, 9999);
+
+    // Get current date and time
+    $current_date = date('Y-m-d H:i:s');
+
+    // Initialize the query
+    $insert_query = "INSERT INTO exam_questions (online_exam_id, question_id, question, option_a, option_b, option_c, option_d, crt_option, standard, subject, question_by, date, start_time, end_time, exam_duration, due_date) VALUES ";
+
+    // Loop through each set of question data
+    for ($i = 0; $i < $no_qn; $i++) {
+        // Increment question_id for the next iteration
+        $question_id = $i + 1;
+
+        $question = mysqli_real_escape_string($conn, $_POST['question'][$i]);
+        $option_a = mysqli_real_escape_string($conn, $_POST['option_a'][$i]);
+        $option_b = mysqli_real_escape_string($conn, $_POST['option_b'][$i]);
+        $option_c = mysqli_real_escape_string($conn, $_POST['option_c'][$i]);
+        $option_d = mysqli_real_escape_string($conn, $_POST['option_d'][$i]);
+        $crt_option = mysqli_real_escape_string($conn, $_POST['crt_option'][$i]);
+
+        // Append values to the insert query
+        $insert_query .= "('$exam_id', $question_id, '$question', '$option_a', '$option_b', '$option_c', '$option_d', '$crt_option', '$standard', '$subject', '$question_by', '$current_date', '$start_time', '$end_time', '$time', '$last_date')";
+
+        // Add a comma if it's not the last iteration
+        if ($i < $no_qn - 1) {
+            $insert_query .= ",";
+        }
+    }
+
+    // Print out the constructed insert query for debugging
+    echo "Insert Query: " . $insert_query . "<br>";
+
+    // Execute the insert query
+    if ($conn->query($insert_query) === TRUE) {
+      $_SESSION['created_success'] = "EXAM CREATED SUCCESSFULLY";
+      ob_end_clean();
+      header("Location:create_online_exam.php");
+    } else {
+      $_SESSION['created_fail'] = "ERROR IN CREATING EXAM" . $conn->error;
+      ob_end_clean();
+      header("Location:create_online_exam.php");
+    }
+
+    // Close the database connection
+    $conn->close();
+}
+?>
+
+
 
                     <form method="POST" class="needs-validation" novalidate>
-                    <?php
-                    $j=1;
+<?php
+$j=1;
 if(isset($_POST['no_qn'])) 
 {
+?>
+
+<!-- Variable calling form the previous file -->
+
+<div class="row">
+  <div class="col-md-4 mb-3">
+  <label for="validationCustom01" class="required">Standard</label>
+              <select class="custom-select" name="standard" id="validationCustom01" readonly>
+                <option value="<?php echo $_POST['standard'];?>"><?php echo $_POST['standard'];?></option>
+              </select>
+  </div> <!-- col-md-6 mb-3 close -->
+
+  <div class="col-md-4 mb-3">
+    <label for="validationCustom04" class="required">Subject</label>
+    <select class="custom-select" name="subject" id="validationCustom04" readonly>
+          <option value="<?php echo $_POST['subject'];?>"><?php echo $_POST['subject'];?></option>
+    </select>
+</div>
+
+<div class="col-md-4 mb-3">
+  <input type="hidden" class="form-control" value="<?php echo $_POST['no_qn'];?>" name="no_qn" id="validationCustom03" required>
+  </div> <!-- col-md-6 mb-3 close -->
+
+  <div class="col-md-3 mb-3">
+    <input type="hidden" class="form-control" value="<?php echo $_POST['start_time'] ?>" name="start_time" id="start_time" required>
+</div>
+
+<div class="col-md-3 mb-3">
+    <input type="hidden" class="form-control" value="<?php echo $_POST['end_time']; ?>" name="end_time" id="end_time" required>
+</div>
+
+<div class="col-md-3 mb-3">
+    <input type="hidden" class="form-control" value="00:00" name="exam_duration" id="exam_duration" required>
+</div>
+
+<script>
+    // Function to calculate duration and update "Exam Duration" field
+    function updateDuration() {
+        // Get start and end time values
+        var startTime = document.getElementById("start_time").value;
+        var endTime = document.getElementById("end_time").value;
+
+        // Convert start and end time strings to Date objects
+        var startDate = new Date(startTime);
+        var endDate = new Date(endTime);
+
+        // Calculate duration in milliseconds
+        var durationMs = endDate - startDate;
+
+        // Convert duration from milliseconds to HH:MM format
+        var durationHours = Math.floor(durationMs / (1000 * 60 * 60));
+        var durationMinutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
+
+        // Format duration as HH:MM
+        var formattedDuration = (durationHours < 10 ? "0" : "") + durationHours + ":" + (durationMinutes < 10 ? "0" : "") + durationMinutes;
+
+        // Update "Exam Duration" field
+        document.getElementById("exam_duration").value = formattedDuration;
+    }
+
+    // Call updateDuration function when start or end time changes
+    document.getElementById("start_time").addEventListener("change", updateDuration);
+    document.getElementById("end_time").addEventListener("change", updateDuration);
+
+    // Initial call to updateDuration to set initial duration
+    updateDuration();
+</script>
+
+
+<div class="col-md-3 mb-3">
+    <input type="hidden" class="form-control" value="<?php echo $_POST['due_date'];?>" name="due_date" id="validationCustom06" required>
+</div>
+
+</div><!-- row close -->
+
+
+<?php
+
     $no_of_questions = $_POST['no_qn'];
     for($i=1 ; $i<=$no_of_questions ; $i++)
     {
         ?>
 <hr>
+
+
   <!-- Step 2: Enter exam details -->
     <div class="row">
       <!-- Number of questions -->
       <div class="col-md-9 mb-3">
         <label for="validationCustom03" class="required font-weight-bold">Questions <?php echo $j++;?></label>
-        <textarea class="form-control" name="question" id="validationCustom03" rows="1" required></textarea>
+        <textarea class="form-control" name="question[]" id="validationCustom03" rows="1" required></textarea>
         <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="col-md-3 mb-3">
         <label for="validationCustom05" class="required">Option A</label>
-        <input type="text" class="form-control" name="option_a" id="validationCustom05" required>
+        <input type="text" class="form-control" name="option_a[]" id="validationCustom05" required>
         <div class="valid-feedback">Looks good!</div>
       </div>
       <!-- Time duration -->
@@ -741,25 +860,25 @@ if(isset($_POST['no_qn']))
       <!-- Number of questions -->
       <div class="col-md-3 mb-3">
         <label for="validationCustom06" class="required">Option B</label>
-        <input type="text" class="form-control" name="option_b" id="validationCustom06" required>
+        <input type="text" class="form-control" name="option_b[]" id="validationCustom06" required>
         <div class="valid-feedback">Looks good!</div>
       </div>
 
       <div class="col-md-3 mb-3">
         <label for="validationCustom03" class="required">Option C</label>
-        <input type="text" class="form-control" name="option_c" id="validationCustom03" required>
+        <input type="text" class="form-control" name="option_c[]" id="validationCustom03" required>
         <div class="valid-feedback">Looks good!</div>
       </div>
       <!-- Time duration -->
       <div class="col-md-3 mb-3">
         <label for="validationCustom05" class="required">Option D</label>
-        <input type="text" class="form-control" name="option_d" id="validationCustom05" required>
+        <input type="text" class="form-control" name="option_d[]" id="validationCustom05" required>
         <div class="valid-feedback">Looks good!</div>
       </div>
       <!-- Due date -->
       <div class="col-md-3 mb-3">
         <label for="validationCustom06" class="required">Correct Option</label>
-        <input type="text" class="form-control" name="crt_option" id="validationCustom06" required>
+        <input type="text" class="form-control" name="crt_option[]" id="validationCustom06" required>
         <div class="valid-feedback">Looks good!</div>
       </div>
     </div>
@@ -767,8 +886,9 @@ if(isset($_POST['no_qn']))
     }
 }
 ?>
+<br>
     <button type="button" class="btn btn-primary" onclick="nextStep(1)">Previous</button>
-    <button type="submit" name="create_exam" class="btn btn-primary">Submit</button>
+    <input type="submit" name="create_exam" class="btn btn-primary" value="Submit">
       </form>
 
         </div>
