@@ -642,7 +642,7 @@ nav .profile .profile-link a:hover {
             <span class="links_name">Subject Marks</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="internal_marks.php">
             <i class='bx bxs-bookmarks' ></i>
             <span class="links_name">Internal Mark</span>
@@ -653,7 +653,7 @@ nav .profile .profile-link a:hover {
           <i class='bx bxs-pencil'></i>
             <span class="links_name">Online Exam</span>
           </a>
-        </li>
+        </li> -->
         <li>
           <a href="course_recommend.php">
           <i class='bx bx-book'></i>
