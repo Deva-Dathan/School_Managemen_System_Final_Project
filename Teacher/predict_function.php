@@ -65,17 +65,17 @@ $responseData = json_decode($response, true);
 
 // Extract predicted exam 3 score and R-squared value from Flask server response
 $final = $responseData['predicted_exam3'];
-$rSquared = $responseData['r_squared']*100;
+$accuracy = $responseData['r_squared']*100;
 // echo "<p style='text-align:center; font-weight:bold;'>Predicted Exam 1 score: {$final}</p>";
 
-$predict_sql = "UPDATE subject_mark SET mark1='$final', accuracy='$rSquared' WHERE u_email='$email' AND standard='$std' AND subject='$subject'";
+$predict_sql = "UPDATE subject_mark SET mark1='$final', accuracy='$accuracy' WHERE u_email='$email' AND standard='$std' AND subject='$subject'";
 
 if ($conn->query($predict_sql) === TRUE) {
   $_SESSION['predict_success'] = "I TERM EXAM SCORE PREDICTED SUCCESSFULLY";
-  header("Location:predict_marks.php");
+  header("Location:upload_marks.php");
 } else {
   $_SESSION['predict_error'] = "ERROR IN PREDICTION: " . $conn->error;
-  header("Location:predict_marks.php");
+  header("Location:upload_marks.php");
 }
     }
     elseif($row['mark2'] == 0)
@@ -134,10 +134,10 @@ $predict_sql = "UPDATE subject_mark SET mark2='$final', accuracy='$rSquared' WHE
 
 if ($conn->query($predict_sql) === TRUE) {
   $_SESSION['predict_success'] = "II TERM EXAM SCORE PREDICTED SUCCESSFULLY";
-  header("Location:predict_marks.php");
+  header("Location:upload_marks.php");
 } else {
     $_SESSION['predict_error'] = "ERROR IN PREDICTION: " . $conn->error;
-    header("Location:predict_marks.php");
+    header("Location:upload_marks.php");
 }
 
     }
@@ -198,11 +198,11 @@ $predict_sql = "UPDATE subject_mark SET mark3='$final', accuracy='$rSquared' WHE
 if ($conn->query($predict_sql) === TRUE) 
 {
   $_SESSION['predict_success'] = "FINAL EXAM SCORE PREDICTED SUCCESSFULLY";
-  header("Location:predict_marks.php");
+  header("Location:upload_marks.php");
 } else 
 {
     $_SESSION['predict_error'] = "ERROR IN PREDICTION: " . $conn->error;
-    header("Location:predict_marks.php");
+    header("Location:upload_marks.php");
 }
 
 
