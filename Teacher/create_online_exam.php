@@ -624,18 +624,18 @@ nav .profile .profile-link a:hover {
             <span class="links_name">Subject Notes</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="create_online_exam.php" class="active">
           <i class='bx bx-bookmarks' style="color:var(--light);"></i>
             <span class="links_name" style="color:var(--light);">Online Exam</span>
           </a>
-        </li>
-        <li>
+        </li> -->
+        <!-- <li>
           <a href="internal_marks.php">
           <i class='bx bxs-bookmarks'></i>
             <span class="links_name">Internal Marks</span>
           </a>
-        </li>
+        </li> -->
       </ul>
   </div>
   <section class="home-section">

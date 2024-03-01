@@ -636,18 +636,12 @@ nav .profile .profile-link a:hover {
             <span class="links_name">Subject Notes</span>
           </a>
         </li>
-        <li>
-          <a href="create_online_exam.php">
-          <i class='bx bx-bookmarks'></i>
-            <span class="links_name">Online Exam</span>
-          </a>
-        </li>
-        <li>
+        <!-- <li>
           <a href="internal_marks.php">
           <i class='bx bxs-bookmarks'></i>
             <span class="links_name">Internal Marks</span>
           </a>
-        </li>
+        </li> -->
       </ul>
   </div>
   <section class="home-section">
@@ -731,7 +725,7 @@ nav .profile .profile-link a:hover {
   </div>
 </div>
 
-<div id="studentsContainer"></div> <!-- Container for dynamically generated input fields -->
+<!-- <div id="studentsContainer"></div> Container for dynamically generated input fields -->
 
 <script>
     $(document).ready(function () {
@@ -793,7 +787,6 @@ nav .profile .profile-link a:hover {
 <hr>
 <br>
 <!-- display the facult deatils -->
-
 <table id="marksTable" class="table table-striped table-bordered nowrap">
   <thead align="center">
 

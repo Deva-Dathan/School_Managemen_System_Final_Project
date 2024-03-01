@@ -636,7 +636,7 @@ nav .profile .profile-link a:hover {
             <span class="links_name">Subject Notes</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="create_online_exam.php">
           <i class='bx bx-bookmarks'></i>
             <span class="links_name">Online Exam</span>
@@ -647,7 +647,7 @@ nav .profile .profile-link a:hover {
           <i class='bx bxs-bookmarks'></i>
             <span class="links_name">Internal Marks</span>
           </a>
-        </li>
+        </li> -->
       </ul>
   </div>
   <section class="home-section">
@@ -827,6 +827,7 @@ nav .profile .profile-link a:hover {
                 <th>II<sup>st</sup> Term</th>
                 <th>Final Exam</th>
                 <th>Exam Score</th>
+                <th>Accuracy</th>
                 <th>Edit</th>
             </tr>
         </thead>
@@ -849,7 +850,7 @@ nav .profile .profile-link a:hover {
                     <td><?php echo number_format($row['mark2'], 2); ?></td>
                     <td><?php echo number_format($row['mark3'], 2); ?></td>
                     <td><?php echo number_format((($row['mark1'] + $row['mark2'] + $row['mark3']) * 100) / 240, 2); ?></td>
-
+                    <td><?php echo $row['accuracy'];?></td>
                     <td>
                         <button class="btn btn-primary edit-btn" data-rollno="<?php echo $row['roll_no'];?>" data-subject="<?php echo $row['subject'];?>" data-standard="<?php echo $row['standard'];?>" data-toggle="modal" data-target="#exampleModal"><i class="bx bxs-edit"></i></button>
                     </td>

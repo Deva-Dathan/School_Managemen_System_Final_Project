@@ -33,29 +33,42 @@ $trainData = [
 // Corresponding labels
 $trainLabels = [82, 88, 75, 92, 78];
 
-// Train the linear regression model
-$model = new LeastSquares();
-$model->train($trainData, $trainLabels);
+    // Train the linear regression model
+    $model = new \Phpml\Regression\LeastSquares();
+    $model->train($trainData, $trainLabels);
 
-// Make predictions on the test set
-$predictions = $model->predict([0,100]);
+    // Make predictions on the new data
+    $newData = [
+      [$exam1, $exam2],
+  ];
 
 // Calculate Mean Squared Error
 // $mse = MeanSquaredError::score($testLabels, $predictions);
 // echo "Mean Squared Error: $mse\n";
 
-// Example new data
-$newData = [
-    [$exam1, $exam2],
-];
-
-// Make predictions on the new data
 $newPredictions = $model->predict($newData);
+$predictedExam3 = round($newPredictions[0], 1);
 
-$final = round($newPredictions[0],1);
+// Send POST request to Flask server
+$flaskUrl = 'http://localhost:5000/predict';
+$postData = json_encode(['exam1' => $exam1, 'exam2' => $exam2]);
+$options = [
+    'http' => [
+        'method' => 'POST',
+        'header' => 'Content-type: application/json',
+        'content' => $postData
+    ]
+];
+$context = stream_context_create($options);
+$response = file_get_contents($flaskUrl, false, $context);
+$responseData = json_decode($response, true);
+
+// Extract predicted exam 3 score and R-squared value from Flask server response
+$final = $responseData['predicted_exam3'];
+$rSquared = $responseData['r_squared']*100;
 // echo "<p style='text-align:center; font-weight:bold;'>Predicted Exam 1 score: {$final}</p>";
 
-$predict_sql = "UPDATE subject_mark SET mark1='$final' WHERE u_email='$email' AND standard='$std' AND subject='$subject'";
+$predict_sql = "UPDATE subject_mark SET mark1='$final', accuracy='$rSquared' WHERE u_email='$email' AND standard='$std' AND subject='$subject'";
 
 if ($conn->query($predict_sql) === TRUE) {
   $_SESSION['predict_success'] = "I TERM EXAM SCORE PREDICTED SUCCESSFULLY";
@@ -82,29 +95,42 @@ $trainData = [
 // Corresponding labels
 $trainLabels = [82, 88, 75, 92, 78];
 
-// Train the linear regression model
-$model = new LeastSquares();
-$model->train($trainData, $trainLabels);
+    // Train the linear regression model
+    $model = new \Phpml\Regression\LeastSquares();
+    $model->train($trainData, $trainLabels);
 
-// Make predictions on the test set
-$predictions = $model->predict([0,100]);
+    // Make predictions on the new data
+    $newData = [
+      [$exam1, $exam2],
+  ];
 
 // Calculate Mean Squared Error
 // $mse = MeanSquaredError::score($testLabels, $predictions);
 // echo "Mean Squared Error: $mse\n";
 
-// Example new data
-$newData = [
-    [$exam1, $exam2],
-];
-
-// Make predictions on the new data
 $newPredictions = $model->predict($newData);
+$predictedExam3 = round($newPredictions[0], 1);
 
-$final = round($newPredictions[0],1);
-// echo "<p style='text-align:center; font-weight:bold;'>Predicted Exam 2 score: {$final}</p>";
+// Send POST request to Flask server
+$flaskUrl = 'http://localhost:5000/predict';
+$postData = json_encode(['exam1' => $exam1, 'exam2' => $exam2]);
+$options = [
+    'http' => [
+        'method' => 'POST',
+        'header' => 'Content-type: application/json',
+        'content' => $postData
+    ]
+];
+$context = stream_context_create($options);
+$response = file_get_contents($flaskUrl, false, $context);
+$responseData = json_decode($response, true);
 
-$predict_sql = "UPDATE subject_mark SET mark2='$final' WHERE u_email='$email' AND standard='$std' AND subject='$subject'";
+// Extract predicted exam 3 score and R-squared value from Flask server response
+$final = $responseData['predicted_exam3'];
+$rSquared = $responseData['r_squared']*100;
+// echo "<p style='text-align:center; font-weight:bold;'>Predicted Exam 1 score: {$final}</p>";
+
+$predict_sql = "UPDATE subject_mark SET mark2='$final', accuracy='$rSquared' WHERE u_email='$email' AND standard='$std' AND subject='$subject'";
 
 if ($conn->query($predict_sql) === TRUE) {
   $_SESSION['predict_success'] = "II TERM EXAM SCORE PREDICTED SUCCESSFULLY";
@@ -132,29 +158,42 @@ $trainData = [
 // Corresponding labels
 $trainLabels = [82, 88, 75, 92, 78];
 
-// Train the linear regression model
-$model = new LeastSquares();
-$model->train($trainData, $trainLabels);
+    // Train the linear regression model
+    $model = new \Phpml\Regression\LeastSquares();
+    $model->train($trainData, $trainLabels);
 
-// Make predictions on the test set
-$predictions = $model->predict([0,100]);
+    // Make predictions on the new data
+    $newData = [
+      [$exam1, $exam2],
+  ];
 
 // Calculate Mean Squared Error
 // $mse = MeanSquaredError::score($testLabels, $predictions);
 // echo "Mean Squared Error: $mse\n";
 
-// Example new data
-$newData = [
-    [$exam1, $exam2],
-];
-
-// Make predictions on the new data
 $newPredictions = $model->predict($newData);
+$predictedExam3 = round($newPredictions[0], 1);
 
-$final = round($newPredictions[0],1);
-echo "<p style='text-align:center; font-weight:bold;'>Predicted Exam 3 score: {$final}</p>";
+// Send POST request to Flask server
+$flaskUrl = 'http://localhost:5000/predict';
+$postData = json_encode(['exam1' => $exam1, 'exam2' => $exam2]);
+$options = [
+    'http' => [
+        'method' => 'POST',
+        'header' => 'Content-type: application/json',
+        'content' => $postData
+    ]
+];
+$context = stream_context_create($options);
+$response = file_get_contents($flaskUrl, false, $context);
+$responseData = json_decode($response, true);
 
-$predict_sql = "UPDATE subject_mark SET mark3 = $final WHERE u_email='$email'";
+// Extract predicted exam 3 score and R-squared value from Flask server response
+$final = $responseData['predicted_exam3'];
+$rSquared = $responseData['r_squared']*100;
+// echo "<p style='text-align:center; font-weight:bold;'>Predicted Exam 1 score: {$final}</p>";
+
+$predict_sql = "UPDATE subject_mark SET mark3='$final', accuracy='$rSquared' WHERE u_email='$email' AND standard='$std' AND subject='$subject'";
 
 if ($conn->query($predict_sql) === TRUE) 
 {
