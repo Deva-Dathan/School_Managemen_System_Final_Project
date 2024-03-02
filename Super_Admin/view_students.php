@@ -816,7 +816,7 @@ document.addEventListener('DOMContentLoaded', function() {
             $(document).on('click', '.view-details', function(){
                 var u_email = $(this).data('u_email');
                 $.ajax({
-                    url: 'ajax_folder/ajaxfile.php', // URL to fetch detailed student information
+                    url: 'ajaxfile.php', // URL to fetch detailed student information
                     type: 'post',
                     data: {u_email: u_email},
                     success: function(response){ 
