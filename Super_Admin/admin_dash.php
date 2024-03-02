@@ -633,8 +633,17 @@ nav .profile .profile-link a:hover {
       <div class="overview-boxes">
         <div class="box">
           <div class="right-side">
-            <div class="box-topic">Total Order</div>
-            <div class="number">40,876</div>
+            <div class="box-topic">Total User</div>
+            <div class="number">
+            <?php
+              include("../include/db_connection.php");
+
+              $sql1 = "SELECT COUNT(u_email) AS count FROM users";
+              $result1 = $conn->query($sql1);
+              $row1 = $result1->fetch_assoc();
+              echo  $row1['count'];
+              ?>
+            </div>
             <div class="indicator">
               <i class='bx bx-up-arrow-alt'></i>
               <span class="text">Up from yesterday</span>
@@ -644,8 +653,17 @@ nav .profile .profile-link a:hover {
         </div>
         <div class="box">
           <div class="right-side">
-            <div class="box-topic">Total Sales</div>
-            <div class="number">38,876</div>
+            <div class="box-topic">Total Students</div>
+            <div class="number">
+            <?php
+              include("../include/db_connection.php");
+
+              $sql1 = "SELECT COUNT(u_email) AS count FROM users WHERE u_role='STUDENT'";
+              $result1 = $conn->query($sql1);
+              $row1 = $result1->fetch_assoc();
+              echo  $row1['count'];
+              ?>
+            </div>
             <div class="indicator">
               <i class='bx bx-up-arrow-alt'></i>
               <span class="text">Up from yesterday</span>
@@ -655,8 +673,18 @@ nav .profile .profile-link a:hover {
         </div>
         <div class="box">
           <div class="right-side">
-            <div class="box-topic">Total Profit</div>
-            <div class="number">$12,876</div>
+            <div class="box-topic">Total Faculty</div>
+            <div class="number">
+            <?php
+              include("../include/db_connection.php");
+
+              $sql1 = "SELECT COUNT(u_email) AS count FROM users WHERE u_role IN ('TEACHER', 'CLASS TEACHER')";
+              $result1 = $conn->query($sql1);
+              $row1 = $result1->fetch_assoc();
+              echo $row1['count'];
+              
+              ?>
+            </div>
             <div class="indicator">
               <i class='bx bx-up-arrow-alt'></i>
               <span class="text">Up from yesterday</span>
@@ -666,8 +694,17 @@ nav .profile .profile-link a:hover {
         </div>
         <div class="box">
           <div class="right-side">
-            <div class="box-topic">Total Return</div>
-            <div class="number">11,086</div>
+            <div class="box-topic">Total Subject</div>
+            <div class="number">
+            <?php
+              include("../include/db_connection.php");
+
+              $sql1 = "SELECT COUNT(subject_name) AS count FROM subject_data";
+              $result1 = $conn->query($sql1);
+              $row1 = $result1->fetch_assoc();
+              echo  $row1['count'];
+              ?>
+            </div>
             <div class="indicator">
               <i class='bx bx-down-arrow-alt down'></i>
               <span class="text">Down From Today</span>

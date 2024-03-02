@@ -730,9 +730,25 @@ if (mysqli_num_rows($result) > 0)
               }
               else
               {
+                if($row['u_role'] == 'VICE PRINCIPAL')
+                {
               ?>
                 <td><a href="demote.php?u_email=<?php echo $row['u_email'];?>" class="btn btn-outline-danger">Demote</a></td>
               <?php
+                }
+                else{
+                  if($count_row['vice_principal_count'] == 0)
+                  {
+                ?>
+                  <td><a href="promote.php?u_email=<?php echo $row['u_email'];?>"><button class="btn btn-outline-success">Promote</button></a></td>
+                <?php
+                  }
+                  else{
+                      ?>
+                  <td><a href="promote.php?u_email=<?php echo $row['u_email'];?>"><button class="btn btn-outline-success" disabled>Promote</button></a></td>
+                      <?php
+                  }
+                }
               }
               ?>
             </tr>
