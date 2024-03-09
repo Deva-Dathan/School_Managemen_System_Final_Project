@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("../include/db_connection.php");
-require '../vendor/autoload.php';
+include("../vendor/autoload.php");
 
 use Phpml\Regression\LeastSquares;
 

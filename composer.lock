@@ -4,32 +4,31 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "524219cd4818c66bd94006d110b5c350",
+    "content-hash": "2dff4b7475b9ef4626819d18fb73dfe7",
     "packages": [
         {
             "name": "php-ai/php-ml",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "source": {
                 "type": "git",
-                "url": "https://gitlab.com/php-ai/php-ml.git",
-                "reference": "fd8b70629e16ed67307fe150ba25738449b9a6b2"
+                "url": "git@gitlab.com:php-ai/php-ml.git",
+                "reference": "543f11158c57bf64ef8ddecd5bab51d396d39f50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/php-ai%2Fphp-ml/repository/archive.zip?sha=fd8b70629e16ed67307fe150ba25738449b9a6b2",
-                "reference": "fd8b70629e16ed67307fe150ba25738449b9a6b2",
+                "url": "https://gitlab.com/api/v4/projects/php-ai%2Fphp-ml/repository/archive.zip?sha=543f11158c57bf64ef8ddecd5bab51d396d39f50",
+                "reference": "543f11158c57bf64ef8ddecd5bab51d396d39f50",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2"
+                "php": "^8.0"
             },
             "require-dev": {
-                "phpbench/phpbench": "^0.16.0",
+                "phpbench/phpbench": "^1.2",
                 "phpstan/phpstan": "^0.12",
                 "phpstan/phpstan-phpunit": "^0.12",
                 "phpstan/phpstan-strict-rules": "^0.12",
-                "phpunit/phpunit": "^8.0",
-                "symplify/easy-coding-standard": "^6.0"
+                "phpunit/phpunit": "^8.0"
             },
             "type": "library",
             "autoload": {
@@ -48,7 +47,7 @@
                 }
             ],
             "description": "PHP-ML - Machine Learning library for PHP",
-            "homepage": "https://github.com/php-ai/php-ml",
+            "homepage": "https://gitlab.com/php-ai/php-ml",
             "keywords": [
                 "Neural network",
                 "artificial intelligence",
@@ -58,10 +57,7 @@
                 "machine learning",
                 "pattern recognition"
             ],
-            "support": {
-                "issues": "https://gitlab.com/api/v4/projects/19024967/issues"
-            },
-            "time": "2020-05-27T09:52:59+00:00"
+            "time": "2022-11-09T09:25:29+00:00"
         }
     ],
     "packages-dev": [],
