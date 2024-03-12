@@ -1405,6 +1405,57 @@ body {
   }
 
 }
+
+.parallax {
+    position: relative;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.parallax::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+    z-index: 1;
+}
+
+.container {
+    position: relative;
+    z-index: 2; /* Ensure content appears above the overlay */
+}
+
+/* Ensure text wrapping */
+.section-title {
+    white-space: normal;
+}
+
+.typing-line {
+    overflow: hidden; /* Hide overflowing text */
+    white-space: nowrap; /* Prevent line breaks */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    display: inline-block;
+    opacity: 0; /* Initially hide text */
+}
+
+.typing-line.typing {
+    animation: typing 0.5s forwards; /* Adjust animation duration here */
+}
+
+@keyframes typing {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+
   </style>
 </head>
 
@@ -1414,7 +1465,7 @@ body {
     <div class="container">
 
       <a href="#" class="logo">
-        <img src="" width="162" height="50" alt="GHSS logo">
+        <img src="assets/images/school_logo.png" width="70" height="50" alt="GHSS Logo">
       </a>
 
       <nav class="navbar" data-navbar>
@@ -1452,7 +1503,7 @@ body {
           </li>
 
           <li class="navbar-item">
-            <a href="#" class="navbar-link" style="color:red; font-weight: bold;" data-nav-link>2024 Admission</a>
+            <a href="Allotment_Cell/allot_login.php" class="navbar-link" style="color:red; font-weight: bold;" data-nav-link>2024 Admission</a>
           </li>
 
         </ul>
@@ -1487,44 +1538,61 @@ body {
         - #HERO
       -->
 
-      <section class="section hero has-bg-image" id="home" aria-label="home"
-        style="background-image: url('./assets/landing_images/hero-bg.svg')">
-        <div class="container">
+      <section class="section hero has-bg-image" id="home" aria-label="home">
+    <div class="container">
+        <div class="hero-content">
 
-          <div class="hero-content">
+        <h1 class="h1 section-title">
+    <span class="typing-line">The Best</span><br>
+    <span class="typing-line">Autonomous</span><br>
+    <span class="typing-line span">School For Building Your</span><br>
+    <span class="typing-line">Career</span>
+</h1>
 
-            <h1 class="h1 section-title">
-              The Best Autonomous School <span class="span">For Building Your Career</span>
-            </h1>
+
+
+<script>
+
+// Function to trigger the typing animation for each line
+function startTypingAnimation() {
+    var lines = document.querySelectorAll('.typing-line');
+
+    lines.forEach(function(line, index) {
+        setTimeout(function() {
+            line.style.display = 'inline-block'; // Ensure line is visible before animation
+            line.classList.add('typing');
+        }, index * 1000); // Adjust delay between lines here (5000ms = 5s)
+    });
+}
+
+// Start typing animation when the document is ready
+document.addEventListener('DOMContentLoaded', startTypingAnimation);
+
+
+</script>
+
+
 
             <p class="hero-text">
-              Educating tomorrow's leaders with autonomous innovation.
+                Educating tomorrow's leaders with autonomous innovation.
             </p>
-
             <a href="#" class="btn has-before">
-              <span class="span">Find courses</span>
-
-              <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+                <span class="span">Find courses</span>
+                <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
             </a>
-
-          </div>
-
-          <figure class="hero-banner">
-
-            <div class="img-holder one" style="--width: 270; --height: 300;">
-              <img src="./assets/landing_images/hero-banner-1.jpg" width="270" height="300" alt="hero banner" class="img-cover">
-            </div>
-
-            <div class="img-holder two" style="--width: 240; --height: 370;">
-              <img src="./assets/landing_images/hero-banner-2.jpg" width="240" height="370" alt="hero banner" class="img-cover">
-            </div>
-
-            <img src="./assets/landing_images/hero-shape-2.png" width="622" height="551" alt="" class="shape hero-shape-2">
-
-          </figure>
-
         </div>
-      </section>
+        <figure class="hero-banner">
+            <div class="img-holder one" style="--width: 270; --height: 300;">
+                <img src="./assets/landing_images/hero-banner-1.jpg" width="270" height="300" alt="hero banner" class="img-cover">
+            </div>
+            <div class="img-holder two" style="--width: 240; --height: 370;">
+                <img src="./assets/landing_images/hero-banner-2.jpg" width="240" height="370" alt="hero banner" class="img-cover">
+            </div>
+            <img src="./assets/landing_images/hero-shape-2.png" width="622" height="551" alt="" class="shape hero-shape-2">
+        </figure>
+    </div>
+</section>
+
 
 
 
