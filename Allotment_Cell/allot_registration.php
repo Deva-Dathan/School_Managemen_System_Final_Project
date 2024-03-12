@@ -87,6 +87,7 @@
                     <input type="text" class="form-control" id="mobileNo" required>
                   </div>
                 </div>
+
                 <div class="mb-3 text-center">
                 <button type="submit" class="btn btn-primary" style="width: 200px;">Register</button>
               </div>
