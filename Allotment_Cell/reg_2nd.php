@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../assets/images/school_logo.png" type="image/x-icon">
   <title>Candidate Login (2024 - 2026)</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <style>
@@ -132,8 +133,8 @@
                 <table class="table table-bordered" style="height:100px;">
                         <tbody>
                             <tr>
-                                <td class="font-weight-bold" style="border-bottom: 1px solid #fff;">Name</td>
-                                <td style="border-bottom: 1px solid #fff;"><input type="text" class="form-control" style="height:30px;" id="name" required></td>
+                                <td class="font-weight-bold">Name</td>
+                                <td><input type="text" class="form-control" style="height:30px;" id="name" required></td>
                             </tr>
                             <tr>
     <td class="font-weight-bold">Gender</td>
@@ -344,7 +345,7 @@
     });
   }, false);
 })();
-</script
+</script>
     </div>
   </div>
 
