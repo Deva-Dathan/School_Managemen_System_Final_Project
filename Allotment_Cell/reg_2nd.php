@@ -46,6 +46,7 @@
 
 <!-- Top Navbar code starts here -->
 <div class="topnav">
+<img src="../assets/images/school_logo.png" alt="Your Logo" style="height: 50px; margin-left: 20px;">
 <a href="#display">Display Application Number</a>
 <a href="#logout">Logout</a>
 <a class="active" href="#home" style="color:black;">Home</a> 
@@ -56,7 +57,7 @@
 <h5 class="text-center mt-2" style="color:#706953; font-weight:bold; font-family: Arial, sans-serif;">Candidate Login (2024 - 2026)</h5>
 <!-- Top heading code end here -->
 
-
+<form method="post" class="needs-validation" novalidate>
 <!-- SSLC School Details code starts here -->
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -131,28 +132,35 @@
                 <table class="table table-bordered" style="height:100px;">
                         <tbody>
                             <tr>
-                                <td class="font-weight-bold">Name</td>
-                                <td><input type="text" class="form-control" style="height:30px;" id="name"></td>
+                                <td class="font-weight-bold" style="border-bottom: 1px solid #fff;">Name</td>
+                                <td style="border-bottom: 1px solid #fff;"><input type="text" class="form-control" style="height:30px;" id="name" required></td>
                             </tr>
                             <tr>
-                                <td class="font-weight-bold">Gender</td>
-                                <td><input type="text" class="form-control" style="height:30px;" id="gender"></td>
-                            </tr>
+    <td class="font-weight-bold">Gender</td>
+    <td>
+        <select class="form-control" id="gender" style="height:30px;">
+            <option disabled selected>Choose....</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+    </td>
+</tr>
                             <tr>
                                 <td class="font-weight-bold">Date of Birth</td>
-                                <td><input type="date" class="form-control" style="height:30px;" id="dob"></td>
+                                <td><input type="date" class="form-control" style="height:30px;" id="dob" required></td>
                             </tr>
                             <tr>
                                 <td class="font-weight-bold">Father's Name</td>
-                                <td><input type="text" class="form-control" style="height:30px;" id="fatherName"></td>
+                                <td><input type="text" class="form-control" style="height:30px;" id="fatherName" required></td>
                             </tr>
                             <tr>
                                 <td class="font-weight-bold">Mother's Name</td>
-                                <td><input type="text" class="form-control" style="height:30px;" id="motherName"></td>
+                                <td><input type="text" class="form-control" style="height:30px;" id="motherName" required></td>
                             </tr>
                             <tr>
                                 <td class="font-weight-bold">Mobile Number</td>
-                                <td><input type="text" class="form-control" style="height:30px;" id="mobileNumber"></td>
+                                <td><input type="text" class="form-control" style="height:30px;" id="mobileNumber" required></td>
                             </tr>
                         </tbody>
                     </table>
@@ -172,35 +180,35 @@
                         <tbody>
                         <tr>
     <td class="font-weight-bold">House No/ House Name</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="houseNoPerm"></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="houseNoPerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Locality</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="localityPerm"></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="localityPerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Post office</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="postOfficePerm"></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="postOfficePerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Village</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="villagePerm"></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="villagePerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">City</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="cityPerm"></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="cityPerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">District</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="districtPerm"></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="districtPerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">State</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="statePerm"></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="statePerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Pin code</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="pinCodePerm"></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="pinCodePerm" required></td>
 </tr>
 
                         </tbody>
@@ -236,35 +244,35 @@
                 <tbody>
                     <tr>
                         <td class="font-weight-bold">House No/ House Name</td>
-                        <td><input type="text" class="form-control" style="height:30px;" id="houseNoComm"></td>
+                        <td><input type="text" class="form-control" style="height:30px;" id="houseNoComm" required></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Locality</td>
-                        <td><input type="text" class="form-control" style="height:30px;" id="localityComm"></td>
+                        <td><input type="text" class="form-control" style="height:30px;" id="localityComm" required></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Post office</td>
-                        <td><input type="text" class="form-control" style="height:30px;" id="postOfficeComm"></td>
+                        <td><input type="text" class="form-control" style="height:30px;" id="postOfficeComm" required></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Village</td>
-                        <td><input type="text" class="form-control" style="height:30px;" id="villageComm"></td>
+                        <td><input type="text" class="form-control" style="height:30px;" id="villageComm" required></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">City</td>
-                        <td><input type="text" class="form-control" style="height:30px;" id="cityComm"></td>
+                        <td><input type="text" class="form-control" style="height:30px;" id="cityComm" required></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">District</td>
-                        <td><input type="text" class="form-control" style="height:30px;" id="districtComm"></td>
+                        <td><input type="text" class="form-control" style="height:30px;" id="districtComm" required></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">State</td>
-                        <td><input type="text" class="form-control" style="height:30px;" id="stateComm"></td>
+                        <td><input type="text" class="form-control" style="height:30px;" id="stateComm" required></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Pin code</td>
-                        <td><input type="text" class="form-control" style="height:30px;" id="pinCodeComm"></td>
+                        <td><input type="text" class="form-control" style="height:30px;" id="pinCodeComm" required></td>
                     </tr>
                 </tbody>
             </table>
@@ -300,6 +308,43 @@
     });
 </script>
 
+
+<div>
+    <div class="form-group" style="margin-right: 820px;">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+            <label class="form-check-label" for="invalidCheck">
+                Agree to terms and conditions
+            </label>
+            <div class="invalid-feedback">
+                You must agree before submitting.
+            </div>
+        </div>
+    </div>
+  
+    <button class="btn btn-primary" type="submit" style="background-color:#004e95">Submit Details</button>
+</form>
+
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script
     </div>
   </div>
 
