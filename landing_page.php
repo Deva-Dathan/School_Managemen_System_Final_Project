@@ -9,6 +9,7 @@
   <!-- 
     - primary meta tag
   -->
+  <link rel="icon" href="assets/images/school_logo.png" type="image/x-icon">
   <title>GHSS - The Autonomous School</title>
   <meta name="title" content="GHSS - The Autonomous School">
   <meta name="description" content="This is an autonomous education portal">

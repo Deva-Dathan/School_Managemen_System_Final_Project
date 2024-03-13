@@ -44,7 +44,7 @@
   </style>
 </head>
 <body>
-
+<?php include("../loader.php");?>
 <!-- Top Navbar code starts here -->
 <div class="topnav">
 <img src="../assets/images/school_logo.png" alt="Your Logo" style="height: 50px; margin-left: 20px;">

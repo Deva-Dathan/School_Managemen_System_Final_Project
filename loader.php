@@ -1,3 +1,4 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
     /*** Spinner ***/
 #spinner {
@@ -22,15 +23,16 @@
         <!-- Spinner End -->
 
 
-
 <script>
-	    // Spinner
-		var spinner = function () {
+$(document).ready(function() {
+    // Spinner removal
+    var spinner = function () {
         setTimeout(function () {
             if ($('#spinner').length > 0) {
                 $('#spinner').removeClass('show');
             }
-        }, 1);
+        }, 200); // Change this to 200 milliseconds for 0.2 seconds delay
     };
     spinner();
-  </script>
+});
+</script>
