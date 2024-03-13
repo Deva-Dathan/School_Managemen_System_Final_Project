@@ -27,11 +27,21 @@
 <body>
 <?php include("../loader.php");?>
   <div class="container">
+  <?php
+  session_start();
+          if(isset($_SESSION['register_success']))
+          {
+            ?>
+          <div class="alert alert-success mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['register_success'];?></div>
+          <?php
+            unset($_SESSION['register_success']);
+          }
+          ?>
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
-            <h4>CANDIDATE LOGIN</h4>
+            <h4 class="text-center font-weight-bold">CANDIDATE LOGIN</h4>
           </div>
           <div class="card-body">
             <form action="login.php" method="POST">

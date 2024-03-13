@@ -1,3 +1,37 @@
+<?php
+session_start();
+include("../include/allotment_db.php");
+
+if($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+  // Generate a unique application number using current timestamp
+  $app_no = time();
+  
+  // Retrieve values from POST data
+  $reg_no = $_POST['reg_no'];
+  $month = $_POST['month'];
+  $year = $_POST['year'];
+  $dob = $_POST['dob'];
+  $email_id = $_POST['email_id'];
+  $studied_not = $_POST['studied_not'];
+  
+  // Prepare the SQL query
+  $sql = "INSERT INTO register_tbl(app_no, reg_no, pass_month, pass_year, dob, email_id, studied_not) VALUES ($app_no,'$reg_no','$month',$year,'$dob','$email_id','$studied_not')";
+
+  // Execute the query
+  $result = mysqli_query($allot_conn, $sql);
+
+  // Check if the query was successful
+  if($result) {
+    $_SESSION['register_success'] = "CANDIDATE REGISTRATION SUCCESSFULL";
+    header("Location:allot_login.php");
+  } else {
+    echo "Error: " . mysqli_error($allot_conn);
+  }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,12 +59,12 @@
             <h4 class="text-center">Candidate Registration Form</h4>
           </div>
           <div class="card-body">
-            <form>
+            <form method="POST">
               <div class="border rounded p-3 mb-3">
               <div class="mb-3 row align-items-center">
                   <label for="studiedHere" class="col-sm-4 col-form-label">Studied 10th Standard Here?</label>
                   <div class="col-sm-8">
-                    <select class="form-select" id="studiedHere" required>
+                    <select class="form-select" name="studied_not" id="studiedHere" required>
                       <option value="" selected disabled>Select</option>
                       <option value="yes">Yes</option>
                       <option value="no">No</option>
@@ -40,33 +74,33 @@
                 <div class="mb-3 row align-items-center">
                   <label for="registerNo" class="col-sm-4 col-form-label">Register No.</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" id="registerNo" required>
+                    <input type="text" class="form-control" name="reg_no" id="registerNo" required>
                   </div>
                 </div>
                 <div class="mb-3 row align-items-center">
                   <label for="monthPass" class="col-sm-4 col-form-label">Month pass</label>
                   <div class="col-sm-8">
-                    <select class="form-select" id="monthPass" required>
-                      <option value="" selected disabled>Select Month</option>
-                      <option value="1">January</option>
-                      <option value="2">February</option>
-                      <option value="3">March</option>
-                      <option value="4">April</option>
-                      <option value="5">May</option>
-                      <option value="6">June</option>
-                      <option value="7">July</option>
-                      <option value="8">August</option>
-                      <option value="9">September</option>
-                      <option value="10">October</option>
-                      <option value="11">November</option>
-                      <option value="12">December</option>
+                    <select class="form-select" name="month" id="monthPass" required>
+                    <option value="" selected disabled>Select Month</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
                     </select>
                   </div>
                 </div>
                 <div class="mb-3 row align-items-center">
                   <label for="yearPass" class="col-sm-4 col-form-label">Year pass</label>
                   <div class="col-sm-8">
-                    <select class="form-select" id="yearPass" required>
+                    <select class="form-select" name="year" id="yearPass" required>
                       <option value="" selected disabled>Select Year</option>
                       <?php
                         $currentYear = date("Y");
@@ -80,13 +114,13 @@
                 <div class="mb-3 row align-items-center">
                   <label for="dob" class="col-sm-4 col-form-label">Date of Birth (DD-MM-YYYY)</label>
                   <div class="col-sm-8">
-                  <input type="date" class="form-control" id="dob" min="2005-01-01" max="2009-12-31" required>
+                  <input type="date" class="form-control" name="dob" id="dob" min="2005-01-01" max="2009-12-31" required>
                   </div>
                 </div>
                 <div class="mb-3 row align-items-center">
-                  <label for="mobileNo" class="col-sm-4 col-form-label">Mobile No.</label>
+                  <label for="emailid" class="col-sm-4 col-form-label">E-mail ID</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" id="mobileNo" required>
+                    <input type="email" class="form-control" name="email_id" id="emailid" required>
                   </div>
                 </div>
 
