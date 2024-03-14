@@ -1,28 +1,26 @@
 <?php
-error_reporting(0);
 session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$db_name = "school_management_system";
+include("../include/db_connection.php");
+include("../header.php");
+include("../footer.php");
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $db_name);
+// if(!isset($_SESSION['u_email']))
+// {
+//   header("Location: ../login_page.php");
+// }
 
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+// echo $_SESSION['u_username'];
+// echo "<br>";
+// echo $_SESSION['u_role'];
 ?>
 
 <!DOCTYPE html>
+<!-- Coding by CodingNepal | www.codingnepalweb.com -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
     <title> G H S S </title>
     <link rel="icon" type="image/x-icon" href="../assets/images/school_logo.png">
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
       /* Googlefont Poppins CDN Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
@@ -45,19 +43,6 @@ if ($conn->connect_error) {
 	--red: #FC3B56;
   --dark-red: #FC1605;
   --primary-blue: #007bff;
-}
-    /*** Spinner ***/
-    #spinner {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .5s ease-out, visibility 0s linear .5s;
-    z-index: 99999;
-}
-
-#spinner.show {
-    transition: opacity .5s ease-out, visibility 0s linear 0s;
-    visibility: visible;
-    opacity: 1;
 }
 .sidebar{
   position: fixed;
@@ -507,40 +492,39 @@ nav .profile .profile-link a:hover {
   justify-content:center;
   align-items:center;
 }
-.img-area-update {
+.img-area {
 	position: relative;
 	width: 60%;
 	height: 250px;
 	background: var(--grey);
 	margin-bottom: 30px;
-  border : 1px solid #f5f5f5;
-  border-radius:15px;
+    border : 1px solid #f5f5f5;
+    border-radius:15px;
 	overflow: hidden;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-  cursor: pointer;
-  z-index:1;
+    cursor: pointer;
 }
-.img-area-update .icon {
+.img-area .icon {
 	font-size: 100px;
     color:var(--primary-blue);
 }
-.img-area-update h3 {
+.img-area h3 {
 	font-size: 20px;
 	font-weight: 500;
 	margin-bottom: 6px;
 }
-.img-area-update p {
+.img-area p {
 	color: #999;
     text-align:center;
     padding : 10px;
 }
-.img-area-update p span {
+.img-area p span {
 	font-weight: 600;
 }
-.img-area-update img {
+.img-area img {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -550,7 +534,7 @@ nav .profile .profile-link a:hover {
 	object-position: center;
 	z-index: 100;
 }
-.img-area-update::before {
+.img-area::before {
 	content: attr(data-img);
 	position: absolute;
 	top: 0;
@@ -569,7 +553,7 @@ nav .profile .profile-link a:hover {
 	transition: all .3s ease;
 	z-index: 200;
 }
-.img-area-update.active:hover::before {
+.img-area.active:hover::before {
 	opacity: 1;
 }
 .required::after{
@@ -585,12 +569,10 @@ nav .profile .profile-link a:hover {
     </style>
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
 <body id="element">
-
-
+  <?php include("../loader.php");?>
   <div class="sidebar" id="sidebar">
     <div class="logo-details">
       <img src="../assets/images/school_logo.png" alt="School_Logo" width=60 height=60>
@@ -604,9 +586,9 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="registered_students.php">
-            <i class='bx bx-user'></i>
-            <span class="links_name">Registered Students</span>
+          <a href="registered_students.php" class="active">
+            <i class='bx bx-user' style="color:var(--light);"></i>
+            <span class="links_name" style="color:var(--light);">Registered Students</span>
           </a>
         </li>
         <li>
@@ -627,7 +609,7 @@ nav .profile .profile-link a:hover {
     <nav>
       <div class="sidebar-button">
         <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard">Dashboard</span>
+        <span class="dashboard"><?php echo $_SESSION['u_name'];?></span>
       </div>
       <div class="search-box">
         <input type="text" placeholder="Search...">
@@ -645,7 +627,7 @@ nav .profile .profile-link a:hover {
       <span class="divider"></span>
 			<div class="profile">
 			<abbr title="<?php echo $_SESSION['u_name'];?>">
-      <?php
+            <?php
 $get_email = $_SESSION['u_email'];
 $sql = "SELECT u_image FROM users WHERE u_email='$get_email'";
 $result = mysqli_query($conn, $sql);
@@ -659,7 +641,7 @@ if (mysqli_num_rows($result) > 0)
   }
 }
       ?>
-      </abbr>
+        </abbr>
 				<ul class="profile-link">
 					<li><a href="admin_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
 					<li><a href="admin_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
@@ -672,283 +654,117 @@ if (mysqli_num_rows($result) > 0)
       <div class="sales-boxes">
         <div class="top-sales box">
           <div class="row">
-          <div class="col-md-6 col-12 title mb-5">UPDATE PROFILE</div>
+          <div class="col-md-6 col-12 title">REGISTERED STUDENTS</div>
           </div> <!--class row close div-->
 
 
-  <?php
-  if(isset($_POST['u_update_teacher']))
-  {
-    $get_email = $_SESSION['u_email'];
+<!-- display the facult deatils -->
+<br><br>
 
-    $name = $_POST['fname']." ".$_POST['lname'];
-    $gender = $_POST['gender'];
-    $qualification = $_POST['qualification'];
-    $mobile = $_POST['mobile'];
-    $dob = $_POST['dob'];
-    $email = $_POST['e-mail'];
-    $address = $_POST['address'];
-    $city = $_POST['city'];
-    $district = $_POST['district'];
-    $state = $_POST['state'];
-    $zip = $_POST['zip'];
+<table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
+        <thead align=center>
+            <tr>
+              <th>Application No</th>
+              <th>Full Name</th>
+              <th>Mobile Number</th>
+              <th>DOB</th>
+              <th colspan=3>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
 
-        // Proceed with the updating
-        $sql = "UPDATE users SET u_name = '$name', u_gender = '$gender', u_address = '$address', u_mobile = '$mobile', u_city = '$city', u_district = '$district', u_state = '$state', u_zip = '$zip' WHERE u_email = '$get_email'";
-        if ($conn->query($sql) === TRUE) 
-        {
-          $sql1 = "UPDATE admin_data SET u_name = '$name', u_dob = '$dob', u_qualification = '$qualification' WHERE u_email = '$get_email'";
-            $conn->query($sql1);
-            $_SESSION['update_msg'] = "PROFILE UPDATED SUCCESSFULLY";
-            header("Location:admin_profile.php");
-        }
-        else 
-        {
-          echo '<div class="alert alert-danger mt-3" role="alert">Error: '. $sql .'\\n' .$conn->error .' </div>';
-        }
-    }
-
-  ?>
-
-  <?php
-  if(isset($_SESSION['update_msg']))
-  {
-    echo '<div class="alert alert-success" role="alert">'.$_SESSION['update_msg'].'</div>';
-    unset($_SESSION['update_msg']);
-  }
-  ?>
-
-  <?php
-  if(isset($_POST['update_teacher_profile']))
-  {
-    $get_email = $_SESSION['u_email'];
-
-    $update_image = rand(1000, 10000)."-".$_FILES["update-image"]["name"];
-    $update_tname = $_FILES["update-image"]["tmp_name"];
-    $update_target_dir = "../uploads/";
-    move_uploaded_file($update_tname, $update_target_dir.'/'.$update_image);
-
-    $sql = "UPDATE users SET u_image = '$update_image' WHERE u_email = '$get_email'";
-    if ($conn->query($sql) === TRUE)
-    {
-      echo '<script>Swal.fire({
-        title: "PROFILE PIC UPDATED.",
-        text: "Process Successful",
-        icon: "success"
-      });</script>';
-    }
-    else{
-      header("Location:add_teachers.php");
-      echo '<script>Swal.fire({
-        icon: "error",
-        title: "Oops...PROFILE PIC UPDATING FAILED.",
-        text: "Something went wrong!",
-      });</script>';
-    }
-  }
-  ?>
-
-
-
-          <?php
-$get_email = $_SESSION['u_email'];
-$sql = "SELECT * FROM users INNER JOIN admin_data ON users.u_email = admin_data.u_email WHERE users.u_email='$get_email'";
-$result = mysqli_query($conn, $sql);
+        <?php
+        $i=1;
+        include("../include/allotment_db.php");
+$sql = "SELECT * FROM candidate_data";
+$result = mysqli_query($allot_conn, $sql);
 if (mysqli_num_rows($result) > 0) 
 {
   while($row = mysqli_fetch_assoc($result)) 
   {
-    $Name = explode(" ",$row['u_name']);
 ?>
 
-          <form method="POST" class="needs-validation-update" enctype="multipart/form-data" novalidate>
-
-<div class="row">
-  <div class="col-md-4 mb-3">
-
-    <div class="form-group">
-      <label for="validationCustom01" class="required">First name</label>
-      <input type="text" value="<?php echo $Name[0];?>" class="form-control" name="fname" id="validationCustom01" required>
-      <div class="valid-feedback">Looks good!</div>
-    </div> <!-- form-group close -->
-
-    <div class="form-group">
-      <label for="validationCustom03" class="required">Gender</label>
-        <select class="custom-select" value="<?php echo $row['u_gender'];?>" name="gender" id="validationCustom03" required>
-          <option disabled>Choose...</option>
-          <option value="Male" <?php echo ($row['u_gender'] == 'Male') ? 'selected' : ''; ?>>Male</option>
-          <option value="Female" <?php echo ($row['u_gender'] == 'Female') ? 'selected' : ''; ?>>Female</option>
-          <option value="Other" <?php echo ($row['u_gender'] == 'Other') ? 'selected' : ''; ?>>Other</option>
-        </select>
-        <div class="invalid-feedback">Please select a valid gender.</div>
-    </div> <!-- form-group close -->
-
-    <div class="form-group">
-      <label for="validationCustom05" class="required">Mobile Number</label>
-      <input type="number" value="<?php echo $row['u_mobile'];?>" class="form-control" name="mobile" id="validationCustom05" required>
-      <p class="error-message" id="error-message"></p>
-      <div class="invalid-feedback">Please provide a valid mobile number.</div>
-    </div> <!-- form-group close -->
-
-    <div class="form-group">
-      <label for="validationCustom07" class="required">E-mail</label>
-      <input type="email" value="<?php echo $row['u_email'];?>" class="form-control" name="e-mail" id="validationCustom07" readonly>
-      <div class="invalid-feedback">Please provide a valid E-Mail.</div>
-      <span id="email_error-message" class="email_error-message"></span>
-    </div> <!-- form-group close -->
-    
-
-  </div><!-- col-md-4 mb-3 close -->
-
-  <div class="col-md-4 mb-3">
-
-    <div class="form-group">
-      <label for="validationCustom01" class="required">Last name</label>
-      <input type="text" value="<?php echo $Name[1];?>" class="form-control" name="lname" id="validationCustom01" required>
-      <div class="valid-feedback">Looks good!</div>
-    </div> <!-- form-group close -->
-
-    <div class="form-group">
-      <label for="validationCustom04" class="required">Education Qualification</label>
-      <input type="text" value="<?php echo $row['u_qualification'];?>" class="form-control" name="qualification" id="validationCustom04" required>
-      <div class="invalid-feedback">Please provide a valid qualification.</div>
-    </div> <!-- form-group close -->
-
-    <div class="form-group">
-      <label for="validationCustom06" class="required">Date-of-Birth</label>
-      <input type="date" value="<?php echo $row['u_dob'];?>" class="form-control" name="dob" id="validationCustom06" required>
-      <div class="invalid-feedback">Please provide a valid DOB.</div>
-    </div> <!-- form-group close -->
-
-    <div class="form-group">
-    <label for="validationCustom08" class="required">Address</label>
-      <input type="text" value="<?php echo $row['u_address'];?>" class="form-control" name="address" id="validationCustom08" required>
-      <div class="invalid-feedback">Please provide a valid address.</div>
-</div> <!-- form-group close -->
-
-  </div><!-- col-md-4 mb-3 close -->
-
-
-  <div class="col-md-4 mb-3">
-<div class="form-group">
-  <div class="container">
-      <!-- Hidden input field to upload image -->
-      <input type="file" id="file-update" value="<?php echo $row['u_image'];?>" name="update-image" accept="image/*" hidden required>
-      
-      <!-- Display area for uploaded image -->
-      <div class="img-area-update" data-img="">
-          <!-- If image exists in database, display it -->
-          <?php if (!empty($row['u_image'])) : ?>
-              <img src="<?php echo '../uploads/'.$row['u_image']; ?>" alt="Uploaded Image" class="uploaded-image">
-          <?php else : ?>
-              <!-- If no image exists, show upload image icon -->
-              <img src="../assets/images/no_image.jpg" alt="Uploaded Image" class="uploaded-image">
-              <i class='bx bxs-cloud-upload icon'></i>
-          <?php endif; ?>
-          <h3>Upload Image</h3>
-          <p>Image size must be less than <span>2MB</span></p>
-      </div>
-  </div>
-</div>
-</div>
-
-
-</div><!-- row close -->
-
-<div class="row">
-
-<div class="col-md-6 mb-3">
-    <label for="validationCustom09" class="required">City</label>
-    <input type="text" value="<?php echo $row['u_city'];?>" class="form-control" name="city" id="validationCustom09" required>
-    <div class="invalid-feedback">Please provide a valid city.</div>
-</div>
-
-<div class="col-md-6 mb-3">
-<label for="validationCustom10" class="required">District</label>
-    <select class="custom-select" value="<?php echo $row['u_district'];?>" name="district" id="validationCustom10" required>
-      <option disabled>Choose...</option>
-      <option value="Alappuzha" <?php echo ($row['u_district'] == 'Alappuzha') ? 'selected' : ''; ?>>Alappuzha</option>
-      <option value="Ernakulam" <?php echo ($row['u_district'] == 'Ernakulam') ? 'selected' : ''; ?>>Ernakulam</option>
-      <option value="Idukki" <?php echo ($row['u_district'] == 'Idukki') ? 'selected' : ''; ?>>Idukki</option>
-      <option value="Kannur" <?php echo ($row['u_district'] == 'Kannur') ? 'selected' : ''; ?>>Kannur</option>
-      <option value="Kasaragod" <?php echo ($row['u_district'] == 'Kasaragod') ? 'selected' : ''; ?>>Kasaragod</option>
-      <option value="Kollam" <?php echo ($row['u_district'] == 'Kollam') ? 'selected' : ''; ?>>Kollam</option>
-      <option value="Kottayam" <?php echo ($row['u_district'] == 'Kottayam') ? 'selected' : ''; ?>>Kottayam</option>
-      <option value="Kozhikode" <?php echo ($row['u_district'] == 'Kozhikode') ? 'selected' : ''; ?>>Kozhikode</option>
-      <option value="Malappuram" <?php echo ($row['u_district'] == 'Malappuram') ? 'selected' : ''; ?>>Malappuram</option>
-      <option value="Palakkad" <?php echo ($row['u_district'] == 'Palakkad') ? 'selected' : ''; ?>>Palakkad</option>
-      <option value="Pathanamthitta" <?php echo ($row['u_district'] == 'Pathanamthitta') ? 'selected' : ''; ?>>Pathanamthitta</option>
-      <option value="Thiruvananthapuram" <?php echo ($row['u_district'] == 'Thiruvananthapuram') ? 'selected' : ''; ?>>Thiruvananthapuram</option>
-      <option value="Thrissur" <?php echo ($row['u_district'] == 'Thrissur') ? 'selected' : ''; ?>>Thrissur</option>
-      <option value="Wayanad" <?php echo ($row['u_district'] == 'Wayanad') ? 'selected' : ''; ?>>Wayanad</option>
-    </select>
-    <div class="invalid-feedback">Please select a valid district.</div>
-</div>
-</div>
-
-<div class="row">
-
-<div class="col-md-6 mb-3">
-<label for="validationCustom11" class="required">State</label>
-<input type="text" value="<?php echo $row['u_state'];?>" class="form-control" name="state" id="validationCustom11" value="Kerala" required>
-  <div class="invalid-feedback">Please select a valid State.</div>
-</div>
-
-<div class="col-md-6 mb-3">
-  <label for="validationCustom12" class="required">Zip code</label>
-  <input type="text" value="<?php echo $row['u_zip'];?>" class="form-control" name="zip" id="validationCustom12" required>
-  <div class="invalid-feedback">Please provide a valid zip code.</div>
-</div>
-</div>
-<div class="row  float-right">
-  <div class="col-md-6"><input type="submit" name="u_update_teacher" class="btn btn-outline-primary" value="Update Data"></div>
-  <div class="col-md-6"><input type="submit" name="update_teacher_profile" class="btn btn-dark float-right" value="Update Profile Pic"><div>
-</div>
-</div>
-
-  </form>
-
+<tr align=center>
+              <td><?php echo $row['app_no'];?></td>
+              <td><?php echo $row['name'];?></td>
+              <td ><?php echo $row['mobile'];?></td>
+              <td><?php echo $row['dob'];?></td>
+              <td><a href="allotment_view.php?app_no=<?php echo $row['app_no'];?>" class="view-details btn btn-outline-primary">View</a></td>
+              <td><a href="allotment_delete.php?app_no=<?php echo $row['app_no'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
+            </tr>
 <?php
   }
+} 
+else 
+{
+  echo '<div class="alert alert-danger text-center text-uppercase font-weight-bold" role="alert">
+  NO RECORDS FOUND.....!
+</div>';
 }
 ?>
+        </tbody>
+    </table> 
+
+<script type='text/javascript'>
+            $(document).ready(function(){
+                $('.view-details').click(function(){
+                    var id = $(this).data('id');
+                    $.ajax({
+                        url: 'ajax_folder/ajaxfile.php',
+                        type: 'post',
+                        data: {id: id},
+                        success: function(response){ 
+                            $('.modal-body').html(response); 
+                            $('#exampleModalCenter').modal('show'); 
+                        }
+                    });
+                });
+            });
+            </script>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"><span id="modal-name">User Info</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+    </div>
+  </div>
+</div> 
+
         </div>
       </div>
     </div>
   </section>
 
 
-<!-- JavaScript for display image form the database and display the new image choose for updating -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const imgArea = document.querySelector('.img-area-update');
-        const inputFile = document.querySelector('#file-update');
 
-        // Trigger file input when the image area is clicked
+  <script>
+        const imgArea = document.querySelector('.img-area');
+        const inputFile = document.querySelector('#file');
+
         imgArea.addEventListener('click', function () {
             inputFile.click();
         });
 
-        // Handle file input change
         inputFile.addEventListener('change', function () {
             const image = this.files[0];
             
             if (image.size < 2000000) {
                 const reader = new FileReader();
                 reader.onload = () => {
-                    // Remove any existing image before adding the new one
-                    const existingImg = imgArea.querySelector('u_image');
-                    if (existingImg) {
-                        existingImg.remove();
-                    }
-
-                    // Create a new image element with the uploaded image
-                    const img = document.createElement('u_image');
-                    img.src = reader.result;
-                    img.alt = "Uploaded Image";
-                    img.classList.add('uploaded-image');
-
-                    // Replace the existing image with the new one
+                    const allImg = imgArea.querySelectorAll('img');
+                    allImg.forEach(item => item.remove());
+                    const imgUrl = reader.result;
+                    const img = document.createElement('img');
+                    img.src = imgUrl;
                     imgArea.appendChild(img);
                     imgArea.classList.add('active');
                     imgArea.dataset.img = image.name;
@@ -958,8 +774,7 @@ if (mysqli_num_rows($result) > 0)
                 alert("Image size more than 2MB");
             }
         });
-    });
-</script>
+    </script>
 
   <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -1073,15 +888,6 @@ sidebarBtn.onclick = function() {
   sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
 }
  </script>
-
-<script async src="https://cdn.ampproject.org/v0.js"></script> 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script async src="https://cdn.ampproject.org/v0.js"></script> 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 </body>
 </html>

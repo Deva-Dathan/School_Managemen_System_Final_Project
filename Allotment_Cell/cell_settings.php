@@ -617,7 +617,7 @@ nav .profile .profile-link a:hover {
       <img src="../assets/images/school_logo.png" alt="School_Logo" width=60 height=60>
       <span class="logo_name">G H S S</span>
     </div>
-      <ul class="nav-links" id="nav-links">
+    <ul class="nav-links" id="nav-links">
         <li>
           <a href="admin_dash.php">
             <i class='bx bx-grid-alt'></i>
@@ -625,51 +625,21 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
+          <a href="registered_students.php">
+            <i class='bx bx-user'></i>
+            <span class="links_name">Registered Students</span>
+          </a>
+        </li>
+        <li>
           <a href="change_principal.php">
-            <i class='bx bxs-user'></i>
-            <span class="links_name">Principal</span>
-          </a>
-        </li>
-        <li>
-          <a href="change_vice_principal.php">
-            <i class='bx bx-user-circle' ></i>
-            <span class="links_name">Vice Principal</span>
-          </a>
-        </li>
-        <li>
-          <a href="add_teachers.php">
-            <i class='bx bxs-user-plus'></i>
-            <span class="links_name">Teachers</span>
-          </a>
-        </li>
-        <li>
-          <a href="view_students.php">
-            <i class='bx bx-user' ></i>
-            <span class="links_name">Students</span>
-          </a>
-        </li>
-        <li>
-          <a href="add_allotement.php">
             <i class='bx bxs-user-circle' ></i>
-            <span class="links_name">Allotment Cell</span>
+            <span class="links_name">Set Allotment Limit</span>
           </a>
         </li>
         <li>
-          <a href="add_office.php">
+          <a href="change_principal.php">
             <i class='bx bx-user-plus' ></i>
-            <span class="links_name">Office Staff</span>
-          </a>
-        </li>
-        <li>
-          <a href="add_subjects.php">
-            <i class='bx bx-book' ></i>
-            <span class="links_name">Subjects</span>
-          </a>
-        </li>
-        <li>
-          <a href="update_fees.php">
-            <i class='bx bx-dollar' ></i>
-            <span class="links_name">Fees</span>
+            <span class="links_name">View Allotment Details</span>
           </a>
         </li>
       </ul>
