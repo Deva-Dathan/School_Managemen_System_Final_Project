@@ -1,3 +1,34 @@
+<?php
+session_start();
+include("../include/allotment_db.php");
+if($_SERVER['REQUEST_METHOD'] === 'POST')
+{
+    $app_no = $_SESSION['app_no'];
+    $mal1 = $_POST['mal1'];
+    $mal2 = $_POST['mal2'];
+    $english = $_POST['english'];
+    $hindi = $_POST['hindi'];
+    $maths = $_POST['maths'];
+    $ss = $_POST['ss'];
+    $physics = $_POST['physics'];
+    $chemistry = $_POST['chemistry'];
+    $biology = $_POST['biology'];
+    $IT = $_POST['IT'];
+
+    // Insert data into the database
+$sql = "INSERT INTO candidate_mark(app_no, mal1, mal2, english, hindi, maths, ss, physics, chemistry, biology, IT) VALUES ('$app_no', '$mal1', '$mal2', '$english', '$hindi', '$maths', '$ss', '$physics', '$chemistry', '$biology', '$IT')";
+
+if (mysqli_query($allot_conn, $sql)) {
+$_SESSION['register_success'] = "MARK INSERTED SUCCESSFULLY";
+header("Location:reg_4th.php");
+} else {
+echo "Error: " . $sql . "<br>" . mysqli_error($allot_conn);
+}
+
+// Close database allot_conn
+mysqli_close($allot_conn);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,6 +72,7 @@
       text-transform: uppercase; /* Convert text to uppercase */
       font-weight: bold;
     }
+
   </style>
 </head>
 <body>
@@ -48,7 +80,7 @@
 <!-- Top Navbar code starts here -->
 <div class="topnav">
 <img src="../assets/images/school_logo.png" alt="Your Logo" style="height: 50px; margin-left: 20px;">
-<a href="#display">Display Application Number</a>
+<a href="#display"><?php echo $_SESSION['app_no'];?></a>
 <a href="#logout">Logout</a>
 <a class="active" href="#home" style="color:black;">Home</a> 
 </div>
@@ -62,7 +94,6 @@
 <!-- SSLC School Details code starts here -->
 <div class="container mt-5">
     <div class="row justify-content-center">
-
         
 <!-- Qualifying Examination Details code starts here -->
 <div class="col-md-6">
@@ -76,78 +107,92 @@
     <div class="row head-row" style="padding-top:20px;">
         <div class="col-md-12">
             <p class="font-weight-bold" style="display: inline;">Application Number :</p>
-            <p style="display: inline;"> ABC123456</p>
+            <p style="display: inline;"> <?php echo $_SESSION['app_no'];?></p>
         </div>
     </div>
     <div class="row" style="padding-bottom:20px;">
         <div class="col-md-12">
             <p class="font-weight-bold" style="display: inline;">SSLC Exam Register Number : </p>
-            <p style="display: inline;">22MCAR0057</p>
+            <p style="display: inline;">
+            <?php
+                include("../include/allotment_db.php");
+                $sql = "SELECT * FROM register_tbl WHERE app_no = {$_SESSION['app_no']}";
+                $result = mysqli_query($allot_conn, $sql);
+                $row = mysqli_fetch_assoc($result);
+                echo $row['reg_no'];
+                ?>
+            </p>
         </div>
     </div>
 </div>
-<br>
 
-                <table class="table table-bordered" style="height:100px; text-align:center">
+<?php
+          if(isset($_SESSION['details_success']))
+          {
+            ?>
+          <div class="alert alert-success mt-3 text-center font-weight-bold" role="alert"><?php echo $_SESSION['details_success'];?></div>
+          <?php
+            unset($_SESSION['details_success']);
+          }
+          ?>
+
+                <table class="table table-bordered" style="height:100px; margin-top:20px; text-align:center">
                 <tbody>
-            <tr>
-                <td class="font-weight-bold">SL. No</td>
-                <td class="font-weight-bold">Paper Name</td>
-                <td class="font-weight-bold">Mark</td>
-            </tr>
-            <tr>
-            <tr>
-            <td>1</td>
-            <td>Malayalam I</td>
-            <td><input type="number" class="form-control" style="height:30px;" id="grade1" required></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Malayalam II</td>
-            <td><input type="number" class="form-control" style="height:30px;" id="grade2" required></td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>English</td>
-            <td><input type="number" class="form-control" style="height:30px;" id="grade3" required></td>
-        </tr>
-        <tr>
+                <tr>
+    <td class="font-weight-bold">SL. No</td>
+    <td class="font-weight-bold">Paper Name</td>
+    <td class="font-weight-bold">Mark</td>
+</tr>
+<tr>
+    <td>1</td>
+    <td>Malayalam I</td>
+    <td><input type="number" class="form-control" style="height:30px;" id="grade1" name="mal1" required></td>
+</tr>
+<tr>
+    <td>2</td>
+    <td>Malayalam II</td>
+    <td><input type="number" class="form-control" style="height:30px;" id="grade2" name="mal2" required></td>
+</tr>
+<tr>
+    <td>3</td>
+    <td>English</td>
+    <td><input type="number" class="form-control" style="height:30px;" id="grade3" name="english" required></td>
+</tr>
+<tr>
     <td>4</td>
     <td>Hindi</td>
-    <td><input type="number" class="form-control" style="height:30px;" id="grade4" required></td>
+    <td><input type="number" class="form-control" style="height:30px;" id="grade4" name="hindi" required></td>
 </tr>
 <tr>
     <td>5</td>
     <td>Mathematics</td>
-    <td><input type="number" class="form-control" style="height:30px;" id="grade5" required></td>
+    <td><input type="number" class="form-control" style="height:30px;" id="grade5" name="maths" required></td>
 </tr>
 <tr>
     <td>6</td>
     <td>Social Science</td>
-    <td><input type="number" class="form-control" style="height:30px;" id="grade6" required></td>
+    <td><input type="number" class="form-control" style="height:30px;" id="grade6" name="ss" required></td>
 </tr>
 <tr>
     <td>7</td>
     <td>Physics</td>
-    <td><input type="number" class="form-control" style="height:30px;" id="grade7" required></td>
+    <td><input type="number" class="form-control" style="height:30px;" id="grade7" name="physics" required></td>
 </tr>
 <tr>
     <td>8</td>
     <td>Chemistry</td>
-    <td><input type="number" class="form-control" style="height:30px;" id="grade8" required></td>
+    <td><input type="number" class="form-control" style="height:30px;" id="grade8" name="chemistry" required></td>
 </tr>
 <tr>
     <td>9</td>
     <td>Biology</td>
-    <td><input type="number" class="form-control" style="height:30px;" id="grade9" required></td>
+    <td><input type="number" class="form-control" style="height:30px;" id="grade9" name="biology" required></td>
 </tr>
 <tr>
     <td>10</td>
     <td>Information Technology</td>
-    <td><input type="number" class="form-control" style="height:30px;" id="grade10" required></td>
+    <td><input type="number" class="form-control" style="height:30px;" id="grade10" name="IT" required></td>
 </tr>
-
-
         </tbody>
                     </table>
                     <div class="container d-flex justify-content-center align-items-center">

@@ -2,7 +2,7 @@
 session_start();
 include("../include/allotment_db.php");
 
-if($_SERVER['REQUEST_METHOD'] == 'POST')
+if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
   // Generate a unique application number using current timestamp
   $app_no = time();
