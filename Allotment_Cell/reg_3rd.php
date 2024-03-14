@@ -19,10 +19,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
 $sql = "INSERT INTO candidate_mark(app_no, mal1, mal2, english, hindi, maths, ss, physics, chemistry, biology, IT) VALUES ('$app_no', '$mal1', '$mal2', '$english', '$hindi', '$maths', '$ss', '$physics', '$chemistry', '$biology', '$IT')";
 
 if (mysqli_query($allot_conn, $sql)) {
-$_SESSION['register_success'] = "MARK INSERTED SUCCESSFULLY";
+$_SESSION['mark_success'] = "MARK INSERTED SUCCESSFULLY";
 header("Location:reg_4th.php");
 } else {
-echo "Error: " . $sql . "<br>" . mysqli_error($allot_conn);
+echo "Error: " . $sql . "<br>" . mysqli_error($x);
 }
 
 // Close database allot_conn

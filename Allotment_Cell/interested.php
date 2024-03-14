@@ -4,19 +4,16 @@ include("../include/allotment_db.php");
 if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
     $app_no = $_SESSION['app_no'];
-    $option_1 = $_POST['option_1'];
-    $option_2 = $_POST['option_2'];
-    $option_3 = $_POST['option_3'];
-    $option_4 = $_POST['option_4'];
+    $interested_in = $_POST['interested_in'];
 
     // Insert data into the database
-$sql = "INSERT INTO option_tbl(app_no, option_1, option_2, option_3, option_4) VALUES ('$app_no', '$option_1', '$option_2', '$option_3', '$option_4')";
+$sql = "INSERT INTO interested_tbl(app_no, interested_in) VALUES ('$app_no', '$interested_in')";
 
 if (mysqli_query($allot_conn, $sql)) {
-    echo "<script>alert('OPTIONS SAVED.');</script>";
-    header("Location:interested.php");
+    header("Location:view_details.php?success=true");
+    exit(); // Ensure script execution stops after redirection
 } else {
-echo "Error: " . $sql . "<br>" . mysqli_error($allot_conn);
+    echo "Error: " . $sql . "<br>" . mysqli_error($allot_conn);
 }
 
 // Close database allot_conn
@@ -130,69 +127,23 @@ mysqli_close($allot_conn);
           }
           ?>
 
-                <table class="table table-bordered" style="height:100px; margin-top:20px; text-align:center">
+                <table class="table table-bordered" style="height:50px; margin-top:20px; text-align:center">
                 <tbody>
                     <!-- First Row -->
             <tr>
-                <td class="font-weight-bold">Add Option At</td>
-                <td class="font-weight-bold">Course</td>
-            </tr>
-            <tr>
-            <td>Option 1</td>
+            <td class="font-weight-bold" style="font-size:18px;">Interested In</td>
             <td>
-    <select class="form-control" name="option_1">
+    <select class="form-control" name="interested_in">
     <option selected disabled>Choose....</option>
-        <option value="Bio-Mathematics">Bio-Mathematics</option>
-        <option value="Computer Mathematics">Computer Mathematics</option>
-        <option value="Commerce">Commerce</option>
-        <option value="Humanities">Humanities</option>
+    <option value="Engineering">Engineering</option>
+    <option value="Medicine">Medicine</option>
+    <option value="Teaching">Teaching</option>
+    <option value="Business">Business</option>
+    <option value="Law">Law</option>
+    <option value="Information Technology">Information Technology</option>
     </select>
 </td>
 
-            </tr>
-
-                                <!-- Second Row -->
-            <tr>
-            <td>Option 2</td>
-            <td>
-    <select class="form-control" name="option_2">
-    <option selected disabled>Choose....</option>
-        <option value="Bio-Mathematics">Bio-Mathematics</option>
-        <option value="Computer Mathematics">Computer Mathematics</option>
-        <option value="Commerce">Commerce</option>
-        <option value="Humanities">Humanities</option>
-    </select>
-</td>
-
-            </tr>
-
-                                <!-- Third Row -->
-            <tr>
-            <td>Option 3</td>
-            <td>
-    <select class="form-control" name="option_3">
-    <option selected disabled>Choose....</option>
-        <option value="Bio-Mathematics">Bio-Mathematics</option>
-        <option value="Computer Mathematics">Computer Mathematics</option>
-        <option value="Commerce">Commerce</option>
-        <option value="Humanities">Humanities</option>
-    </select>
-</td>
-
-            </tr>
-
-                                <!-- Fourth Row -->
-            <tr>
-            <td>Option 4</td>
-            <td>
-    <select class="form-control" name="option_4">
-    <option selected disabled>Choose....</option>
-        <option value="Bio-Mathematics">Bio-Mathematics</option>
-        <option value="Computer Mathematics">Computer Mathematics</option>
-        <option value="Commerce">Commerce</option>
-        <option value="Humanities">Humanities</option>
-    </select>
-</td>
             </tr>
         </tbody>
                     </table>
