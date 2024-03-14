@@ -5,8 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="../assets/images/school_logo.png" type="image/x-icon">
-  <title>Login Page</title>
+  <title>CANDIDATE LOGIN</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <style>
     body {
       display: flex;
@@ -26,8 +27,12 @@
   </style>
 </head>
 <body>
+  <div class="arrow" style="margin-top:-550px;">
+  <a href="../landing_page.php"><i class='bx bx-left-arrow-alt' style="font-size:28px;"></i></a>
+  </div>
 <?php include("../loader.php");?>
   <div class="container">
+  
   <?php
           if(isset($_SESSION['register_success']))
           {
@@ -55,10 +60,20 @@ if ($result) {
         {
           if($_SERVER['REQUEST_METHOD'] == 'POST')
           {
-          if($_POST['candidateNo'] ==$row['app_no'] && $_POST['dob'] == $row['dob'])
+          if($_POST['candidateNo'] == $row['app_no'] && $_POST['dob'] == $row['dob'])
           {
-            $_SESSION['app_no'] = $row['app_no'];
-            header("Location:reg_2nd.php");
+            $sql1 = "SELECT * FROM option_tbl WHERE app_no = {$_POST['candidateNo']}";
+            $result1 = mysqli_query($allot_conn, $sql1);
+            if (mysqli_num_rows($result) > 0)
+            {
+              $_SESSION['app_no'] = $row['app_no'];
+              header("Location:allotment_page.php");
+            }
+            else
+            {
+              $_SESSION['app_no'] = $row['app_no'];
+              header("Location:reg_2nd.php");
+            }
           }
           else
           {

@@ -103,8 +103,8 @@ if($result) {
 <!-- Top Navbar code starts here -->
 <div class="topnav">
 <img src="../assets/images/school_logo.png" alt="Your Logo" style="height: 50px; margin-left: 20px;">
-<a href="#display" class="font-weight-bold"><?php echo $_SESSION['app_no'];?></a>
-<a href="#logout">Logout</a>
+<a href="allot_registration.php" class="font-weight-bold"><?php echo $_SESSION['app_no'];?></a>
+<a href="allot_logout.php">Logout</a>
 <a class="active" href="#home" style="color:black;">Home</a> 
 </div>
 <!-- Top Navbar code end here -->
