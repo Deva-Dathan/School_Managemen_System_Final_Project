@@ -32,63 +32,6 @@
   </div>
 <?php include("../loader.php");?>
   <div class="container">
-  
-  <?php
-          if(isset($_SESSION['register_success']))
-          {
-            ?>
-          <div class="alert alert-success mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['register_success'];?></div>
-          <?php
-            unset($_SESSION['register_success']);
-          }
-          ?>
-
-<?php
-session_start();
-include("../include/allotment_db.php");
-
-
-$sql = "SELECT * FROM register_tbl";
-$result = mysqli_query($allot_conn, $sql);
-
-// Check if the query was successful
-if ($result) {
-    // Check if there are rows returned
-    if (mysqli_num_rows($result) > 0) {
-        // Fetch each row as an associative array
-        while ($row = mysqli_fetch_assoc($result)) 
-        {
-          if($_SERVER['REQUEST_METHOD'] == 'POST')
-          {
-          if($_POST['candidateNo'] == $row['app_no'] && $_POST['dob'] == $row['dob'])
-          {
-            $sql1 = "SELECT * FROM option_tbl WHERE app_no = {$_POST['candidateNo']}";
-            $result1 = mysqli_query($allot_conn, $sql1);
-            if (mysqli_num_rows($result1) > 0)
-            {
-              $_SESSION['app_no'] = $row['app_no'];
-              header("Location:allotment_page.php");
-            }
-            else
-            {
-              $_SESSION['app_no'] = $row['app_no'];
-              header("Location:reg_2nd.php");
-            }
-          }
-          else
-          {
-            ?>
-            <div class="alert alert-success mt-3 font-weight-bold" role="alert">CANDIDATE NUMBER OR PASSWORD IS WRONG</div>
-            <?php
-          }
-          }
-        }
-    } 
-}
-
-// Close the database connection
-mysqli_close($allot_conn);
-?>
 
     <div class="row justify-content-center">
       <div class="col-md-6">
@@ -99,8 +42,8 @@ mysqli_close($allot_conn);
           <div class="card-body">
             <form method="POST">
               <div class="form-group">
-                <label for="candidateNo">Candidate Number</label>
-                <input type="text" name="candidateNo" id="candidateNo" class="form-control" required>
+                <label for="candidateNo">Registered Mail ID</label>
+                <input type="email" name="candidateNo" id="candidateNo" class="form-control" required>
               </div>
               <div class="form-group">
                 <label for="dob">Date of Birth</label>

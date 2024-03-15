@@ -212,11 +212,11 @@ if($result) {
         
 <!-- Qualifying Examination Details code starts here -->
 <?php
-include("../include/allotment_db.php");
-$sql = "SELECT * FROM candidate_data WHERE app_no = {$_SESSION['app_no']}";
-$result = mysqli_query($allot_conn, $sql);
-while($row = mysqli_fetch_assoc($result))
-{
+// include("../include/allotment_db.php");
+// $sql = "SELECT * FROM candidate_data WHERE app_no = {$_SESSION['app_no']}";
+// $result = mysqli_query($allot_conn, $sql);
+// while($row = mysqli_fetch_assoc($result))
+// {
 ?>
 <div class="col-md-6">
             <div class="card mb-5" style="height:400px;">
@@ -228,35 +228,40 @@ while($row = mysqli_fetch_assoc($result))
                         <tbody>
                         <tr>
     <td class="font-weight-bold">Name</td>
-    <td><input type="text" class="form-control" style="height:30px;" name="name" value="<?php echo $row['name'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" name="name" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Gender</td>
     <td>
     <select class="form-control" id="gender" name="gender" style="height:30px;">
     <option disabled>Choose....</option>
-    <option value="male" <?php echo ($row['gender'] == 'male') ? 'selected' : ''; ?>>Male</option>
-    <option value="female" <?php echo ($row['gender'] == 'female') ? 'selected' : ''; ?>>Female</option>
-    <option value="other" <?php echo ($row['gender'] == 'other') ? 'selected' : ''; ?>>Other</option>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="other">Other</option>
 </select>
     </td>
 </tr>
-
+<?php
+include("../include/allotment_db.php");
+$sql = "SELECT * FROM register_tbl WHERE app_no = {$_SESSION['app_no']}";
+$result = mysqli_query($allot_conn, $sql);
+$row = mysqli_fetch_assoc($result)
+?>
 <tr>
                                 <td class="font-weight-bold">Date of Birth</td>
                                 <td><input type="date" class="form-control" style="height:30px;" name="c_dob" value="<?php echo $row['dob'];?>" id="dob" required></td>
                             </tr>
                             <tr>
                                 <td class="font-weight-bold">Father's Name</td>
-                                <td><input type="text" class="form-control" style="height:30px;" name="c_fatherName" value="<?php echo $row['father_name'];?>" id="fatherName" required></td>
+                                <td><input type="text" class="form-control" style="height:30px;" name="c_fatherName" id="fatherName" required></td>
                             </tr>
                             <tr>
                                 <td class="font-weight-bold">Mother's Name</td>
-                                <td><input type="text" class="form-control" style="height:30px;" name="c_motherName" value="<?php echo $row['mother_name'];?>" id="motherName" required></td>
+                                <td><input type="text" class="form-control" style="height:30px;" name="c_motherName" id="motherName" required></td>
                             </tr>
                             <tr>
                                 <td class="font-weight-bold">Mobile Number</td>
-                                <td><input type="text" class="form-control" style="height:30px;" name="c_mobile" value="<?php echo $row['mobile'];?>" id="mobileNumber" required></td>
+                                <td><input type="text" class="form-control" style="height:30px;" name="c_mobile" id="mobileNumber" required></td>
                             </tr>
                         </tbody>
                     </table>
@@ -276,35 +281,35 @@ while($row = mysqli_fetch_assoc($result))
                         <tbody>
                         <tr>
     <td class="font-weight-bold">House No/ House Name</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="houseNoPerm" name="houseNoPerm" value="<?php echo $row['address'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="houseNoPerm" name="houseNoPerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Locality</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="localityPerm" name="localityPerm" value="<?php echo $row['locality'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="localityPerm" name="localityPerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Post office</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="postOfficePerm" name="postOfficePerm" value="<?php echo $row['post_office'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="postOfficePerm" name="postOfficePerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Village</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="villagePerm" name="villagePerm" value="<?php echo $row['village'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="villagePerm" name="villagePerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">City</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="cityPerm" name="cityPerm" value="<?php echo $row['city'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="cityPerm" name="cityPerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">District</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="districtPerm" name="districtPerm" value="<?php echo $row['district'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="districtPerm" name="districtPerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">State</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="statePerm" name="statePerm" value="<?php echo $row['state'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="statePerm" name="statePerm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Pin code</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="pinCodePerm" name="pinCodePerm" value="<?php echo $row['zip'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="pinCodePerm" name="pinCodePerm" required></td>
 </tr>
 
 
@@ -315,16 +320,16 @@ while($row = mysqli_fetch_assoc($result))
         </div>
 <!-- Permanent Address Details code ends here -->
 <?php
-}
+// }
 ?>
 
 
 <?php
-include("../include/allotment_db.php");
-$sql = "SELECT * FROM communication_address WHERE app_no = {$_SESSION['app_no']}";
-$result = mysqli_query($allot_conn, $sql);
-while($row = mysqli_fetch_assoc($result))
-{
+// include("../include/allotment_db.php");
+// $sql = "SELECT * FROM communication_address WHERE app_no = {$_SESSION['app_no']}";
+// $result = mysqli_query($allot_conn, $sql);
+// while($row = mysqli_fetch_assoc($result))
+// {
 ?>
 <!-- Communication Address Details code starts here -->
 <div class="col-md-6">
@@ -351,38 +356,38 @@ while($row = mysqli_fetch_assoc($result))
                 <tbody>
                 <tr>
     <td class="font-weight-bold">House No/ House Name</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="houseNoComm" name="houseNoComm" value="<?php echo $row['address'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="houseNoComm" name="houseNoComm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Locality</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="localityComm" name="localityComm" value="<?php echo $row['locality'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="localityComm" name="localityComm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Post office</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="postOfficeComm" name="postOfficeComm" value="<?php echo $row['post_office'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="postOfficeComm" name="postOfficeComm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Village</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="villageComm" name="villageComm" value="<?php echo $row['village'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="villageComm" name="villageComm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">City</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="cityComm" name="cityComm" value="<?php echo $row['city'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="cityComm" name="cityComm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">District</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="districtComm" name="districtComm" value="<?php echo $row['district'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="districtComm" name="districtComm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">State</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="stateComm" name="stateComm" value="<?php echo $row['state'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="stateComm" name="stateComm" required></td>
 </tr>
 <tr>
     <td class="font-weight-bold">Pin code</td>
-    <td><input type="text" class="form-control" style="height:30px;" id="pinCodeComm" name="pinCodeComm" value="<?php echo $row['zip'];?>" required></td>
+    <td><input type="text" class="form-control" style="height:30px;" id="pinCodeComm" name="pinCodeComm" required></td>
 </tr>
 <?php
-}
+// }
 ?>
                 </tbody>
             </table>
