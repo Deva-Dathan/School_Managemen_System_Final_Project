@@ -142,10 +142,10 @@ mysqli_close($allot_conn);
             <td>
     <select class="form-control" name="option_1">
     <option selected disabled>Choose....</option>
-        <option value="Bio-Mathematics">Bio-Mathematics</option>
-        <option value="Computer Mathematics">Computer Mathematics</option>
-        <option value="Commerce">Commerce</option>
-        <option value="Humanities">Humanities</option>
+        <option value="Physics, Chemistry, Biology, Mathematics">Physics, Chemistry, Biology, Mathematics</option>
+        <option value="Physics, Chemistry, Mathematics, Computer Science">Physics, Chemistry, Mathematics, Computer Science</option>
+        <option value="Business Studies, Accountancy, Economics, Computer Application">Business Studies, Accountancy, Economics, Computer Application</option>
+        <option value="History, Economics, Political Studies, Social Work">History, Economics, Political Studies, Social Work</option>
     </select>
 </td>
 

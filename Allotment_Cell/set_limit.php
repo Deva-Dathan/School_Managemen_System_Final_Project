@@ -1,5 +1,13 @@
 <?php
 session_start();
+include("../include/db_connection.php");
+include("../header.php");
+include("../footer.php");
+
+// if(!isset($_SESSION['u_email']))
+// {
+//   header("Location: ../login_page.php");
+// }
 
 // echo $_SESSION['u_username'];
 // echo "<br>";
@@ -33,7 +41,8 @@ session_start();
 	--light-blue: #D0E4FF;
 	--dark-blue: #081D45;
 	--red: #FC3B56;
-  --dark-red: #FC1605
+  --dark-red: #FC1605;
+  --primary-blue: #007bff;
 }
 .sidebar{
   position: fixed;
@@ -58,9 +67,11 @@ session_start();
   text-align: center
 }
 .sidebar .logo-details .logo_name{
-  color: var(--dark);
-  font-size: 24px;
+  color: var(--grey);
+  font-size: 40px;
   font-weight: 500;
+  margin-left:10px;
+  -webkit-text-stroke: 1px #000;
 }
 .sidebar .nav-links{
   margin-top: 10px;
@@ -285,65 +296,7 @@ nav .profile .profile-link a:hover {
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
-.overview-boxes .box-topic{
-  font-size: 20px;
-  font-weight: 500;
-}
-.home-content .box .number{
-  display: inline-block;
-  font-size: 35px;
-  margin-top: -6px;
-  font-weight: 500;
-}
-.home-content .box .indicator{
-  display: flex;
-  align-items: center;
-}
-.home-content .box .indicator i{
-  height: 20px;
-  width: 20px;
-  background: #8FDACB;
-  line-height: 20px;
-  text-align: center;
-  border-radius: 50%;
-  color: #fff;
-  font-size: 20px;
-  margin-right: 5px;
-}
-.box .indicator i.down{
-  background: #e87d88;
-}
-.home-content .box .indicator .text{
-  font-size: 12px;
-}
-.home-content .box .cart{
-  display: inline-block;
-  font-size: 32px;
-  height: 50px;
-  width: 50px;
-  background: #cce5ff;
-  line-height: 50px;
-  text-align: center;
-  color: #66b0ff;
-  border-radius: 12px;
-  margin: -15px 0 0 6px;
-}
-.home-content .box .cart.two{
-   color: #2BD47D;
-   background: #C0F2D8;
- }
-.home-content .box .cart.three{
-   color: #ffc233;
-   background: #ffe8b3;
- }
-.home-content .box .cart.four{
-   color: #e05260;
-   background: #f7d4d7;
- }
-.home-content .total-order{
-  font-size: 20px;
-  font-weight: 500;
-}
+
 .home-content .sales-boxes{
   display: flex;
   justify-content: space-between;
@@ -366,7 +319,7 @@ nav .profile .profile-link a:hover {
 }
 .sales-boxes .box .title{
   font-size: 24px;
-  font-weight: 500;
+  font-weight: bold;
   /* margin-bottom: 10px; */
 }
 .sales-boxes .sales-details li.topic{
@@ -404,10 +357,10 @@ nav .profile .profile-link a:hover {
 
 /* Right box */
 .home-content .sales-boxes .top-sales{
-  width: 35%;
+  width: 100%;
   background: #fff;
   padding: 20px 30px;
-  margin: 0 20px 0 0;
+  margin: 0 20px 0 20px;
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
@@ -528,13 +481,99 @@ nav .profile .profile-link a:hover {
     width: calc(100% - 60px);
   }
 }
+/* CSS for the adding pricipal model */
+.container {
+	max-width: 400px;
+	width: 100%;
+	background: #fff;
+	padding: 30px;
+	border-radius: 30px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.img-area {
+	position: relative;
+	width: 60%;
+	height: 250px;
+	background: var(--grey);
+	margin-bottom: 30px;
+    border : 1px solid #f5f5f5;
+    border-radius:15px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+    cursor: pointer;
+}
+.img-area .icon {
+	font-size: 100px;
+    color:var(--primary-blue);
+}
+.img-area h3 {
+	font-size: 20px;
+	font-weight: 500;
+	margin-bottom: 6px;
+}
+.img-area p {
+	color: #999;
+    text-align:center;
+    padding : 10px;
+}
+.img-area p span {
+	font-weight: 600;
+}
+.img-area img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	z-index: 100;
+}
+.img-area::before {
+	content: attr(data-img);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .5);
+	color: #fff;
+	font-weight: 500;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	pointer-events: none;
+	opacity: 0;
+	transition: all .3s ease;
+	z-index: 200;
+}
+.img-area.active:hover::before {
+	opacity: 1;
+}
+.required::after{
+  content : " *";
+  color: red;
+  font-size:15px;
+  font-weight:bold;
+}
+.error-message, .email_error-message {
+      color: red;
+    }
+
     </style>
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    </head>
-   
 <body id="element">
+  <?php include("../loader.php");?>
   <div class="sidebar" id="sidebar">
     <div class="logo-details">
       <img src="../assets/images/school_logo.png" alt="School_Logo" width=60 height=60>
@@ -542,9 +581,9 @@ nav .profile .profile-link a:hover {
     </div>
     <ul class="nav-links" id="nav-links">
         <li>
-          <a href="admin_dash.php" class="active">
-            <i class='bx bx-grid-alt' style="color:var(--light);"></i>
-            <span class="links_name" style="color:var(--light);">Dashboard</span>
+          <a href="admin_dash.php">
+            <i class='bx bx-grid-alt'></i>
+            <span class="links_name">Dashboard</span>
           </a>
         </li>
         <li>
@@ -554,9 +593,9 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="set_limit.php">
-            <i class='bx bxs-user-circle' ></i>
-            <span class="links_name">Set Allotment Limit</span>
+          <a href="set_limit.php" class="active">
+            <i class='bx bxs-user-circle' style="color:var(--light);"></i>
+            <span class="links_name" style="color:var(--light);">Set Allotment Limit</span>
           </a>
         </li>
         <li>
@@ -571,7 +610,7 @@ nav .profile .profile-link a:hover {
     <nav>
       <div class="sidebar-button">
         <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard">Dashboard</span>
+        <span class="dashboard"><?php echo $_SESSION['u_name'];?></span>
       </div>
       <div class="search-box">
         <input type="text" placeholder="Search...">
@@ -589,8 +628,7 @@ nav .profile .profile-link a:hover {
       <span class="divider"></span>
 			<div class="profile">
 			<abbr title="<?php echo $_SESSION['u_name'];?>">
-      <?php
-      include("../include/db_connection.php");
+            <?php
 $get_email = $_SESSION['u_email'];
 $sql = "SELECT u_image FROM users WHERE u_email='$get_email'";
 $result = mysqli_query($conn, $sql);
@@ -604,7 +642,7 @@ if (mysqli_num_rows($result) > 0)
   }
 }
       ?>
-    </abbr>
+        </abbr>
 				<ul class="profile-link">
 					<li><a href="admin_profile.php"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
 					<li><a href="admin_settings.php"><i class='bx bxs-cog' ></i> Settings</a></li>
@@ -613,172 +651,282 @@ if (mysqli_num_rows($result) > 0)
 			</div>
     </nav>
 
-    <div class="home-content">
-      <div class="overview-boxes">
-        <div class="box">
-          <div class="right-side">
-            <div class="box-topic">Total Order</div>
-            <div class="number">40,876</div>
-            <div class="indicator">
-              <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
-            </div>
-          </div>
-          <i class='bx bx-cart-alt cart'></i>
-        </div>
-        <div class="box">
-          <div class="right-side">
-            <div class="box-topic">Total Sales</div>
-            <div class="number">38,876</div>
-            <div class="indicator">
-              <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
-            </div>
-          </div>
-          <i class='bx bxs-cart-add cart two' ></i>
-        </div>
-        <div class="box">
-          <div class="right-side">
-            <div class="box-topic">Total Profit</div>
-            <div class="number">$12,876</div>
-            <div class="indicator">
-              <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
-            </div>
-          </div>
-          <i class='bx bx-cart cart three' ></i>
-        </div>
-        <div class="box">
-          <div class="right-side">
-            <div class="box-topic">Total Return</div>
-            <div class="number">11,086</div>
-            <div class="indicator">
-              <i class='bx bx-down-arrow-alt down'></i>
-              <span class="text">Down From Today</span>
-            </div>
-          </div>
-          <i class='bx bxs-cart-download cart four' ></i>
-        </div>
-      </div>
 
+    <div class="home-content">
       <div class="sales-boxes">
-        <div class="recent-sales box">
-          <div class="title">Recent Sales</div>
-          <div class="sales-details">
-            <ul class="details">
-              <li class="topic">Date</li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-            </ul>
-            <ul class="details">
-            <li class="topic">Customer</li>
-            <li><a href="#">Alex Doe</a></li>
-            <li><a href="#">David Mart</a></li>
-            <li><a href="#">Roe Parter</a></li>
-            <li><a href="#">Diana Penty</a></li>
-            <li><a href="#">Martin Paw</a></li>
-            <li><a href="#">Doe Alex</a></li>
-            <li><a href="#">Aiana Lexa</a></li>
-            <li><a href="#">Rexel Mags</a></li>
-             <li><a href="#">Tiana Loths</a></li>
-          </ul>
-          <ul class="details">
-            <li class="topic">Sales</li>
-            <li><a href="#">Delivered</a></li>
-            <li><a href="#">Pending</a></li>
-            <li><a href="#">Returned</a></li>
-            <li><a href="#">Delivered</a></li>
-            <li><a href="#">Pending</a></li>
-            <li><a href="#">Returned</a></li>
-            <li><a href="#">Delivered</a></li>
-             <li><a href="#">Pending</a></li>
-            <li><a href="#">Delivered</a></li>
-          </ul>
-          <ul class="details">
-            <li class="topic">Total</li>
-            <li><a href="#">$204.98</a></li>
-            <li><a href="#">$24.55</a></li>
-            <li><a href="#">$25.88</a></li>
-            <li><a href="#">$170.66</a></li>
-            <li><a href="#">$56.56</a></li>
-            <li><a href="#">$44.95</a></li>
-            <li><a href="#">$67.33</a></li>
-             <li><a href="#">$23.53</a></li>
-             <li><a href="#">$46.52</a></li>
-          </ul>
-          </div>
-          <div class="button">
-            <a href="#">See All</a>
-          </div>
-        </div>
         <div class="top-sales box">
-          <div class="title">Top Seling Product</div>
-          <ul class="top-sales-details">
-            <li>
-            <a href="#">
-              <img src="images/sunglasses.jpg" alt="">
-              <span class="product">Vuitton Sunglasses</span>
-            </a>
-            <span class="price">$1107</span>
-          </li>
-          <li>
-            <a href="#">
-               <img src="images/jeans.jpg" alt="">
-              <span class="product">Hourglass Jeans </span>
-            </a>
-            <span class="price">$1567</span>
-          </li>
-          <li>
-            <a href="#">
-             <img src="images/nike.jpg" alt="">
-              <span class="product">Nike Sport Shoe</span>
-            </a>
-            <span class="price">$1234</span>
-          </li>
-          <li>
-            <a href="#">
-              <img src="images/scarves.jpg" alt="">
-              <span class="product">Hermes Silk Scarves.</span>
-            </a>
-            <span class="price">$2312</span>
-          </li>
-          <li>
-            <a href="#">
-              <img src="images/blueBag.jpg" alt="">
-              <span class="product">Succi Ladies Bag</span>
-            </a>
-            <span class="price">$1456</span>
-          </li>
-          <li>
-            <a href="#">
-              <img src="images/bag.jpg" alt="">
-              <span class="product">Gucci Womens's Bags</span>
-            </a>
-            <span class="price">$2345</span>
-          <li>
-            <a href="#">
-              <img src="images/addidas.jpg" alt="">
-              <span class="product">Addidas Running Shoe</span>
-            </a>
-            <span class="price">$2345</span>
-          </li>
-<li>
-            <a href="#">
-             <img src="images/shirt.jpg" alt="">
-              <span class="product">Bilack Wear's Shirt</span>
-            </a>
-            <span class="price">$1245</span>
-          </li>
-          </ul>
+          <div class="row">
+          <div class="col-md-6 col-12 title">SET ALLOTMENT LIMIT</div>
+          </div> <!--class row close div-->
+
+          <?php
+          if(isset($_SESSION['success_msg']))
+          {
+            ?>
+          <div class="alert alert-success mt-3 text-center font-weight-bold" role="alert"><?php echo $_SESSION['success_msg'];?></div>
+          <?php
+            unset($_SESSION['success_msg']);
+          }
+          ?>
+
+          <?php
+include("../include/allotment_db.php");
+if($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+    $allotment_type = $_POST['allotment_type'];
+    $bio = $_POST['bio'];
+    $cs = $_POST['cs'];
+    $com = $_POST['com'];
+    $hum = $_POST['hum'];
+
+// Options for the dropdown menu
+$options = array("First Allotment", "Second Allotment", "Third Allotment");
+    
+    
+    // Prepare the SQL statement
+    $sql = "INSERT INTO allotment_limit_data(allotment_type, bio, cs, com, hum) VALUES ('$allotment_type','$bio','$cs','$com','$hum')";
+    
+    // Execute the SQL statement
+    if ($allot_conn->query($sql) === TRUE) {
+        ?>
+        <div class="alert alert-success mt-3 text-center font-weight-bold" role="alert">ALLOTMENT LIMIT SET SUCCESSFULLY</div>
+        <?php
+    } else {
+        echo "Error: " . $sql . "<br>" . $allot_conn->error;
+    }
+    
+    // Close connection
+    $allot_conn->close();
+}
+?>
+
+          <form method="POST" class="needs-validation mt-5" novalidate>
+
+          <div class="form-row">
+    <div class="col-md-12 mb-3">
+        <label for="validationCustom01">Select The Allotment</label>
+        <select class="custom-select" name="allotment_type">
+            <option selected>Choose....</option>
+            <?php
+            // Assume $conn is your database connection
+            // You should replace this with your actual database connection code
+
+            // Fetch existing options from the database
+            $query = "SELECT DISTINCT allotment_type FROM allotment_limit_data";
+            $result = mysqli_query($allot_conn, $query);
+
+            // Create an array to store existing options
+            $existing_options = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                $existing_options[] = $row['allotment_type'];
+            }
+
+            // Define all options
+            $all_options = array("First Allotment", "Second Allotment", "Third Allotment");
+
+            // Filter out existing options
+            $remaining_options = array_diff($all_options, $existing_options);
+
+            // Generate options for dropdown
+            foreach ($remaining_options as $option) {
+                echo "<option value='$option'>$option</option>";
+            }
+            ?>
+        </select>
+    </div>
+</div>
+
+
+<?php
+// Close connection
+$allot_conn->close();
+?>
+
+  <table class="table table-bordered mt-5">
+    <tbody>
+      <tr>
+        <td class="font-weight-bold">Bio-Mathematics</td>
+        <td style="text-align: center;"><input type="number" class="form-control" placeholder="Enter the Limit" name="bio" id="validation1" style="width:500px; margin: auto;" required min="0" max="1000">
+        <div id="validationWarning" class="invalid-feedback" style="display:none;">Please enter a value between 0 and 1000.</div>
+    </td>
+        </tr>
+      <tr>
+        <td class="font-weight-bold">Computer-Mathematics</td>
+        <td style="text-align: center;"><input type="number" class="form-control" placeholder="Enter the Limit" name="cs" id="validation2" style="width:500px; margin: auto;" required min="0" max="1000">
+    <div id="validationWarning" class="invalid-feedback" style="display:none;">Please enter a value between 0 and 1000.</div>
+    </td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">Commerce</td>
+        <td style="text-align: center;"><input type="number" class="form-control" placeholder="Enter the Limit" name="com" id="validation3" style="width:500px; margin: auto;" required min="0" max="1000">
+        <div id="validationWarning" class="invalid-feedback" style="display:none;">Please enter a value between 0 and 100.</div>
+    </td>
+        </tr>
+      <tr>
+        <td class="font-weight-bold">Humanities</td>
+        <td style="text-align: center;"><input type="number" class="form-control" placeholder="Enter the Limit" name="hum" id="validation4" style="width:500px; margin: auto;" required min="0" max="1000">
+        <div id="validationWarning" class="invalid-feedback" style="display:none;">Please enter a value between 0 and 100.</div>
+    </td>
+</tr>
+    </tbody>
+  </table>
+
+  <script>
+  $(document).ready(function() {
+    $('input[type="number"]').on('input', function() {
+      var value = parseInt($(this).val());
+      var min = parseInt($(this).attr('min'));
+      var max = parseInt($(this).attr('max'));
+      var warningMessage = $(this).siblings('.invalid-feedback');
+
+      if (isNaN(value) || value < min || value > max) {
+        $(this).addClass('is-invalid');
+        $(this).removeClass('is-valid');
+        warningMessage.show();
+      } else {
+        $(this).addClass('is-valid');
+        $(this).removeClass('is-invalid');
+        warningMessage.hide();
+      }
+    });
+  });
+</script>
+
+
+
+  <button class="btn btn-primary" type="submit">Save Limit</button>
+</form>
+
+
+<!-- display the facult deatils -->
+<br><br>
+<?php
+        $i=1;
+        include("../include/allotment_db.php");
+$sql = "SELECT * FROM allotment_limit_data";
+$result = mysqli_query($allot_conn, $sql);
+if (mysqli_num_rows($result) > 0) 
+{
+?>
+<table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
+        <thead align=center>
+            <tr>
+              <th>Allotement Type</th>
+              <th>Bio - Mathematics</th>
+              <th>Computer - Mathematics</th>
+              <th>Commerce</th>
+              <th>Humanities</th>
+              <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        <?php
+  while($row = mysqli_fetch_assoc($result)) 
+  {
+?>
+
+<tr align=center>
+              <td><?php echo $row['allotment_type'];?></td>
+              <td><?php echo $row['bio'];?></td>
+              <td ><?php echo $row['cs'];?></td>
+              <td><?php echo $row['com'];?></td>
+              <td><?php echo $row['hum'];?></td>
+              <td><a href="limit_delete.php?allotment_type=<?php echo $row['allotment_type'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
+            </tr>
+        </tbody>
+    </table> 
+    <?php
+  }
+} 
+else 
+{
+  echo '<div class="alert alert-danger text-center text-uppercase font-weight-bold" role="alert">
+  NO RECORDS FOUND.....!
+</div>';
+}
+?>
+
         </div>
       </div>
     </div>
   </section>
+
+
+
+  <script>
+        const imgArea = document.querySelector('.img-area');
+        const inputFile = document.querySelector('#file');
+
+        imgArea.addEventListener('click', function () {
+            inputFile.click();
+        });
+
+        inputFile.addEventListener('change', function () {
+            const image = this.files[0];
+            
+            if (image.size < 2000000) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const allImg = imgArea.querySelectorAll('img');
+                    allImg.forEach(item => item.remove());
+                    const imgUrl = reader.result;
+                    const img = document.createElement('img');
+                    img.src = imgUrl;
+                    imgArea.appendChild(img);
+                    imgArea.classList.add('active');
+                    imgArea.dataset.img = image.name;
+                };
+                reader.readAsDataURL(image);
+            } else {
+                alert("Image size more than 2MB");
+            }
+        });
+    </script>
+
+  <script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+
+<script>
+    // Get the input element
+    var mobileNumberInput = document.getElementById('validationCustom05');
+    
+    // Attach an input event listener to the input field
+    mobileNumberInput.addEventListener('input', function () {
+      // Get the value entered by the user
+      var enteredValue = mobileNumberInput.value;
+
+      // Remove any non-numeric characters
+      var numericValue = enteredValue.replace(/\D/g, '');
+
+      // Check if the numeric value is between 10 and 10 characters
+      if (numericValue.length === 10) {
+        // Clear any previous error message
+        document.getElementById('error-message').textContent = '';
+      } else {
+        // Display an error message
+        document.getElementById('error-message').textContent = 'Mobile number must be 10 digits.';
+      }
+    });
+  </script>
 
   <script>
   function toggleFullScreen() {

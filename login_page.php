@@ -80,6 +80,7 @@ if(isset($_POST['u_login'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | School Management</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" type="image/x-icon" href="assets/images/school_logo.png">
     <style>
         input[type=email], input[type=password] {
@@ -101,6 +102,7 @@ if(isset($_POST['u_login'])) {
     </style>
 </head>
 <body>
+<a href="landing_page.php" style="font-size:28px;"><div class="arrow" style="margin-left:10px;"><i class='bx bx-arrow-back'></i></div></a>
 <div class="login-container mt-n5">
     <div class="login-form mt-n5">
         <form method="POST">

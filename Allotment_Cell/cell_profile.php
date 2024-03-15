@@ -610,13 +610,13 @@ nav .profile .profile-link a:hover {
           </a>
         </li>
         <li>
-          <a href="change_principal.php">
+          <a href="set_limit.php">
             <i class='bx bxs-user-circle' ></i>
             <span class="links_name">Set Allotment Limit</span>
           </a>
         </li>
         <li>
-          <a href="change_principal.php">
+          <a href="view_result.php">
             <i class='bx bx-user-plus' ></i>
             <span class="links_name">View Allotment Details</span>
           </a>
