@@ -177,27 +177,50 @@ $row = $result->fetch_assoc();
 
 
 
-$marks = 920; // You can replace this with the actual marks obtained
 
-$data = ['marks' => $marks];
+// Function to recommend courses based on student interest
+function recommend_course_ml($student_interest) {
+    $interests = ['Engineering', 'Medicine', 'Teaching', 'Business', 'Law', 'Information Technology'];
+    $recommendations = [
+        'Engineering' => ['Physics', 'Chemistry', 'Biology', 'Mathematics'],
+        'Medicine' => ['Physics', 'Chemistry', 'Biology', 'Mathematics'],
+        'Teaching' => [['Physics', 'Chemistry', 'Biology', 'Mathematics'], 
+                       ['Physics', 'Chemistry', 'Mathematics', 'Computer Science'],
+                       ['Business Studies', 'Accountancy', 'Economics', 'Computer Application'],
+                       ['History', 'Economics', 'Political Studies', 'Social Work']],
+        'Business' => [['Business Studies', 'Accountancy', 'Economics', 'Computer Application'],
+                       ['History', 'Economics', 'Political Studies', 'Social Work']],
+        'Law' => ['History', 'Economics', 'Political Studies', 'Social Work'],
+        'Information Technology' => [['Physics', 'Chemistry', 'Mathematics', 'Computer Science'],
+                                      ['Business Studies', 'Accountancy', 'Economics', 'Computer Application']]
+    ];
+    
+    $recommended_courses = $recommendations[$student_interest];
+    return $recommended_courses;
+}
 
-$url = 'http://127.0.0.1:5000/recommend-course'; // Replace with the actual Flask server URL
-
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-
-$response = curl_exec($ch);
-curl_close($ch);
-
-$result = json_decode($response, true);
-
-$recommendedCourse = $result['recommended_course'] ?? "BETTER LUCK NEXT TIME";
-
-echo $recommendedCourse;
-
+// Simple router for handling GET requests
+$request_method = $_SERVER["REQUEST_METHOD"];
+if ($request_method === "GET") {
+    $path = $_SERVER["REQUEST_URI"];
+    if ($path === "/recommend_courses") {
+        $student_interest = $_GET["interest"];
+        $recommended_courses = recommend_course_ml($student_interest);
+        $groups = array_chunk($recommended_courses, 4);
+        $response = [];
+        foreach ($groups as $index => $group) {
+            $response["Group " . ($index + 1)] = $group;
+        }
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } else {
+        // Return a message for paths other than "/recommend_courses"
+        echo "Invalid path.";
+    }
+} else {
+    // Return a message for request methods other than GET
+    echo "Method not allowed.";
+}
 
 
 
