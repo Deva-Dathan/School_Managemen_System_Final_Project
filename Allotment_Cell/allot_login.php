@@ -106,9 +106,6 @@ mysqli_close($allot_conn);
                 <label for="dob">Date of Birth</label>
                 <input type="date" name="dob" id="dob" class="form-control" min="2005-01-01" max="2009-12-31" required>
               </div>
-              <div class="form-group">
-                <a href="forgot_password.php" class="float-right">Forgot Password?</a>
-              </div>
               <button type="submit" class="btn btn-primary btn-block">Login</button>
             </form>
           </div>

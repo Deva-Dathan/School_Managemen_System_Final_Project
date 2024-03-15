@@ -33,30 +33,40 @@
 <?php include("../loader.php");?>
   <div class="container">
 
+  <?php
+include("../include/allotment_db.php");
+if($_SERVER['REQUEST_METHOD'] == 'POST') 
+{
+  $email_id = $_POST['email_id'];
+  $sql = "SELECT * FROM `register_tbl` WHERE email_id = '$email_id'";
+
+  $result = mysqli_query($allot_conn, $sql);
+
+  if(mysqli_num_rows($result) > 0) 
+  {
+      echo "<p>Email ID found in the database. You can proceed with further actions.</p>";
+  }
+  else 
+  {
+      echo "<p>Email ID not found in the database. Please enter a valid email ID.</p>";
+  }
+}
+?>
+
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
-            <h4 class="text-center font-weight-bold">CANDIDATE LOGIN</h4>
+            <h4 class="text-center font-weight-bold">FORGOT PASSWORD</h4>
           </div>
           <div class="card-body">
             <form method="POST">
               <div class="form-group">
                 <label for="candidateNo">Registered Mail ID</label>
-                <input type="email" name="candidateNo" id="candidateNo" class="form-control" required>
+                <input type="email" name="email_id" id="email_id" class="form-control" required>
               </div>
-              <div class="form-group">
-                <label for="dob">Date of Birth</label>
-                <input type="date" name="dob" id="dob" class="form-control" min="2005-01-01" max="2009-12-31" required>
-              </div>
-              <div class="form-group">
-                <a href="forgot_password.php" class="float-right">Forgot Password?</a>
-              </div>
-              <button type="submit" class="btn btn-primary btn-block">Login</button>
+              <button type="submit" class="btn btn-success btn-block">Send OTP</button>
             </form>
-          </div>
-          <div class="card-footer">
-            <small>New User ? <a href="allot_registration.php">Register here</a></small>
           </div>
         </div>
       </div>
