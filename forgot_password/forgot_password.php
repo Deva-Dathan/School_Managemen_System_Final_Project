@@ -61,9 +61,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             $mail->IsHTML(true);
             $mail->CharSet = 'UTF-8';
             //$mail->SMTPDebug = 2; 
-            $mail->Username = "ghssautonomousschool@gmail.com";
-            $mail->Password = "rmaqplwqihxvoptx";
-            $mail->SetFrom("ghssautonomousschool@gmail.com");
+            $mail->Username = "sender's email ID";
+            $mail->Password = "sender's app password";
+            $mail->SetFrom("sender's email ID");
             $mail->Subject = $subject;
             $mail->Body = $msg;
             $mail->AddAddress($to);
