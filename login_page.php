@@ -103,6 +103,17 @@ if(isset($_POST['u_login'])) {
 </head>
 <body>
 <a href="landing_page.php" style="font-size:28px;"><div class="arrow" style="margin-left:10px;"><i class='bx bx-arrow-back'></i></div></a>
+
+<?php
+    if(isset($_SESSION['reset_success']))
+    {
+      ?>
+<div class="alert alert-success text-center font-weight-bold mt-3" role="alert"><?php echo $_SESSION['reset_success'];?></div>
+    <?php
+      unset($_SESSION['reset_success']);
+    }
+    ?>
+
 <div class="login-container mt-n5">
     <div class="login-form mt-n5">
         <form method="POST">
@@ -120,6 +131,9 @@ if(isset($_POST['u_login'])) {
                 <input type="password" name="password" class="form-control" placeholder="PASSWORD" required>
             </div>
             <button type="submit" name="u_login" class="btn btn-primary btn-block">Log in</button>
+            <div class="text-center font-weight-bold mt-3">
+                <a href="forgot_password/forgot_password.php" style="color:red;">FORGOT PASSWORD ?</a>
+            </div>
         </form>
     </div>
 </div>
