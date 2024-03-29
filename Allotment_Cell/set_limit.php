@@ -702,45 +702,6 @@ $options = array("First Allotment", "Second Allotment", "Third Allotment");
 
           <form method="POST" class="needs-validation mt-5" novalidate>
 
-          <div class="form-row">
-    <div class="col-md-12 mb-3">
-        <label for="validationCustom01">Select The Allotment</label>
-        <select class="custom-select" name="allotment_type">
-            <option selected>Choose....</option>
-            <?php
-            // Assume $conn is your database connection
-            // You should replace this with your actual database connection code
-
-            // Fetch existing options from the database
-            $query = "SELECT DISTINCT allotment_type FROM allotment_limit_data";
-            $result = mysqli_query($allot_conn, $query);
-
-            // Create an array to store existing options
-            $existing_options = array();
-            while ($row = mysqli_fetch_assoc($result)) {
-                $existing_options[] = $row['allotment_type'];
-            }
-
-            // Define all options
-            $all_options = array("First Allotment", "Second Allotment", "Third Allotment");
-
-            // Filter out existing options
-            $remaining_options = array_diff($all_options, $existing_options);
-
-            // Generate options for dropdown
-            foreach ($remaining_options as $option) {
-                echo "<option value='$option'>$option</option>";
-            }
-            ?>
-        </select>
-    </div>
-</div>
-
-
-<?php
-// Close connection
-$allot_conn->close();
-?>
 
   <table class="table table-bordered mt-5">
     <tbody>
@@ -811,7 +772,6 @@ if (mysqli_num_rows($result) > 0)
 <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
         <thead align=center>
             <tr>
-              <th>Allotement Type</th>
               <th>Bio - Mathematics</th>
               <th>Computer - Mathematics</th>
               <th>Commerce</th>
@@ -827,12 +787,11 @@ if (mysqli_num_rows($result) > 0)
 ?>
 
 <tr align=center>
-              <td><?php echo $row['allotment_type'];?></td>
               <td><?php echo $row['bio'];?></td>
               <td ><?php echo $row['cs'];?></td>
               <td><?php echo $row['com'];?></td>
               <td><?php echo $row['hum'];?></td>
-              <td><a href="limit_delete.php?allotment_type=<?php echo $row['allotment_type'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
+              <td><a href="limit_delete.php?allotment_type=<?php echo $row['limit_id'];?>"><button class="btn btn-danger"><i class="bx bxs-trash"></i></button></a></td>
             </tr>
         </tbody>
     </table> 

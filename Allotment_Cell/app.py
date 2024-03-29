@@ -1,55 +1,54 @@
 from flask import Flask, request, jsonify
-from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier
-import itertools
+from sklearn.preprocessing import MultiLabelBinarizer
 
 app = Flask(__name__)
 
-# Define the mapping of interests to recommended courses
-interests = ['Engineering', 'Medicine', 'Teaching', 'Business', 'Law', 'Information Technology']
-recommendations = {
-    'Engineering': ['Physics', 'Chemistry', 'Biology', 'Mathematics'],
-    'Medicine': ['Physics', 'Chemistry', 'Biology', 'Mathematics'],
-    'Teaching': [['Physics', 'Chemistry', 'Biology', 'Mathematics'], 
-                 ['Physics', 'Chemistry', 'Mathematics', 'Computer Science'],
-                 ['Business Studies', 'Accountancy', 'Economics', 'Computer Application'],
-                 ['History', 'Economics', 'Political Studies', 'Social Work']],
-    'Business': [['Business Studies', 'Accountancy', 'Economics', 'Computer Application'],
-                 ['History', 'Economics', 'Political Studies', 'Social Work']],
-    'Law': ['History', 'Economics', 'Political Studies', 'Social Work'],
-    'Information Technology': [['Physics', 'Chemistry', 'Mathematics', 'Computer Science'],
-                                ['Business Studies', 'Accountancy', 'Economics', 'Computer Application']]
+# Define the mapping between interests and courses
+interests_courses_mapping = {
+    "Engineering": ["Physics, Chemistry, Biology, Mathematics", "Physics, Chemistry, Mathematics, Computer Science"],
+    "Medicine": ["Physics, Chemistry, Biology, Mathematics"],
+    "Teaching": ["Physics, Chemistry, Biology, Mathematics",
+                 "Physics, Chemistry, Mathematics, Computer Science",
+                 "Business Studies, Accountancy, Economics, Computer Application",
+                 "History, Economics, Political Studies, Social Work"],
+    "Business": ["Business Studies, Accountancy, Economics, Computer Application",
+                 "History, Economics, Political Studies, Social Work"],
+    "Law": ["History, Economics, Political Studies, Social Work"],
+    "Information Technology": ["Physics, Chemistry, Mathematics, Computer Science",
+                               "Business Studies, Accountancy, Economics, Computer Application"]
 }
 
-# Prepare the data
-X = [[interest] for interest in interests]
-y = ['|'.join(list(itertools.chain.from_iterable(rec))) if isinstance(rec[0], list) else ','.join(rec) for rec in recommendations.values()]
+# Function to recommend courses based on student's interest
+def recommend_courses(interest, st_options):
+    recommended_courses = interests_courses_mapping.get(interest, [])
+    if recommended_courses:
+        for option in st_options:
+            for course in recommended_courses:
+                if course in option:
+                    return course
+    return "No recommendations available for this interest."
 
-# Encoding labels
-label_encoder_X = LabelEncoder()
-label_encoder_y = LabelEncoder()
-X_encoded = label_encoder_X.fit_transform(interests)
-y_encoded = label_encoder_y.fit_transform(y)
+# Convert courses mapping to binary format
+mlb = MultiLabelBinarizer()
+courses_encoded = mlb.fit_transform(interests_courses_mapping.values())
 
-# Train the decision tree classifier
+# Train Decision Tree classifier
 clf = DecisionTreeClassifier()
-clf.fit(X_encoded.reshape(-1, 1), y_encoded)
+clf.fit(courses_encoded, list(interests_courses_mapping.keys()))
 
-# Function to recommend courses based on student interest using the trained classifier
-def recommend_course_ml(student_interest):
-    interest_encoded = label_encoder_X.transform([student_interest])
-    predicted_courses_encoded = clf.predict(interest_encoded.reshape(-1, 1))
-    predicted_courses = label_encoder_y.inverse_transform(predicted_courses_encoded)
-    return predicted_courses[0].split('|') if '|' in predicted_courses[0] else predicted_courses[0].split(',')
-
-@app.route('/recommend_courses', methods=['GET'])
-def recommend_courses():
-    student_interest = request.args.get('interest')
-    recommended_courses = recommend_course_ml(student_interest)
-    groups = [recommended_courses[:4], recommended_courses[4:8], recommended_courses[8:12], recommended_courses[12:]]
-    non_empty_groups = [group for group in groups if group]
-    response = {f"Group {i}": group for i, group in enumerate(non_empty_groups, start=1)}
-    return jsonify(response)
+@app.route('/recommend', methods=['POST'])
+def get_recommendations():
+    data = request.json
+    student_interest = data.get('interest')
+    st_options = [
+        data.get('option_1', ''),
+        data.get('option_2', ''),
+        data.get('option_3', ''),
+        data.get('option_4', '')
+    ]
+    recommended_course = recommend_courses(student_interest, st_options)
+    return jsonify({"recommended_course": recommended_course})
 
 if __name__ == '__main__':
     app.run(debug=True)

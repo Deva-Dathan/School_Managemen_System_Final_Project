@@ -132,7 +132,7 @@ if(isset($_POST['u_login'])) {
             </div>
             <button type="submit" name="u_login" class="btn btn-primary btn-block">Log in</button>
             <div class="text-center font-weight-bold mt-3">
-                <a href="forgot_password/forgot_password.php" style="color:red;">FORGOT PASSWORD ?</a>
+                <a href="forgot_password/forgot_password.php" style="text-decoration:none; color:grey;"><i class='bx bxs-lock-alt'></i>&nbspFORGOT PASSWORD ?</a>
             </div>
         </form>
     </div>

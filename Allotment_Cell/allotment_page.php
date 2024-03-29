@@ -148,6 +148,54 @@ session_start();
 
 
 <!-- ALLOTMENT RESULT PRINTING RESULT -->
+    
+<?php
+include("../include/allotment_db.php");
+
+// Retrieving the student's SSLC mark
+$sql = "SELECT * FROM candidate_mark WHERE app_no = {$_SESSION['app_no']}";
+$result = $allot_conn->query($sql);
+$row = $result->fetch_assoc();
+
+// Fetching the second set of data from the database
+$sql1 = "SELECT * FROM interested_tbl WHERE app_no = {$_SESSION['app_no']}";
+$result1 = $allot_conn->query($sql1);
+$row1 = $result1->fetch_assoc();
+$interest = $row1['interested_in'];
+
+// Fetching options based on the data fetched from the second SQL query
+$sql2 = "SELECT * FROM option_tbl WHERE app_no = {$_SESSION['app_no']}";
+$result2 = $allot_conn->query($sql2);
+$row2 = $result2->fetch_assoc();
+$option_1 = $row2['option_1'];
+$option_2 = $row2['option_2'];
+$option_3 = $row2['option_3'];
+$option_4 = $row2['option_4'];
+
+// Send POST request to Flask server
+$flaskUrl = 'http://localhost:5000/recommend';
+$postData = json_encode([
+    'interest' => $interest,
+    'option_1' => $option_1,
+    'option_2' => $option_2,
+    'option_3' => $option_3,
+    'option_4' => $option_4
+]);
+$options = [
+    'http' => [
+        'method' => 'POST',
+        'header' => 'Content-type: application/json',
+        'content' => $postData
+    ]
+];
+$context = stream_context_create($options);
+$response = file_get_contents($flaskUrl, false, $context);
+$responseData = json_decode($response, true); // Decode JSON as associative arrays
+
+// Print the recommended courses
+if (isset($responseData['recommended_course'])) {
+    $recommended_course = $responseData['recommended_course'];
+    ?>
 <div class="col-md-12 font-weight-bold text-center mt-5">
         <p style="display: inline; color:blue; font-size:20px;">Status of Allotment - </p>
         <p style="display: inline; color:green; font-size:20px;">Congratulations !!! You have got Allotment</p>
@@ -161,96 +209,32 @@ session_start();
     <div class="col-md-12 font-weight-bold text-center">
         <p style="display: inline;">Allotted Course - </p>
         <p style="display: inline; color:green;">
-    
-        <?php
-include("../include/allotment_db.php");
-// Retrived the student's SSLC mark
-$sql = "SELECT * FROM candidate_mark WHERE app_no = {$_SESSION['app_no']}";
-$result = $allot_conn->query($sql);
-$row = $result->fetch_assoc();
-
-// $marks = $row['mal1'] + $row['mal2'] + $row['english'] + $row['hindi'] + $row['maths'] + $row['ss'] + $row['physics'] + $row['chemistry'] + $row['biology'] + $row['IT'];
-
-
-
-
-
-
-
-
-// Function to recommend courses based on student interest
-function recommend_course_ml($student_interest) {
-    $interests = ['Engineering', 'Medicine', 'Teaching', 'Business', 'Law', 'Information Technology'];
-    $recommendations = [
-        'Engineering' => ['Physics', 'Chemistry', 'Biology', 'Mathematics'],
-        'Medicine' => ['Physics', 'Chemistry', 'Biology', 'Mathematics'],
-        'Teaching' => [['Physics', 'Chemistry', 'Biology', 'Mathematics'], 
-                       ['Physics', 'Chemistry', 'Mathematics', 'Computer Science'],
-                       ['Business Studies', 'Accountancy', 'Economics', 'Computer Application'],
-                       ['History', 'Economics', 'Political Studies', 'Social Work']],
-        'Business' => [['Business Studies', 'Accountancy', 'Economics', 'Computer Application'],
-                       ['History', 'Economics', 'Political Studies', 'Social Work']],
-        'Law' => ['History', 'Economics', 'Political Studies', 'Social Work'],
-        'Information Technology' => [['Physics', 'Chemistry', 'Mathematics', 'Computer Science'],
-                                      ['Business Studies', 'Accountancy', 'Economics', 'Computer Application']]
-    ];
-    
-    $recommended_courses = $recommendations[$student_interest];
-    return $recommended_courses;
-}
-
-// Simple router for handling GET requests
-$request_method = $_SERVER["REQUEST_METHOD"];
-if ($request_method === "GET") {
-    $path = $_SERVER["REQUEST_URI"];
-    if ($path === "/recommend_courses") {
-        $student_interest = $_GET["interest"];
-        $recommended_courses = recommend_course_ml($student_interest);
-        $groups = array_chunk($recommended_courses, 4);
-        $response = [];
-        foreach ($groups as $index => $group) {
-            $response["Group " . ($index + 1)] = $group;
-        }
-        header('Content-Type: application/json');
-        echo json_encode($response);
-    } else {
-        // Return a message for paths other than "/recommend_courses"
-        echo "Invalid path.";
-    }
-} else {
-    // Return a message for request methods other than GET
-    echo "Method not allowed.";
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Retrived the student's interest
-// $sql1 = "SELECT * FROM interested_tbl WHERE app_no = {$_SESSION['app_no']}";
-// $result1 = $allot_conn->query($sql1);
-// $row1 = $result1->fetch_assoc();
+<?php
+        echo $recommended_course;
 ?>
-
         </p>
     </div>
+    <?php
+} 
+else
+{
+?>
+    <div class="col-md-12 font-weight-bold text-center mt-5">
+        <p style="display: inline; color:blue; font-size:20px;">Status of Allotment - </p>
+        <p style="display: inline; color:red; font-size:20px;">Sorry !!! You're Not Eligible</p>
+</div>
+    <div class="col-md-12 font-weight-bold text-center mt-4">
+        <p style="display: inline;">Allotted School - </p>
+        <p style="display: inline; color:red;">No School is Allotted</p>
+    </div>
+    <div class="col-md-12 font-weight-bold text-center">
+        <p style="display: inline;">Allotted Course - </p>
+        <p style="display: inline; color:red;">No Course is Allotted</p>
+    </div>
+<?php
+}
+?>
+
 
 </div>
 </div>
