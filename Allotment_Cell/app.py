@@ -43,7 +43,7 @@ def recommend_courses_with_marks(interest, course_marks_data):
 def get_recommendations():
     data = request.json
     student_interest = data.get('interest')
-    student_mark = 880
+    student_mark = data.get('student_mark')
     st_options = [  
         data.get('option_1', ''),
         data.get('option_2', ''),

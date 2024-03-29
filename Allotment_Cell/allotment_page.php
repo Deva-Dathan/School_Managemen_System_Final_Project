@@ -181,6 +181,7 @@ $row3 = $result3->fetch_assoc();
 $sql4 = "SELECT * FROM allotment_limit_data";
 $result4 = $allot_conn->query($sql4);
 $row4 = $result4->fetch_assoc();
+$student_mark = $row3['mal1'] + $row3['mal2'] + $row3['english'] + $row3['hindi'] + $row3['maths'] + $row3['ss'] + $row3['physics'] + $row3['chemistry'] + $row3['biology'] + $row3['IT'];
 
 // Prepare the data to be sent to Flask server
 $postData = json_encode([
@@ -189,6 +190,7 @@ $postData = json_encode([
     'option_2' => $option_2,
     'option_3' => $option_3,
     'option_4' => $option_4,
+    'student_mark' => $student_mark,
     'bio' => $row4['bio'],
     'cs' => $row4['cs'],
     'com' => $row4['com'],
