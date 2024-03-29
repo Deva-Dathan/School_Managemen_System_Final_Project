@@ -710,7 +710,6 @@ nav .profile .profile-link a:hover {
         <tr>
             <th>Subject Code</th>
             <th>Subject</th>
-            <th>Exam Date</th>
             <th>Exam Score</th>
         </tr>
     </thead>
@@ -725,7 +724,6 @@ nav .profile .profile-link a:hover {
                 <tr>
                     <td><?php echo $row['subject_code']; ?></td>
                     <td><?php echo $subject_name; ?></td>
-                    <td>05-JAN-2024</td>
                     <td>
                         <?php
                         $sql1 = "SELECT exam_score FROM exam_mark WHERE subject = '$subject_name'";
