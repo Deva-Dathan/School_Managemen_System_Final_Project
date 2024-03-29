@@ -20,35 +20,67 @@ interests_courses_mapping = {
 }
 
 # Function to recommend courses based on student's interest
-def recommend_courses(interest, st_options):
-    recommended_courses = interests_courses_mapping.get(interest, [])
+def recommend_courses(interest):
+    return interests_courses_mapping.get(interest, [])
+
+# Function to recommend courses with marks based on student's interest
+def recommend_courses_with_marks(interest, course_marks_data):
+    recommended_courses = recommend_courses(interest)
     if recommended_courses:
-        for option in st_options:
-            for course in recommended_courses:
-                if course in option:
-                    return course
-    return "No recommendations available for this interest."
+        recommended_courses_with_marks = [(course, course_marks_data.get(course, 0)) for course in recommended_courses]
+        recommended_courses_with_marks.sort(key=lambda x: x[1], reverse=True)
+        return recommended_courses_with_marks
+    else:
+        return []
 
-# Convert courses mapping to binary format
-mlb = MultiLabelBinarizer()
-courses_encoded = mlb.fit_transform(interests_courses_mapping.values())
+# cm = recommend_courses_with_marks(interest, course_marks_data)
 
-# Train Decision Tree classifier
-clf = DecisionTreeClassifier()
-clf.fit(courses_encoded, list(interests_courses_mapping.keys()))
+# print("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC:")
+# for ccc in cm:
+#     print(ccc)
 
 @app.route('/recommend', methods=['POST'])
 def get_recommendations():
     data = request.json
     student_interest = data.get('interest')
-    st_options = [
+    student_mark = 880
+    st_options = [  
         data.get('option_1', ''),
         data.get('option_2', ''),
         data.get('option_3', ''),
         data.get('option_4', '')
     ]
-    recommended_course = recommend_courses(student_interest, st_options)
-    return jsonify({"recommended_course": recommended_course})
+    
+    course_marks_data = {
+        "Physics, Chemistry, Biology, Mathematics": int(data.get('bio', 0)),
+        "Physics, Chemistry, Mathematics, Computer Science": int(data.get('cs', 0)),
+        "Business Studies, Accountancy, Economics, Computer Application": int(data.get('com', 0)),
+        "History, Economics, Political Studies, Social Work": int(data.get('hum', 0))
+    }
+
+    recommended_courses_with_marks = recommend_courses_with_marks(student_interest, course_marks_data)
+    print("Recommended Courses with Marks:")
+    print(recommended_courses_with_marks)
+
+    if recommended_courses_with_marks:
+        response = {'courses': recommended_courses_with_marks, 'message': None}
+        final_recommended_course = None
+        for option in st_options:
+            for course, mark in recommended_courses_with_marks:
+                if course in option and student_mark >= mark:
+                    final_recommended_course = course
+                    break
+            if final_recommended_course:
+                break
+        if final_recommended_course:
+            response['final_course'] = final_recommended_course
+            print("Final recommended course:", final_recommended_course)
+        else:
+            response['message'] = "Sorry, you haven't scored enough marks for any available course."
+    else:
+        response = {'message': "Sorry, you haven't scored enough marks for allotment."}
+
+    return jsonify(response)
 
 if __name__ == '__main__':
     app.run(debug=True)

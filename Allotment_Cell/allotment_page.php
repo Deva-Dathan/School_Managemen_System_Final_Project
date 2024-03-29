@@ -172,15 +172,31 @@ $option_2 = $row2['option_2'];
 $option_3 = $row2['option_3'];
 $option_4 = $row2['option_4'];
 
-// Send POST request to Flask server
-$flaskUrl = 'http://localhost:5000/recommend';
+// Fetching the marks for different courses
+$sql3 = "SELECT * FROM candidate_mark WHERE app_no = {$_SESSION['app_no']}";
+$result3 = $allot_conn->query($sql3);
+$row3 = $result3->fetch_assoc();
+
+// Fetching the course marks limit data from the database
+$sql4 = "SELECT * FROM allotment_limit_data";
+$result4 = $allot_conn->query($sql4);
+$row4 = $result4->fetch_assoc();
+
+// Prepare the data to be sent to Flask server
 $postData = json_encode([
     'interest' => $interest,
     'option_1' => $option_1,
     'option_2' => $option_2,
     'option_3' => $option_3,
-    'option_4' => $option_4
+    'option_4' => $option_4,
+    'bio' => $row4['bio'],
+    'cs' => $row4['cs'],
+    'com' => $row4['com'],
+    'hum' => $row4['hum']
 ]);
+
+// Send POST request to Flask server
+$flaskUrl = 'http://localhost:5000/recommend';
 $options = [
     'http' => [
         'method' => 'POST',
@@ -189,51 +205,59 @@ $options = [
     ]
 ];
 $context = stream_context_create($options);
-$response = file_get_contents($flaskUrl, false, $context);
-$responseData = json_decode($response, true); // Decode JSON as associative arrays
+$result = file_get_contents($flaskUrl, false, $context);
+if ($result === false) {
+    // Error occurred while making the request
+    echo "Error: Failed to connect to the Flask server.";
+    // Get the last error message
+    $error = error_get_last();
+    if ($error !== null) {
+        // Log the error
+        error_log("Failed to connect to the Flask server: " . $error['message']);
+    }
+    exit; // Exit script to prevent further execution
+}
+
+$responseData = json_decode($result, true); // Decode JSON as associative arrays
 
 // Print the recommended courses
-if (isset($responseData['recommended_course'])) {
-    $recommended_course = $responseData['recommended_course'];
+if (isset($responseData['final_course'])) 
+{
+    $recommended_course = $responseData['final_course'];
     ?>
 <div class="col-md-12 font-weight-bold text-center mt-5">
-        <p style="display: inline; color:blue; font-size:20px;">Status of Allotment - </p>
-        <p style="display: inline; color:green; font-size:20px;">Congratulations !!! You have got Allotment</p>
+    <p style="display: inline; color:blue; font-size:20px;">Status of Allotment - </p>
+    <p style="display: inline; color:green; font-size:20px;">Congratulations !!! You have got Allotment</p>
 </div>
 
 <div class="col-md-12 font-weight-bold text-center mt-4">
-        <p style="display: inline;">Allotted School - </p>
-        <p style="display: inline; color:green;">G H S S Autonomous School (1234)</p>
-    </div>
-
-    <div class="col-md-12 font-weight-bold text-center">
-        <p style="display: inline;">Allotted Course - </p>
-        <p style="display: inline; color:green;">
-<?php
-        echo $recommended_course;
-?>
-        </p>
-    </div>
-    <?php
-} 
-else
-{
-?>
-    <div class="col-md-12 font-weight-bold text-center mt-5">
-        <p style="display: inline; color:blue; font-size:20px;">Status of Allotment - </p>
-        <p style="display: inline; color:red; font-size:20px;">Sorry !!! You're Not Eligible</p>
+    <p style="display: inline;">Allotted School - </p>
+    <p style="display: inline; color:green;">G H S S Autonomous School (1234)</p>
 </div>
-    <div class="col-md-12 font-weight-bold text-center mt-4">
-        <p style="display: inline;">Allotted School - </p>
-        <p style="display: inline; color:red;">No School is Allotted</p>
-    </div>
-    <div class="col-md-12 font-weight-bold text-center">
-        <p style="display: inline;">Allotted Course - </p>
-        <p style="display: inline; color:red;">No Course is Allotted</p>
-    </div>
+
+<div class="col-md-12 font-weight-bold text-center">
+    <p style="display: inline;">Allotted Course - </p>
+    <p style="display: inline; color:green;"><?php echo $recommended_course; ?></p>
+</div>
+<?php
+} else {
+?>
+<div class="col-md-12 font-weight-bold text-center mt-5">
+    <p style="display: inline; color:blue; font-size:20px;">Status of Allotment - </p>
+    <p style="display: inline; color:red; font-size:20px;">Sorry !!! You're Not Eligible</p>
+</div>
+<div class="col-md-12 font-weight-bold text-center mt-4">
+    <p style="display: inline;">Allotted School - </p>
+    <p style="display: inline; color:red;">No School is Allotted</p>
+</div>
+<div class="col-md-12 font-weight-bold text-center">
+    <p style="display: inline;">Allotted Course - </p>
+    <p style="display: inline; color:red;">No Course is Allotted</p>
+</div>
 <?php
 }
 ?>
+
 
 
 </div>
