@@ -636,12 +636,6 @@ nav .profile .profile-link a:hover {
             <span class="links_name">Subject Notes</span>
           </a>
         </li>
-        <!-- <li>
-          <a href="internal_marks.php">
-          <i class='bx bxs-bookmarks'></i>
-            <span class="links_name">Internal Marks</span>
-          </a>
-        </li> -->
       </ul>
   </div>
   <section class="home-section">

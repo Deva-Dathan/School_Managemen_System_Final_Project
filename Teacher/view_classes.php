@@ -593,7 +593,7 @@ nav .profile .profile-link a:hover {
         </li>
         <li>
           <a href="view_students.php">
-            <i class='bx bx-user' ></i>
+            <i class='bx bx-user'></i>
             <span class="links_name">View Student</span>
           </a>
         </li>
@@ -619,18 +619,6 @@ nav .profile .profile-link a:hover {
           <a href="subject_notes.php">
           <i class='bx bxs-notepad'></i>
             <span class="links_name">Subject Notes</span>
-          </a>
-        </li>
-        <li>
-          <a href="create_online_exam.php">
-          <i class='bx bx-bookmarks'></i>
-            <span class="links_name">Online Exam</span>
-          </a>
-        </li>
-        <li>
-          <a href="internal_marks.php">
-          <i class='bx bxs-bookmarks'></i>
-            <span class="links_name">Internal Marks</span>
           </a>
         </li>
       </ul>
