@@ -75,12 +75,6 @@ if ($result) {
               header("Location:reg_2nd.php");
             }
           }
-          else
-          {
-            ?>
-            <div class="alert alert-success mt-3 font-weight-bold" role="alert">CANDIDATE NUMBER OR PASSWORD IS WRONG</div>
-            <?php
-          }
           }
         }
     } 
