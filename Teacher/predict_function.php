@@ -16,7 +16,7 @@ if ($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) 
   {
-    if($row['mark1'] == 0)
+    if($row['mark1'] < 0)
     {
         $exam1 = $row['mark2'];
         $exam2 = $row['mark3'];
@@ -78,7 +78,7 @@ if ($conn->query($predict_sql) === TRUE) {
   header("Location:upload_marks.php");
 }
     }
-    elseif($row['mark2'] == 0)
+    elseif($row['mark2'] < 0)
     {
         $exam1 = $row['mark1'];
         $exam2 = $row['mark3'];
@@ -123,6 +123,15 @@ $options = [
 ];
 $context = stream_context_create($options);
 $response = file_get_contents($flaskUrl, false, $context);
+
+// Check if there was an error connecting to the Flask server
+if ($response === false) {
+    // Handle the case where Flask server is not reachable
+    $_SESSION['predict_error'] = "ERROR: Unable to connect to Flask server.";
+    header("Location: upload_marks.php");
+    exit(); // Exit to prevent further execution of the script
+}
+
 $responseData = json_decode($response, true);
 
 // Extract predicted exam 3 score and R-squared value from Flask server response
@@ -141,7 +150,7 @@ if ($conn->query($predict_sql) === TRUE) {
 }
 
     }
-    elseif($row['mark3'] == 0)
+    elseif($row['mark3'] < 0)
     {
         $exam1 = $row['mark1'];
         $exam2 = $row['mark2'];

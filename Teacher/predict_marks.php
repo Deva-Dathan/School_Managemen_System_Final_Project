@@ -780,8 +780,6 @@ nav .profile .profile-link a:hover {
 
 </script>
 
-
-<button type="submit" name="u_upload" class="btn btn-primary">Upload Marks</button>
 </form>
 <br>
 <hr>

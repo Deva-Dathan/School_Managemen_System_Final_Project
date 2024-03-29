@@ -15,7 +15,6 @@ include("../footer.php");
 ?>
 
 <!DOCTYPE html>
-<!-- Coding by CodingNepal | www.codingnepalweb.com -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
@@ -705,6 +704,16 @@ nav .profile .profile-link a:hover {
             unset($_SESSION['predict_success']);
           }
           ?>
+
+<?php
+          if(isset($_SESSION['predict_error']))
+          {
+            ?>
+          <div class="alert alert-error mt-3 font-weight-bold" role="alert"><?php echo $_SESSION['predict_error'];?></div>
+          <?php
+            unset($_SESSION['predict_error']);
+          }
+          ?>
 <hr>
 <br>
 
@@ -810,6 +819,7 @@ nav .profile .profile-link a:hover {
           <div class="col-md-3 mb-3">
             <label for="marks${index}" class="required">Marks</label>
             <input type="number" class="form-control" id="marks${index}" name="marks[]" required>
+            <div class="form-text text-danger">If the student is absent provide the mark as negative value</div>
           </div>
         </div>
       `;
@@ -856,9 +866,42 @@ nav .profile .profile-link a:hover {
                     <td><?php echo $row['u_name'];?></td>
                     <td><?php echo $row['standard'];?></td>
                     <td><?php echo $row['subject'];?></td>
-                    <td><?php echo number_format($row['mark1'], 2); ?></td>
-                    <td><?php echo number_format($row['mark2'], 2); ?></td>
-                    <td><?php echo number_format($row['mark3'], 2); ?></td>
+                    <td>
+                    <?php
+                    if(number_format($row['mark1'], 2) > 0)
+                    {
+                        echo number_format($row['mark1'], 2);
+                    }
+                    else
+                    {
+                      echo '<span style="color: red; font-weight:bold;">ABSENT</span>';
+                    }
+                    ?>
+                    </td>
+                    <td>
+                    <?php
+                    if(number_format($row['mark2'], 2) > 0)
+                    {
+                        echo number_format($row['mark2'], 2);
+                    }
+                    else
+                    {
+                      echo '<span style="color: red; font-weight:bold;">ABSENT</span>';
+                    }
+                    ?>
+                    </td>
+                    <td>
+                    <?php
+                    if(number_format($row['mark3'], 2) > 0)
+                    {
+                        echo number_format($row['mark3'], 2);
+                    }
+                    else
+                    {
+                      echo '<span style="color: red; font-weight:bold;">ABSENT</span>';
+                    }
+                    ?>
+                    </td>
                     <td><?php echo number_format((($row['mark1'] + $row['mark2'] + $row['mark3']) * 100) / 240, 2); ?></td>
                     <td><?php echo $row['accuracy'];?></td>
                     <td>
