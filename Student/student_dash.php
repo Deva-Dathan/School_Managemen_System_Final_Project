@@ -645,7 +645,7 @@ nav .profile .profile-link a:hover {
             </div>
             <div class="indicator">
               <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
+              <span class="text">STANDARD</span>
             </div>
           </div>
           <i class='bx bx-cart-alt cart'></i>
@@ -670,7 +670,7 @@ nav .profile .profile-link a:hover {
             </div>
             <div class="indicator">
               <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
+              <span class="text">Activity</span>
             </div>
           </div>
           <i class='bx bxs-cart-add cart two' ></i>
@@ -695,7 +695,7 @@ nav .profile .profile-link a:hover {
             </div>
             <div class="indicator">
               <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
+              <span class="text">Subject Note</span>
             </div>
           </div>
           <i class='bx bx-cart cart three' ></i>
@@ -715,7 +715,7 @@ nav .profile .profile-link a:hover {
             </div>
             <div class="indicator">
               <i class='bx bx-down-arrow-alt down'></i>
-              <span class="text">Down From Today</span>
+              <span class="text">Subject</span>
             </div>
           </div>
           <i class='bx bxs-cart-download cart four' ></i>

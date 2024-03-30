@@ -647,12 +647,12 @@ nav .profile .profile-link a:hover {
             <span class="links_name" style="color:var(--light);">Suggested Course</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="pay_fees.php">
             <i class='bx bx-dollar' ></i>
             <span class="links_name">Pay Fees</span>
           </a>
-        </li>
+        </li> -->
       </ul>
   </div>
   <section class="home-section">
