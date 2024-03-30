@@ -7,7 +7,6 @@ session_start();
 ?>
 
 <!DOCTYPE html>
-<!-- Coding by CodingNepal | www.codingnepalweb.com -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
@@ -352,7 +351,7 @@ nav .profile .profile-link a:hover {
 
 /* left box */
 .home-content .sales-boxes .recent-sales{
-  width: 65%;
+  width: 95%;
   background: #fff;
   padding: 20px 30px;
   margin: 0 20px;
@@ -528,6 +527,13 @@ nav .profile .profile-link a:hover {
     width: calc(100% - 60px);
   }
 }
+
+#barGraphContainer {
+    width: 600px;
+    height: 400px;
+    border: 1px solid #ccc;
+}
+
     </style>
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -646,7 +652,7 @@ nav .profile .profile-link a:hover {
             </div>
             <div class="indicator">
               <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
+              <span class="text">Total User</span>
             </div>
           </div>
           <i class='bx bx-cart-alt cart'></i>
@@ -666,7 +672,7 @@ nav .profile .profile-link a:hover {
             </div>
             <div class="indicator">
               <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
+              <span class="text">Total Students</span>
             </div>
           </div>
           <i class='bx bxs-cart-add cart two' ></i>
@@ -687,7 +693,7 @@ nav .profile .profile-link a:hover {
             </div>
             <div class="indicator">
               <i class='bx bx-up-arrow-alt'></i>
-              <span class="text">Up from yesterday</span>
+              <span class="text">Total Faculty</span>
             </div>
           </div>
           <i class='bx bx-cart cart three' ></i>
@@ -707,7 +713,7 @@ nav .profile .profile-link a:hover {
             </div>
             <div class="indicator">
               <i class='bx bx-down-arrow-alt down'></i>
-              <span class="text">Down From Today</span>
+              <span class="text">Total Subject</span>
             </div>
           </div>
           <i class='bx bxs-cart-download cart four' ></i>
@@ -716,122 +722,78 @@ nav .profile .profile-link a:hover {
 
       <div class="sales-boxes">
         <div class="recent-sales box">
-          <div class="title">Recent Sales</div>
+          <div class="title">Exam Data Analytics</div>
           <div class="sales-details">
-            <ul class="details">
-              <li class="topic">Date</li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-            </ul>
-            <ul class="details">
-            <li class="topic">Customer</li>
-            <li><a href="#">Alex Doe</a></li>
-            <li><a href="#">David Mart</a></li>
-            <li><a href="#">Roe Parter</a></li>
-            <li><a href="#">Diana Penty</a></li>
-            <li><a href="#">Martin Paw</a></li>
-            <li><a href="#">Doe Alex</a></li>
-            <li><a href="#">Aiana Lexa</a></li>
-            <li><a href="#">Rexel Mags</a></li>
-             <li><a href="#">Tiana Loths</a></li>
-          </ul>
-          <ul class="details">
-            <li class="topic">Sales</li>
-            <li><a href="#">Delivered</a></li>
-            <li><a href="#">Pending</a></li>
-            <li><a href="#">Returned</a></li>
-            <li><a href="#">Delivered</a></li>
-            <li><a href="#">Pending</a></li>
-            <li><a href="#">Returned</a></li>
-            <li><a href="#">Delivered</a></li>
-             <li><a href="#">Pending</a></li>
-            <li><a href="#">Delivered</a></li>
-          </ul>
-          <ul class="details">
-            <li class="topic">Total</li>
-            <li><a href="#">$204.98</a></li>
-            <li><a href="#">$24.55</a></li>
-            <li><a href="#">$25.88</a></li>
-            <li><a href="#">$170.66</a></li>
-            <li><a href="#">$56.56</a></li>
-            <li><a href="#">$44.95</a></li>
-            <li><a href="#">$67.33</a></li>
-             <li><a href="#">$23.53</a></li>
-             <li><a href="#">$46.52</a></li>
-          </ul>
-          </div>
-          <div class="button">
-            <a href="#">See All</a>
-          </div>
+        <canvas id="barGraphCanvas"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Get the PHP values
+        <?php
+            include("../include/db_connection.php");
+
+            $sql = "SELECT COUNT(u_email) AS count FROM users";
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+            $userCount = $row['count'];
+
+            // Query for the first bar (students)
+            $sql1 = "SELECT COUNT(u_email) AS count FROM users WHERE u_role='STUDENT'";
+            $result1 = $conn->query($sql1);
+            $row1 = $result1->fetch_assoc();
+            $studentsCount = $row1['count'];
+
+            // Query for the second bar (teachers and class teachers)
+            $sql2 = "SELECT COUNT(u_email) AS count FROM users WHERE u_role IN ('TEACHER', 'CLASS TEACHER')";
+            $result2 = $conn->query($sql2);
+            $row2 = $result2->fetch_assoc();
+            $teachersCount = $row2['count'];
+
+            // Query for the third bar (number of subjects)
+            $sql3 = "SELECT COUNT(subject_name) AS count FROM subject_data";
+            $result3 = $conn->query($sql3);
+            $row3 = $result3->fetch_assoc();
+            $subjectsCount = $row3['count'];
+        ?>
+
+        // Sample data for the bar graph
+        const data = {
+            labels: ['Users', 'Students', 'Teachers', 'Subjects'],
+            datasets: [{
+                label: ['Users'],
+                backgroundColor: ['red', 'blue', 'green', 'orange'],
+                data: [<?php echo $userCount; ?>, <?php echo $studentsCount; ?>, <?php echo $teachersCount; ?>, <?php echo $subjectsCount; ?>]
+            }]
+        };
+
+        // Configuration options for the bar graph
+        const options = {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        };
+
+        // Get the canvas element
+        const ctx = document.getElementById('barGraphCanvas').getContext('2d');
+
+        // Create the bar graph
+        const barGraph = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    </script>
         </div>
-        <div class="top-sales box">
-          <div class="title">Top Seling Product</div>
-          <ul class="top-sales-details">
-            <li>
-            <a href="#">
-              <img src="images/sunglasses.jpg" alt="">
-              <span class="product">Vuitton Sunglasses</span>
-            </a>
-            <span class="price">$1107</span>
-          </li>
-          <li>
-            <a href="#">
-               <img src="images/jeans.jpg" alt="">
-              <span class="product">Hourglass Jeans </span>
-            </a>
-            <span class="price">$1567</span>
-          </li>
-          <li>
-            <a href="#">
-             <img src="images/nike.jpg" alt="">
-              <span class="product">Nike Sport Shoe</span>
-            </a>
-            <span class="price">$1234</span>
-          </li>
-          <li>
-            <a href="#">
-              <img src="images/scarves.jpg" alt="">
-              <span class="product">Hermes Silk Scarves.</span>
-            </a>
-            <span class="price">$2312</span>
-          </li>
-          <li>
-            <a href="#">
-              <img src="images/blueBag.jpg" alt="">
-              <span class="product">Succi Ladies Bag</span>
-            </a>
-            <span class="price">$1456</span>
-          </li>
-          <li>
-            <a href="#">
-              <img src="images/bag.jpg" alt="">
-              <span class="product">Gucci Womens's Bags</span>
-            </a>
-            <span class="price">$2345</span>
-          <li>
-            <a href="#">
-              <img src="images/addidas.jpg" alt="">
-              <span class="product">Addidas Running Shoe</span>
-            </a>
-            <span class="price">$2345</span>
-          </li>
-<li>
-            <a href="#">
-             <img src="images/shirt.jpg" alt="">
-              <span class="product">Bilack Wear's Shirt</span>
-            </a>
-            <span class="price">$1245</span>
-          </li>
-          </ul>
-        </div>
+
       </div>
     </div>
   </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script>
 
   <script>
   function toggleFullScreen() {
