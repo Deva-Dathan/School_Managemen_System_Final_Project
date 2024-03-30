@@ -609,12 +609,12 @@ nav .profile .profile-link a:hover {
             <span class="links_name">Principal</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="change_vice_principal.php">
             <i class='bx bx-user-circle' ></i>
             <span class="links_name">Vice Principal</span>
           </a>
-        </li>
+        </li> -->
         <li>
           <a href="add_teachers.php">
             <i class='bx bxs-user-plus'></i>

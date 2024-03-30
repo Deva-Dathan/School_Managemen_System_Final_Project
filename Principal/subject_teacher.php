@@ -603,19 +603,19 @@ nav .profile .profile-link a:hover {
             <span class="links_name" style="color:var(--light);">Subject Teacher</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="vice_principal_entry.php">
             <i class='bx bx-user' ></i>
             <span class="links_name">Vice Principal</span>
           </a>
-        </li>
-        <li>
+        </li> -->
+        <!-- <li>
           <a href="add_allotement.php">
             <i class='bx bxs-user-circle' ></i>
             <span class="links_name">Allotment Cell</span>
           </a>
-        </li>
-        <li>
+        </li> -->
+        <!-- <li>
           <a href="add_office.php">
             <i class='bx bx-user-plus' ></i>
             <span class="links_name">Office Staff</span>
@@ -632,7 +632,7 @@ nav .profile .profile-link a:hover {
             <i class='bx bx-dollar' ></i>
             <span class="links_name">Fees</span>
           </a>
-        </li>
+        </li> -->
       </ul>
   </div>
   <section class="home-section">

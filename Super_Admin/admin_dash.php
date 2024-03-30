@@ -616,11 +616,9 @@ nav .profile .profile-link a:hover {
       <button onclick="toggleFullScreen();" style="background:none; border:none;"><i class='bx bx-fullscreen' style="font-size:18px;"></i><i class='bx bx-exit-fullscreen' style="display:none;"></i></button>
 			<a href="#" class="nav-link">
 				<i class='bx bxs-bell icon' ></i>
-				<span class="badge">5</span>
 			</a>
 			<a href="#" class="nav-link">
 				<i class='bx bxs-message-square-dots icon' ></i>
-				<span class="badge">8</span>
 			</a>
       <span class="divider"></span>
 			<div class="profile">
